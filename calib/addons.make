@@ -1,0 +1,4 @@
+ofxChilitags
+ofxCv
+ofxMicromundos
+ofxOpenCv
