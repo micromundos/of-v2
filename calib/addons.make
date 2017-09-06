@@ -2,3 +2,4 @@ ofxChilitags
 ofxCv
 ofxMicromundos
 ofxOpenCv
+ofxOrbbecAstra

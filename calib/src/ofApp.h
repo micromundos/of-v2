@@ -2,6 +2,11 @@
 
 #include "ofMain.h"
 
+#include "ofxMicromundos/data_path.h"
+#include "ofxMicromundos/RGBD_Astra.h"
+#include "ofxChilitags.h"
+#include "ofxCv.h"
+
 class ofApp : public ofBaseApp
 {
 
@@ -22,5 +27,18 @@ class ofApp : public ofBaseApp
     void windowResized(int w, int h);
     void dragEvent(ofDragInfo dragInfo);
     void gotMessage(ofMessage msg);
+
+
+    ofxChilitags chilitags;
+    shared_ptr<ofxMicromundos::RGBD> rgbd;
+
+    //TODO
+    //TableCalib table;
+    //HomographyCalib H_rgb_proy;
+    //HomographyCalib H_rgb_depth;
+    //HomographyCalib H_depth_proy;
+
+    vector<ofVec2f> proy_pts;
+    ofxCv::ContourFinder contourFinder;
 
 };
