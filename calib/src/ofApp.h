@@ -1,11 +1,11 @@
 #pragma once
 
 #include "ofMain.h"
-
 #include "ofxMicromundos/data_path.h"
 #include "ofxMicromundos/RGBD_Astra.h"
 #include "ofxChilitags.h"
 #include "ofxCv.h"
+#include "TableCalib.h"
 
 class ofApp : public ofBaseApp
 {
@@ -32,8 +32,7 @@ class ofApp : public ofBaseApp
     ofxChilitags chilitags;
     shared_ptr<ofxMicromundos::RGBD> rgbd;
 
-    //TODO
-    //TableCalib table;
+    TableCalib table;
     //HomographyCalib H_rgb_proy;
     //HomographyCalib H_rgb_depth;
     //HomographyCalib H_depth_proy;

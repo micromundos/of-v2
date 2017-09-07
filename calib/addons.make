@@ -1,5 +1,7 @@
 ofxChilitags
 ofxCv
+ofxGPGPU
+ofxGeom
 ofxMicromundos
 ofxOpenCv
 ofxOrbbecAstra

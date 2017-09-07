@@ -16,6 +16,7 @@ void ofApp::setup()
   rgbd->init();
 
   chilitags.init(); 
+  table.init();
 
   proy_pts.push_back(ofVec2f(1/3,1/3));
   proy_pts.push_back(ofVec2f(2/3,1/3));
@@ -51,10 +52,11 @@ void ofApp::update()
     ofFloatPixels depth_pix = rgbd->get_depth_pixels();
     ofVec2f depth_size(depth_pix.getWidth(), depth_pix.getHeight());
 
-    //table.update(*(rgbd.get())); 
-    //ofFloatPixels height_map = table.height_map();
+    ofFloatPixels height_map = table
+      .update(rgbd)
+      .get_height_map(); 
 
-    //contourFinder.findContours(height_map);
+    contourFinder.findContours(height_map);
 
     for (int i = 0; i < contourFinder.size(); i++)
     {
