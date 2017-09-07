@@ -18,14 +18,13 @@ class TableCalib
 
     void init()
     {
+      //TODO UI settings runtime
       filename_background_depth_map = "calib/table_background_depth_map.yml";
       filename_background_height_map = "calib/table_background_height_map.yml";
       filename_plane = "calib/table_plane.yml";
-
       _angle_step = 30; // [ 30, 0, 360 ]
       _planes_num = 20; // [ 20, 0, 100 ]
       _radius_step = 6; // [ 6, 0, 30 ]
-
       _calibrate = false;
       _learn_bg = false;
       _load = false;
@@ -57,7 +56,7 @@ class TableCalib
 
   private:
 
-    //UI settings
+    //TODO UI settings runtime
     string filename_background_depth_map;
     string filename_background_height_map;
     string filename_plane;
