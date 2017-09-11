@@ -3,159 +3,101 @@
 #include "ofMain.h"
 #include "ofxMicromundos/RGBD.h"
 #include "ofxCv.h"
-#include "ofxGPGPU.h"
 #include "ofxGeom.h"
+#include "CalibGui.h"
 
 class TableCalib
 {
   public:
 
     TableCalib() {};
-    ~TableCalib() 
+    ~TableCalib() {};
+
+    void init(shared_ptr<CalibGui>& gui)
     {
-      dispose();
+      this->gui = gui;
+      file_bg = "calib/table_bg_depth_map.yml";
+      file_plane = "calib/table_plane.yml";
+    }; 
+
+    void update(const shared_ptr<ofxMicromundos::RGBD> &rgbd)
+    {
+      learn_bg(rgbd);
+      if (find_table_plane(rgbd)) return;
+      if (save()) return;
+      if (load()) return;
     };
 
-    void init()
+    ofxPlane plane() 
     {
-      //TODO UI settings runtime
-      filename_background_depth_map = "calib/table_background_depth_map.yml";
-      filename_background_height_map = "calib/table_background_height_map.yml";
-      filename_plane = "calib/table_plane.yml";
-      _angle_step = 30; // [ 30, 0, 360 ]
-      _planes_num = 20; // [ 20, 0, 100 ]
-      _radius_step = 6; // [ 6, 0, 30 ]
-      _calibrate = false;
-      _learn_bg = false;
-      _load = false;
-      _save = false;
-      _render_plane = false;
-      _render_planes_list = false;
+      return _plane;
     };
 
-    void dispose()
+    void render(const shared_ptr<ofxMicromundos::RGBD> &rgbd, float x, float y, float w, float h)
     {
-      height_map.off( "update", this, &TableCalib::update_height_map_glsl );
-    };
+      //bg_depth.draw( x, y, w, h );
 
-    TableCalib& update(const shared_ptr<ofxMicromundos::RGBD> &rgbd)
-    {
-      learn_background_depth_map(rgbd);
-      if (calibrate(rgbd))
-        return *this;
-      if (save())
-        return *this;
-      if (load())
-        return *this;
-    };
+      float dw = rgbd->depth_width();
+      float dh = rgbd->depth_height();
+      ofVec2f norm( dw, dh );
+      ofVec2f scale( w, h );
+      ofVec2f translate( x, y );
+      render_planes_list(norm, scale, translate); 
+      //render_plane(norm, scale, translate); 
 
-    ofFloatPixels& get_height_map()
-    {
-      return background_height_map.getPixels();
-    };
+      ofDrawBitmapStringHighlight("TableCalib learned background depth map", x, y+12);
+    }; 
 
   private:
 
-    //TODO UI settings runtime
-    string filename_background_depth_map;
-    string filename_background_height_map;
-    string filename_plane;
-    ofParameter<bool> _calibrate;
-    ofParameter<bool> _learn_bg;
-    ofParameter<bool> _load;
-    ofParameter<bool> _save;
-    ofParameter<float> _planes_num;
-    ofParameter<float> _radius_step;
-    ofParameter<float> _angle_step;
-    ofParameter<bool> _render_plane;
-    ofParameter<bool> _render_planes_list;
+    shared_ptr<CalibGui> gui;
 
-    gpgpu::Process height_map;
+    string file_plane;
+    string file_bg;
 
-    ofFloatImage background_depth_map;
-    ofFloatImage background_height_map;
-
-    ofxTriangle triangle; 
-    ofxPlane plane;
+    ofFloatImage bg_depth;
+    ofxPlane _plane;
+    ofxTriangle _triangle; 
     vector<ofxTriangle> tris3d;
 
-    //debugging
+    //render / debug
     vector<ofxTriangle> tris2d;
     ofVboMesh tris2d_mesh;
-    ofVboMesh tris3d_mesh;
-
-
-    //glsl
-
-
-    void update_height_map(const shared_ptr<ofxMicromundos::RGBD> &rgbd)
-    {
-      if ( !rgbd->depth_updated() )
-        return;
-
-      if ( !height_map.inited() )
-      {
-        int w = rgbd->get_depth_pixels().getWidth();
-        int h = rgbd->get_depth_pixels().getHeight();
-        height_map
-          .init( "glsl/height_map.frag", w, h )
-          .on( "update", this, 
-            &TableCalib::update_height_map_glsl );
-      }
-
-      vector<ofVec3f>& point_cloud = rgbd->get_point_cloud();
-      ofVec3f* pts = point_cloud.data();
-      float* point_cloud_data = &(pts)[0].x;
-
-      height_map
-        .set( "mesh3d", point_cloud_data )
-        .update(); 
-
-      background_height_map.setFromPixels( height_map.get_data_pix() );
-    };
-
-    void update_height_map_glsl( ofShader& shader )
-    {
-      shader.setUniform4f( "plane", plane.a, plane.b, plane.c, plane.d );
-    };
+    //ofxTriangle triangle_2d; 
  
 
     // calibration
 
 
-    bool calibrate(const shared_ptr<ofxMicromundos::RGBD> &rgbd)
+    bool find_table_plane(const shared_ptr<ofxMicromundos::RGBD> &rgbd)
     {
-      if ( !_calibrate || !rgbd->depth_updated() )
+      if ( !gui->find_table_plane )
+          //|| rgbd->depth_updated() )
         return false;
-      _calibrate = !_calibrate; //once
+      gui->find_table_plane = !gui->find_table_plane; //once
 
       find_triangles(rgbd);
-      triangle = calc_avg_tri();
-      plane = triangle.plane();
-      //plane = calc_avg_plane();
-
-      //done on learn_background_depth_map
-      //background_depth_map.setFromPixels(rgbd->get_depth_pixels());
-
-      update_background_height_map(rgbd);
+      _triangle = calc_avg_tri();
+      _plane = _triangle.plane();
+      //_plane = calc_avg_plane();
 
       return true;
     };
 
     void find_triangles(const shared_ptr<ofxMicromundos::RGBD> &rgbd)
     {
-      int w = rgbd->get_depth_pixels().getWidth();
-      int h = rgbd->get_depth_pixels().getHeight();
+      int dw = rgbd->depth_width();
+      int dh = rgbd->depth_height();
 
-      float r = _radius_step;
-      float ang = _angle_step;
+      float r = gui->radius_step;
+      float ang = gui->angle_step;
 
-      ofVec2f ctr((float)w/2,(float)h/2);
+      ofVec2f ctr((float)dw/2,(float)dh/2);
 
-      tris3d.resize( _planes_num );
-      tris2d.resize( _planes_num );
+      tris3d.resize( gui->planes_num );
+      tris2d.resize( gui->planes_num );
 
-      for ( int i = 0; i < _planes_num; i++ )
+      for ( int i = 0; i < gui->planes_num; i++ )
       {
         ofVec3f tri3d[3];
         ofVec3f tri2d[3];
@@ -165,29 +107,30 @@ class TableCalib
           tri2d[j] = ctr + ofVec2f(0,r).rotate( (360./3.)*j + ang ); 
           float dx = tri2d[j].x; 
           float dy = tri2d[j].y; 
-          tri3d[j].set( rgbd->get_point( dx, dy ) );
+          //TODO TableCalib extract point from learned bg point cloud to find triangles
+          tri3d[j].set( rgbd->point(dx, dy) );
         } 
 
         tris3d[i] = ofxTriangle( tri3d[0], tri3d[1], tri3d[2] );
-        tris2d[i] = ofxTriangle( tri2d[0], tri2d[1], tri2d[2] );
+        tris2d[i] = ofxTriangle( tri2d[0], tri2d[1], tri2d[2] ); // z = 0
 
-        r += _radius_step;
-        ang += _angle_step;
+        r += gui->radius_step;
+        ang += gui->angle_step;
       }
     };
 
     ofxTriangle calc_avg_tri()
     {
       int nplanes = tris3d.size();
-      ofVec3f tri[3];
+      ofVec3f tri3d[3];
 
       for ( int i = 0; i < nplanes; i++ )
         for ( int j = 0; j < 3; j++ )
-          tri[j] += tris3d[i].vertex(j);
+          tri3d[j] += tris3d[i].vertex(j);
       for ( int j = 0; j < 3; j++ )
-        tri[j] /= nplanes;
+        tri3d[j] /= nplanes;
 
-      ofxTriangle t(tri[0],tri[1],tri[2]);
+      ofxTriangle t( tri3d[0], tri3d[1], tri3d[2] );
       return t;
     };
 
@@ -208,35 +151,27 @@ class TableCalib
       return ofxPlane( ctr, normal );
     };
 
-    bool update_background_height_map(const shared_ptr<ofxMicromundos::RGBD> &rgbd)
+    //TODO TableCalib learn bg point cloud
+    bool learn_bg(const shared_ptr<ofxMicromundos::RGBD> &rgbd)
     {
-      if ( !background_depth_map.isAllocated() || rgbd->depth_updated() )
+      if ( !gui->learn_bg 
+          || !rgbd->depth_updated() )
         return false;
 
-      update_height_map(rgbd);
+      ofFloatPixels depth_pix = rgbd->depth_pixels();
 
-      return true;
-    }; 
-
-    bool learn_background_depth_map(const shared_ptr<ofxMicromundos::RGBD> &rgbd)
-    {
-      if ( !_learn_bg || !rgbd->depth_updated() )
-        return false;
-
-      ofFloatPixels depth_pix = rgbd->get_depth_pixels();
-
-      if ( !background_depth_map.isAllocated() )
-        background_depth_map.setFromPixels( depth_pix );
+      if ( !bg_depth.isAllocated() ) 
+        bg_depth.setFromPixels( depth_pix );
 
       int n = depth_pix.size();
       float* dpix = depth_pix.getData();
-      float* bgpix = background_depth_map.getPixels().getData();
+      float* bgpix = bg_depth.getPixels().getData();
 
       for ( int i = 0; i < n; i++ ) 
         if ( dpix[i] != 0 )
           bgpix[i] = (bgpix[i] + dpix[i]) * 0.5;
 
-      background_depth_map.update();
+      bg_depth.update();
 
       return true;
     };
@@ -247,68 +182,58 @@ class TableCalib
 
     bool initial_load()
     {
+      ofLog() << "\n";
       ofLogNotice("TableCalib") << "initial load";
-      return load_background() && load_table_plane();
+      return load_bg() && load_plane();
     }; 
 
     bool load()
     {
-      if (!_load)
+      if (!gui->load)
         return false;
-      _load = false; //once
-      return load_background() && load_table_plane();
+      gui->load = false; //once
+      return load_bg() && load_plane();
     }; 
 
     bool save()
     {
-      if ( !_save )
+      if ( !gui->save )
         return false;
-      _save = false; //once
-      save_background();
-      save_table_plane(); 
+      gui->save = false; //once
+      save_bg();
+      save_plane(); 
       return true;
     };
 
-    void save_background()
+    void save_bg()
     {
-      // save background depth map
-
+      ofLog() << "\n";
       ofLogNotice("TableCalib") 
-        << "save background_depth_map to " 
-        << filename_background_depth_map;
+        << "save bg_depth to " 
+        << file_bg;
 
-      cv::Mat _background_depth_map = ofxCv::toCv( background_depth_map );
+      cv::Mat image_mat = ofxCv::toCv( bg_depth );
 
-      cv::FileStorage fs_bg_depth( ofToDataPath(filename_background_depth_map, false), cv::FileStorage::WRITE );
-      fs_bg_depth << "table_background_depth_map" << _background_depth_map;
-
-      // save background height map
-
-      ofLogNotice("TableCalib") 
-        << "save background_height_map to " 
-        << filename_background_height_map;
-
-      cv::Mat _background_height_map = ofxCv::toCv( background_height_map );
-
-      cv::FileStorage fs_bg_height( ofToDataPath(filename_background_height_map, false), cv::FileStorage::WRITE );
-      fs_bg_height << "table_background_height_map" << _background_height_map;
+      cv::FileStorage fs( ofToDataPath(file_bg, false), cv::FileStorage::WRITE );
+      fs << "table_bg_depth_map" << image_mat; 
     };
 
-    void save_table_plane()
+    void save_plane()
     {
-      ofxTriangle& tri = triangle;
+      ofxTriangle& tri = _triangle;
       ofVec3f v0 = tri.b;
       ofVec3f v1 = tri.b + tri.e0;
       ofVec3f v2 = tri.b + tri.e1;
 
+      ofLog() << "\n";
       ofLogNotice("TableCalib") 
         << "save plane calib to " 
-        << filename_plane << "\n"
+        << file_plane << "\n"
         << "v0 " << v0 << "\n"
         << "v1 " << v1 << "\n"
         << "v2 " << v2 << "\n";
 
-      cv::FileStorage fs( ofToDataPath(filename_plane, false), cv::FileStorage::WRITE ); 
+      cv::FileStorage fs( ofToDataPath(file_plane, false), cv::FileStorage::WRITE ); 
 
       fs << "vertex_0_x" << v0.x;
       fs << "vertex_0_y" << v0.y;
@@ -323,16 +248,15 @@ class TableCalib
       fs << "vertex_2_z" << v2.z;
     }; 
 
-
-    bool load_table_plane()
+    bool load_plane()
     {
-      cv::FileStorage fs( ofToDataPath(filename_plane, false), cv::FileStorage::READ ); 
+      cv::FileStorage fs( ofToDataPath(file_plane, false), cv::FileStorage::READ ); 
 
       if ( !fs.isOpened() )
       {
         ofLogError("TableCalib") 
           << "failed to load plane calib file " 
-          << filename_plane;
+          << file_plane;
         return false;
       }
 
@@ -340,64 +264,83 @@ class TableCalib
       ofVec3f v1 = ofVec3f( fs["vertex_1_x"], fs["vertex_1_y"], fs["vertex_1_z"] );
       ofVec3f v2 = ofVec3f( fs["vertex_2_x"], fs["vertex_2_y"], fs["vertex_2_z"] );
 
+      ofLog() << "\n";
       ofLogNotice("TableCalib")
         << "load plane calib from " 
-        << filename_plane << "\n"
+        << file_plane << "\n"
         << "v0 " << v0 << "\n"
         << "v1 " << v1 << "\n"
         << "v2 " << v2 << "\n";
 
-      triangle = ofxTriangle(v0,v1,v2);
-      plane = triangle.plane();
+      _triangle = ofxTriangle(v0,v1,v2);
+      _plane = _triangle.plane();
 
       return true;
     };
 
-    bool load_background()
+    bool load_bg()
     {
-      // load background depth map
-
+      ofLog() << "\n";
       ofLogNotice("TableCalib") 
-        << "load background_depth_map from " 
-        << filename_background_depth_map;
+        << "load bg_depth from " 
+        << file_bg;
 
-      cv::FileStorage fs_bg_depth( ofToDataPath(filename_background_depth_map, false), cv::FileStorage::READ );  
+      cv::FileStorage fs( ofToDataPath(file_bg, false), cv::FileStorage::READ );  
 
-      if ( !fs_bg_depth.isOpened() )
+      if ( !fs.isOpened() )
       {
         ofLogError("TableCalib") 
-          << "failed to load table background_depth_map file " 
-          << filename_background_depth_map;
+          << "failed to load table bg_depth file " 
+          << file_bg;
         return false;
       }
 
-      cv::Mat _background_depth_map;
-      fs_bg_depth["table_background_depth_map"] >> _background_depth_map;
-      ofFloatPixels bg_depth;
-      ofxCv::toOf( _background_depth_map, bg_depth );
-      background_depth_map.setFromPixels( bg_depth );
-
-      // load background height map
-
-      ofLogNotice("TableCalib") 
-        << "load background_height_map from " 
-        << filename_background_height_map;
-
-      cv::FileStorage fs_bg_height( ofToDataPath(filename_background_height_map, false), cv::FileStorage::READ );  
-
-      if ( !fs_bg_height.isOpened() )
-      {
-        ofLogError("TableCalib") << "failed to load table background_height_map file " << filename_background_height_map;
-        return false;
-      }
-
-      cv::Mat _background_height_map;
-      fs_bg_height["table_background_height_map"] >> _background_height_map;
-      ofFloatPixels bg_height;
-      ofxCv::toOf( _background_height_map, bg_height );
-      background_height_map.setFromPixels( bg_height );
+      cv::Mat image_mat;
+      fs["table_bg_depth_map"] >> image_mat;
+      ofFloatPixels pix;
+      ofxCv::toOf( image_mat, pix );
+      bg_depth.setFromPixels( pix ); 
 
       return true;
     }; 
+
+    void render_planes_list(const ofVec2f& norm, const ofVec2f& scale, const ofVec2f& translate)
+    {
+      tris2d_mesh.setMode(OF_PRIMITIVE_TRIANGLES);
+      tris2d_mesh.clear();
+
+      int nplanes = tris2d.size();
+      ofFloatColor color;
+      ofVec2f p2, p2_render;
+
+      for ( int i = 0; i < nplanes; i++ )
+      {
+        float hue = ((float)(i+1)/nplanes);
+        color = ofFloatColor::fromHsb(hue,1.,1.);
+        for ( int j = 0; j < 3; j++ )
+        {
+          p2 = ofVec2f( tris2d[i].vertex(j) );
+          p2_render = (p2 / norm) * scale + translate;
+          tris2d_mesh.addColor( color );
+          tris2d_mesh.addVertex( p2_render );
+        }
+      }
+      tris2d_mesh.drawWireframe();
+    };
+
+    //void render_plane(const ofVec2f& norm, const ofVec2f& scale, const ofVec2f& translate)
+    //{
+      //ofPushStyle();
+      //ofSetColor( ofColor::magenta );
+      //ofVec2f tri2d[3];
+      //for ( int i = 0; i < 3; i++ )
+      //{
+        //ofVec2f p2 = ofVec2f(triangle_2d.vertex(i));
+        //tri2d[i] = (p2 / norm) * scale + translate;
+      //}
+      //for ( int i = 0; i < 3; i++ )
+        //ofDrawLine( tri2d[i], tri2d[(i+1)%3] );
+      //ofPopStyle();
+    //};
 };
 

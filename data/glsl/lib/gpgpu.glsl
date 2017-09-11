@@ -13,6 +13,8 @@ vec2 texsize( sampler2DRect tex )
 }
 
 //normalized [0,1]
+//TODO gpgpu::Process::quad is setting st = texture width,height
+//make quad set st = 0,1 to get rid of normalization here
 vec2 location()
 {
   return gl_TexCoord[0].xy / size;
