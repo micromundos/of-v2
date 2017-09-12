@@ -3,6 +3,6 @@ ofxCv
 ofxGPGPU
 ofxGeom
 ofxGui
+ofxKinectV2
 ofxMicromundos
 ofxOpenCv
-ofxOrbbecAstra

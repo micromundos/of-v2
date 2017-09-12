@@ -42,7 +42,9 @@ class HeightMap
             &HeightMap::update_process );
       } 
 
-      //TODO get a flipped point cloud if RGBD_Astra
+      //TODO HeightMap: optimize point cloud data/texture
+      //implement RGBD point cloud data getter
+
       //vector<ofVec3f>& pcl = rgbd->point_cloud();
       //float* pcd = &(pcl.data())[0].x;
       float* pcd = new float[process.size()];

@@ -2,7 +2,7 @@
 
 #include "ofxChilitags.h"
 #include "ofxMicromundos/RGBD.h"
-#include "ofxMicromundos/RGBD_Astra.h"
+#include "ofxMicromundos/RGBD_Kinect2.h"
 #include "ofxCv.h"
 #include "TableCalib.h"
 #include "HeightMap.h"
@@ -20,7 +20,7 @@ class Calib
 
     void init(shared_ptr<CalibGui>& gui)
     {
-      rgbd = make_shared<ofxMicromundos::RGBD_Astra>();
+      rgbd = make_shared<ofxMicromundos::RGBD_Kinect2>();
       rgbd->init();
 
       chilitags.init(); 
