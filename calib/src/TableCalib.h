@@ -109,6 +109,9 @@ class TableCalib
           float dy = tri2d[j].y; 
           //TODO TableCalib extract point from learned bg point cloud to find triangles
           tri3d[j].set( rgbd->point(dx, dy) );
+          //ofLog()
+            //<< "\n p2 " << dx << ", " << dy
+            //<< "\n p3 " << rgbd->point(dx,dy);
         } 
 
         tris3d[i] = ofxTriangle( tri3d[0], tri3d[1], tri3d[2] );

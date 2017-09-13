@@ -11,7 +11,8 @@ class CalibGui: public ofBaseApp
     ofParameter<bool> learn_bg;
     ofParameter<bool> load;
     ofParameter<bool> save;
-    ofParameter<bool> log_height_map;
+    ofParameter<bool> height_map_log;
+    ofParameter<float> height_map_threshold;
     ofParameter<float> planes_num;
     ofParameter<float> radius_step;
     ofParameter<float> angle_step;
@@ -23,7 +24,8 @@ class CalibGui: public ofBaseApp
       p.add( save.set("3. save", false) );
       p.add( load.set("4. load", false) );
 
-      p.add( log_height_map.set("log_height_map", false) );
+      p.add( height_map_threshold.set("height_map_threshold", 0.3, 0, 2) );
+      p.add( height_map_log.set("height_map_log", false) );
 
       p.add( planes_num.set("planes_num", 20, 0, 100) );
       p.add( radius_step.set("radius_step", 6, 0, 30) );

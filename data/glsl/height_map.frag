@@ -14,7 +14,6 @@
 #pragma include "lib/gpgpu.glsl"
 
 uniform sampler2DRect point_cloud;
-uniform sampler2DRect render_input;
 uniform vec4 plane;
 
 void main( void ) 
@@ -24,13 +23,16 @@ void main( void )
   gl_FragColor = vec4( height, height, height, 1. );
 }
 
+//render
+
+uniform sampler2DRect render_input;
+uniform float max_height;
+
 void __render__( void ) 
 {
-  float hmax = 300.;
   float _in = texel( render_input ).r;
-  float _out = _in > hmax ? 0. : lerp2d( _in, 0., hmax, 0., 1. );
-  /*float _out = lerp2d( _in, 0., hmax, 0., 1. );*/
-  /*float _out = _in == 0. ? 0. : lerp2d( _in, 0., 5000., 0.2, 1. );*/
+  float _out = max_height > 0. ? _in/max_height : 0.; //kinect
+  /*float _out = _in > max_height ? 0. : _in/max_height; //astra*/
   gl_FragColor = vec4( _out, _out, _out, 1. );
 }
 

@@ -40,6 +40,10 @@ class HeightMap
           .init( "glsl/height_map.frag", dw, dh, 3 )
           .on( "update", this, 
             &HeightMap::update_process );
+        process
+          .get_render()
+          .on( "update", this, 
+            &HeightMap::update_render_process );
       } 
 
       //TODO HeightMap: optimize point cloud data/texture
@@ -50,7 +54,8 @@ class HeightMap
       float* pcd = new float[process.size()];
       int i = 0;
       for (int y = 0; y < dh; y++)
-      for (int x = 0; x < dw; x++)
+      //for (int x = 0; x < dw; x++) //astra
+      for (int x = dw-1; x >= 0; x--) //kinect
       {
         const ofVec3f& point = rgbd->point(x, y);
         pcd[i++] = point.x;
@@ -68,12 +73,14 @@ class HeightMap
         .get_render()
         .get_data_pix(); //copy
 
-      if (gui->log_height_map)
+      if (gui->height_map_log)
       {
-        gui->log_height_map = false;
+        gui->height_map_log = false;
         process.log(dw-10, 10);
         //process.log(int(dw/2), int(dh/2));
       }
+
+      max_height = gui->height_map_threshold;
 
       return *this;
     };
@@ -100,7 +107,11 @@ class HeightMap
 
     void dispose()
     {
-      process.off("update", this, &HeightMap::update_process);
+      process
+        .off("update", this, &HeightMap::update_process);
+      process
+        .get_render()
+        .off("update", this, &HeightMap::update_render_process);
       process.dispose();
     };
 
@@ -113,10 +124,16 @@ class HeightMap
     ofFloatPixels pixels;
     //ofFloatImage image;
     string filename;
+    float max_height;
 
     void update_process( ofShader& shader )
     {
       shader.setUniform4f( "plane", _plane.a, _plane.b, _plane.c, _plane.d );
+    };
+
+    void update_render_process( ofShader& shader )
+    {
+      shader.setUniform1f( "max_height", max_height );
     };
 
 
