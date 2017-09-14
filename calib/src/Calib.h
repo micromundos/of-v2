@@ -65,6 +65,9 @@ class Calib
 
     void render(float x, float y, float w, float h)
     {
+      if (!rgbd->inited())
+        return;
+
       float hw = w/2;
       float hh = h/2;
 

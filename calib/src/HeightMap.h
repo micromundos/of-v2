@@ -27,13 +27,6 @@ class HeightMap
       int dw = rgbd->depth_width();
       int dh = rgbd->depth_height();
 
-      //if ( !pixels.isAllocated() )
-        //pixels.allocate(dw, dh, 1);
-      //int i = 0;
-      //for (int x = 0; x < dw; x++)
-      //for (int y = 0; y < dh; y++)
-        //pixels[i++] = _plane.distance(rgbd->point(x,y));
-
       if ( !process.inited() )
       { 
         process
@@ -46,27 +39,11 @@ class HeightMap
             &HeightMap::update_render_process );
       } 
 
-      //TODO HeightMap: optimize point cloud data/texture
-      //implement RGBD point cloud data getter
-
-      //vector<ofVec3f>& pcl = rgbd->point_cloud();
-      //float* pcd = &(pcl.data())[0].x;
-      float* pcd = new float[process.size()];
-      int i = 0;
-      for (int y = 0; y < dh; y++)
-      //for (int x = 0; x < dw; x++) //astra
-      for (int x = dw-1; x >= 0; x--) //kinect
-      {
-        const ofVec3f& point = rgbd->point(x, y);
-        pcd[i++] = point.x;
-        pcd[i++] = point.y;
-        pcd[i++] = point.z;
-      }
+      float* pcd = rgbd->point_cloud_data();
 
       process
         .set( "point_cloud", pcd )
         .update(); 
-      delete[] pcd;
 
       process.update_render();
       pixels = process
@@ -137,7 +114,7 @@ class HeightMap
     };
 
 
-    //TODO HeightMap save/load from gui
+    //TODO save/load from gui
 
     void save()
     {
