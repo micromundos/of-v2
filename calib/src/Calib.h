@@ -39,6 +39,8 @@ class Calib
     {
       rgbd->update();
 
+      update_height_map();
+
       vector<ofVec2f> tags_pts = get_tags_pts();
       vector<ofVec2f> depth_pts = get_depth_pts();  
 
@@ -93,6 +95,8 @@ class Calib
 
     TableCalib table_calib;
     HeightMap height_map;
+    ofFloatPixels height_map_pix;
+
     //HomographyCalib H_rgb_proy;
     //HomographyCalib H_rgb_depth;
     //HomographyCalib H_depth_proy;
@@ -100,6 +104,19 @@ class Calib
     vector<ofVec2f> proy_pts;
     ofxCv::ContourFinder contourFinder;
 
+    void update_height_map()
+    {
+      if (!rgbd->depth_updated())
+        return;
+
+      table_calib.update(rgbd);
+      ofxPlane table_plane = table_calib.plane();
+      height_map.plane(table_plane);
+
+      height_map_pix = height_map
+        .update(rgbd)
+        .get();
+    };
 
     vector<ofVec2f> get_tags_pts()
     {
@@ -125,15 +142,6 @@ class Calib
 
       if (rgbd->depth_updated())
       {
-
-        table_calib.update(rgbd);
-        ofxPlane table_plane = table_calib.plane();
-        height_map.plane(table_plane);
-
-        ofFloatPixels height_map_pix = height_map
-          .update(rgbd)
-          .get();
-
         //TODO Calib get thresholded height map
 
         //contourFinder.findContours(height_map);
