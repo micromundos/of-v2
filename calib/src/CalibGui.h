@@ -11,6 +11,7 @@ class CalibGui: public ofBaseApp
     ofParameter<bool> learn_bg;
     ofParameter<bool> load;
     ofParameter<bool> save;
+    ofParameter<bool> depth_map_grey;
     ofParameter<bool> height_map_log;
     ofParameter<float> height_map_threshold;
     ofParameter<float> planes_num;
@@ -23,6 +24,8 @@ class CalibGui: public ofBaseApp
       p.add( find_table_plane.set("2. find_table_plane", false) );
       p.add( save.set("3. save", false) );
       p.add( load.set("4. load", false) );
+
+      p.add( depth_map_grey.set("depth_map_grey", true) );
 
       p.add( height_map_threshold.set("height_map_threshold", 0.3, 0, 2) );
       p.add( height_map_log.set("height_map_log", false) );

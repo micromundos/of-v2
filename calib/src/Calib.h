@@ -20,6 +20,8 @@ class Calib
 
     void init(shared_ptr<CalibGui>& gui)
     {
+      this->gui = gui;
+
       rgbd = make_shared<ofxMicromundos::RGBD_Kinect2>();
       rgbd->init();
 
@@ -37,6 +39,7 @@ class Calib
 
     void update()
     {
+      rgbd->enable_grey_depth(gui->depth_map_grey);
       rgbd->update();
 
       update_height_map();
@@ -89,6 +92,8 @@ class Calib
     {};
 
   private:
+
+    shared_ptr<CalibGui> gui;
 
     ofxChilitags chilitags;
     shared_ptr<ofxMicromundos::RGBD> rgbd;
