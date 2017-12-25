@@ -29,10 +29,10 @@ class Calib
       table_calib.init(gui);
       height_map.init(gui);
 
-      proy_pts.push_back(ofVec2f(1/3,1/3));
-      proy_pts.push_back(ofVec2f(2/3,1/3));
-      proy_pts.push_back(ofVec2f(2/3,2/3));
-      proy_pts.push_back(ofVec2f(1/3,2/3));
+      proy_pts.push_back(ofVec2f(1./3.,1./3.));
+      proy_pts.push_back(ofVec2f(2./3.,1./3.));
+      proy_pts.push_back(ofVec2f(2./3.,2./3.));
+      proy_pts.push_back(ofVec2f(1./3.,2./3.));
 
       contourFinder.setThreshold(128.); //15.
     };
@@ -86,6 +86,9 @@ class Calib
 
       //bottom left
       height_map.render( x, y+hh, hw, hh );
+
+      //bottom right
+      dynamic_pointer_cast< ofxMicromundos::RGBD_Kinect2 >(rgbd)->render_rgb_on_depth( x+hw, y+hh, hw, hh );
     };
 
     void dispose()
