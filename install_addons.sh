@@ -5,10 +5,6 @@ echo "install add addons on "$addons_loc
 addons=(  
 'git@github.com:micromundos/ofxMicromundos.git'
 'git@github.com:chparsons/ofxChilitags.git'
-'git@github.com:chparsons/ofxKinectV2.git'
-'git@github.com:chparsons/ofxOrbbecAstra.git'
-'git@github.com:chparsons/ofxGPGPU.git'
-'git@github.com:chparsons/ofxGeom.git'
 '--branch stable git@github.com:kylemcdonald/ofxCv.git'
 )
 cd $addons_loc ;

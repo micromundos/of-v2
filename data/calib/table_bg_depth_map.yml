@@ -1,6 +1,0 @@
-%YAML:1.0
-table_bg_depth_map: !!opencv-matrix
-   rows: 0
-   cols: 0
-   dt: f
-   data: []

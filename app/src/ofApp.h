@@ -2,7 +2,9 @@
 
 #include "ofMain.h"
 #include "ofxMicromundos/data_path.h"
+#include "RGB.h"
 #include "Calib.h"
+//#include "Segmentation.h"
 
 class ofApp : public ofBaseApp
 {
@@ -13,7 +15,12 @@ class ofApp : public ofBaseApp
     void update();
     void draw();
 
+    RGB rgb;
     Calib calib;
+    //Segmentation seg;
+    ofxChilitags chilitags;
     shared_ptr<CalibGui> gui;
+
+    bool calib_done;
 };
 

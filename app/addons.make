@@ -1,8 +1,6 @@
 ofxChilitags
 ofxCv
-ofxGPGPU
-ofxGeom
 ofxGui
-ofxKinectV2
+ofxImageSegmentation
 ofxMicromundos
 ofxOpenCv
