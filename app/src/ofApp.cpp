@@ -8,8 +8,8 @@ void ofApp::setup()
 
   rgb.init(gui);
   chilitags.init(); 
-  calib_done = calib.init();
-  //seg.init();
+  calib_ready = calib.init();
+  seg.init();
 };
 
 void ofApp::update()
@@ -25,13 +25,13 @@ void ofApp::update()
 
   vector<ChiliTag>& tags = chilitags.tags();
 
-  if (!calib_done)
+  if (!calib_ready)
   {
-    calib_done = calib.update(tags);
+    calib_ready = calib.update(tags);
     return;
   }
 
-  //seg.update(rgb_pix); 
+  seg.update(rgb_pix); 
 };
 
 void ofApp::draw()
@@ -48,9 +48,9 @@ void ofApp::draw()
   //calib.render( chilitags.tags(), 0, 0, hw, hh );
 
   //top right
-  //seg.render( hw, 0, hw, hh );
+  seg.render( hw, 0, hw, hh );
 
-  //TODO test calibration render seg img to projector
+  //TODO test calibration: render seg img to projector
   //fbo.begin();
   //seg.render( 0, 0, w, h );
   //fbo.end();

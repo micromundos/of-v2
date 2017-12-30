@@ -3,6 +3,7 @@
 #include "ofMain.h"
 #include "ofxMicromundos/data_path.h"
 #include "RGB.h"
+#include "Segmentation.h"
 #include "Calib.h"
 //#include "Segmentation.h"
 
@@ -17,10 +18,10 @@ class ofApp : public ofBaseApp
 
     RGB rgb;
     Calib calib;
-    //Segmentation seg;
+    Segmentation seg;
     ofxChilitags chilitags;
     shared_ptr<CalibGui> gui;
 
-    bool calib_done;
+    bool calib_ready;
 };
 
