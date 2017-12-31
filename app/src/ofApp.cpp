@@ -31,7 +31,7 @@ void ofApp::update()
     return;
   }
 
-  seg.update(rgb_pix); 
+  seg.update(rgb_pix, tags); 
 };
 
 void ofApp::draw()

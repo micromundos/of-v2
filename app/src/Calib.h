@@ -33,7 +33,7 @@ class Calib
 
       vector<cv::Point2f> tags_pts;
       for (int i = 0; i < tags.size(); i++)
-        tags_pts.push_back( toCv( tags[i].center_n ) );
+        tags_pts.push_back(tags[i].center_n_cv);
 
       H_cv = findHomography(
           cv::Mat(tags_pts), 
