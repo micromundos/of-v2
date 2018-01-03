@@ -2,10 +2,10 @@
 
 #include "ofMain.h"
 #include "ofxMicromundos/data_path.h"
+#include "GUI.h"
 #include "RGB.h"
-#include "Segmentation.h"
 #include "Calib.h"
-//#include "Segmentation.h"
+#include "Segmentation.h"
 
 class ofApp : public ofBaseApp
 {
@@ -20,8 +20,9 @@ class ofApp : public ofBaseApp
     Calib calib;
     Segmentation seg;
     ofxChilitags chilitags;
-    shared_ptr<CalibGui> gui;
+    shared_ptr<GUI> gui;
 
+    float fps;
     bool calib_ready;
 };
 

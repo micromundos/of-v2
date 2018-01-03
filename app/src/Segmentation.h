@@ -2,8 +2,6 @@
 
 #include "ofxChilitags.h"
 
-using namespace ofxCv;
-
 class Segmentation
 {
   public:
@@ -51,12 +49,9 @@ class Segmentation
     ofPixels bin_pix;
     ofTexture bin_tex;
 
+    //based on ofxCv::fillPoly(points, dst);
     void fillTags(vector<ChiliTag>& tags, cv::Mat dstMat)
-        //ofPixels& src, ofPixels& dst)
     {
-      //ofxCv::copy(src, dst);
-      //cv::Mat dstMat = toCv(dst); 
-
       int w = dstMat.cols;
       int h = dstMat.rows;
 
@@ -73,7 +68,6 @@ class Segmentation
         const cv::Point* ppt[1] = { &(points[0]) };
         int npt[] = { (int) points.size() };
         cv::fillPoly(dstMat, ppt, npt, 1, cv::Scalar(255));
-        //ofxCv::fillPoly(points, dst);
       }
     };
 

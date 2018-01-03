@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ofMain.h"
-#include "CalibGui.h"
+#include "GUI.h"
 #include "ofxCv.h"
 
 class RGB
@@ -14,7 +14,7 @@ class RGB
       dispose();
     };
 
-    void init(shared_ptr<CalibGui>& gui)
+    void init(shared_ptr<GUI>& gui)
     {
       this->gui = gui;
       vid.setDeviceID(1);
@@ -69,7 +69,7 @@ class RGB
 
   private:
 
-    shared_ptr<CalibGui> gui;
+    shared_ptr<GUI> gui;
     ofPixels pix;
     ofVideoGrabber vid;
     ofTexture tex;
