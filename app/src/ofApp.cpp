@@ -10,7 +10,7 @@ void ofApp::setup()
 
   rgb.init(gui);
   chilitags.init(); 
-  calib_ready = calib.init();
+  calib.init();
   seg.init();
 };
 
@@ -30,11 +30,9 @@ void ofApp::update()
 
   seg.update(rgb_pix, tags); 
 
-  if (!calib_ready)
-  {
-    calib_ready = calib.find(tags);
-    //return;
-  }
+  calib_enabled = calib.enabled(tags);
+  if (calib_enabled)
+    calib.find(tags);
 
   calib.transform(rgb_pix, proj_pix);
   calib.transform(tags, proj_tags);
@@ -42,13 +40,14 @@ void ofApp::update()
 
 void ofApp::draw()
 {  
-  //if (!calib_ready)
   if (gui->calib_render)
   {
     render_proj_pix();
     render_proj_tags();
-    calib.render();
   }
+
+  if (calib_enabled)
+    calib.render();
 };
 
 void ofApp::render_proj_pix()

@@ -23,7 +23,7 @@ class ofApp : public ofBaseApp
     shared_ptr<GUI> gui;
 
     float fps;
-    bool calib_ready;
+    float calib_enabled;
 
     ofPixels proj_pix;
     ofTexture proj_tex;

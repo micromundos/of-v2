@@ -17,9 +17,10 @@ class Calib
 
     bool init()
     {
-      H_ready = false;
+      calib_tag_id = 0;
       file_calib = "calib/H_rgb_proj.yml";
       UP = ofVec2f(0,1);
+      H_ready = false;
 
       float w = ofGetWidth();
       float h = ofGetHeight();
@@ -38,15 +39,23 @@ class Calib
       proj_coords.push_back(ofVec2f(  1., 1. ));
       proj_coords.push_back(ofVec2f( -1., 1. ));
 
-      //TODO load calib homography
-      //load();
-      return isReady();
+      load();
     };
 
-    bool find(vector<ChiliTag>& tags)
+    bool enabled(vector<ChiliTag>& tags)
     {
+      for (int i = 0; i < tags.size(); i++)
+        if (is_calib_tag(tags[i]))
+          return true;
+      return false;
+    };
+
+    void find(vector<ChiliTag>& _tags)
+    {
+      vector<ChiliTag> tags = filter_calib_tag(_tags);
+
       if (tags.size() != proj_pts.size())
-        return false;
+        return;
 
       float w = ofGetWidth();
       float h = ofGetHeight(); 
@@ -55,14 +64,18 @@ class Calib
       ofVec2f ctr = tags_ctr(tags);
       tags_pts.clear(); 
       for (int i = 0; i < tags.size(); i++)
-        tags_pts.push_back(toCv(tag_from_proj_coord(proj_coords[i], ctr, tags) * scale));
+      {
+        ofVec2f coord = proj_coords[i];
+        ofVec2f tag_n = tag_from_proj_coord(coord, ctr, tags);
+        tags_pts.push_back(toCv(tag_n * scale));
+      }
 
       H_cv = cv::findHomography(
           cv::Mat(tags_pts), 
           cv::Mat(proj_pts));
       H_ready = true; 
 
-      return isReady() && save();
+      save();
     }; 
 
     void render()
@@ -95,7 +108,7 @@ class Calib
       float h = ofGetHeight();
       ofVec2f scale(w,h); 
 
-      dst_tags.resize(src_tags.size());
+      dst_tags.clear();
       for (int i = 0; i < src_tags.size(); i++)
         dst_tags.push_back(transform_tag(src_tags[i], scale)); 
     };
@@ -105,6 +118,7 @@ class Calib
 
   private:
 
+    int calib_tag_id;
     cv::Mat H_cv;
     bool H_ready;
     ofVec2f UP;
@@ -112,7 +126,21 @@ class Calib
 
     vector<cv::Point2f> tags_pts;
     vector<cv::Point2f> proj_pts;
-    vector<ofVec2f> proj_coords;
+    vector<ofVec2f> proj_coords; 
+
+    vector<ChiliTag> filter_calib_tag(vector<ChiliTag> &_tags)
+    {
+      vector<ChiliTag> tags;
+      for (int i = 0; i < _tags.size(); i++)
+        if (!is_calib_tag(_tags[i]))
+          tags.push_back(_tags[i]);
+      return tags;
+    };
+
+    bool is_calib_tag(ChiliTag &tag)
+    {
+      return tag.id == calib_tag_id;
+    };
 
     void _transform(const ofVec2f &src, ofVec2f &dst)
     {
@@ -164,12 +192,6 @@ class Calib
     {
       _transform(pix, pix);
     };
-
-    //TODO calib isReady
-    bool isReady()
-    {
-      return false;
-    }; 
 
     ofVec2f tag_from_proj_coord(ofVec2f& proj_coord, ofVec2f& ctr, vector<ChiliTag>& tags)
     { 
@@ -254,44 +276,5 @@ class Calib
       H_ready = true;
       return true;
     }; 
-
-    //TODO calib calc error H
-    //float error()
-    //{
-      ////ofLogNotice() << "error";
-      //float err = 0;
-
-      //vector<cv::Point2f> tags_pts_t;
-      //_transform(tags_pts, tags_pts_t);
-
-      //for (int i = 0; i < proj_coords.size(); i++)
-      //{
-        //ofVec2f tag = toOf(tags_pts_t[i]);
-        //ofVec2f proj = nearest_proj_point(tag);
-        //float d = tag.distance(proj);
-        //err += d;
-        ////ofLogNotice() << "\t tag= " << tag << " nearest proj= " << proj << " d= " << d;
-      //}
-      //err /= tags_pts_t.size();
-      ////ofLogNotice() << "\t err " << err;
-      //return err;
-    //};
-
-    //ofVec2f nearest_proj_point(ofVec2f point)
-    //{
-      //float min_d = std::numeric_limits<float>::max();
-      //int min = -1;
-      //for (int i = 0; i < proj_pts.size(); i++)
-      //{
-        //float d = point.distance(toOf(proj_pts[i]));
-        //if (d < min_d)
-        //{
-          //min_d = d;
-          //min = i;
-        //}
-      //}
-      //return toOf(proj_pts[min]);
-    //};
-
 };
 
