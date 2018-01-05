@@ -28,24 +28,50 @@ void ofApp::update()
 
   vector<ChiliTag>& tags = chilitags.tags();
 
+  seg.update(rgb_pix, tags); 
+
   if (!calib_ready)
   {
-    calib_ready = calib.update(tags);
+    calib_ready = calib.find(tags);
     //return;
   }
 
-  seg.update(rgb_pix, tags); 
+  calib.transform(rgb_pix, proj_pix);
+  calib.transform(tags, proj_tags);
 };
 
 void ofApp::draw()
-{ 
-  float w = ofGetWidth();
-  float h = ofGetHeight();
+{  
   //if (!calib_ready)
   if (gui->calib_render)
-    calib.render(0, 0, w, h);
-  //else
-  if (gui->calib_debug)
-    calib.debug(seg.pixels(), chilitags.tags(), 0, 0, w, h);
+  {
+    render_proj_pix();
+    render_proj_tags();
+    calib.render();
+  }
+};
+
+void ofApp::render_proj_pix()
+{
+  proj_tex.loadData(proj_pix);
+  proj_tex.draw(0, 0, ofGetWidth(), ofGetHeight());
+};
+
+void ofApp::render_proj_tags()
+{
+  ofPushStyle();
+  ofSetColor(ofColor::magenta);
+  for (int i = 0; i < proj_tags.size(); i++)
+  {
+    vector<ofVec2f> &corners = proj_tags[i].corners;
+    ofVec2f p0, p1;
+    for (int j = 0; j < corners.size(); j++)
+    {
+      p0 = corners[j];
+      p1 = corners[ (j+1)%4 ]; 
+      ofDrawLine( p0.x, p0.y, p1.x, p1.y );
+    }
+  }
+  ofPopStyle();
 };
 

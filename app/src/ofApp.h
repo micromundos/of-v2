@@ -24,5 +24,12 @@ class ofApp : public ofBaseApp
 
     float fps;
     bool calib_ready;
+
+    ofPixels proj_pix;
+    ofTexture proj_tex;
+    vector<ChiliTag> proj_tags;
+
+    void render_proj_pix();
+    void render_proj_tags();
 };
 
