@@ -34,7 +34,8 @@ void ofApp::update()
   if (calib_enabled)
     calib.find(tags);
 
-  calib.transform(rgb_pix, proj_pix);
+  proj_pix = seg.pixels(); //copy 1st
+  calib.transform(proj_pix);
   calib.transform(tags, proj_tags);
 };
 
@@ -52,6 +53,8 @@ void ofApp::draw()
 
 void ofApp::render_proj_pix()
 {
+  if (!proj_pix.isAllocated())
+    return;
   proj_tex.loadData(proj_pix);
   proj_tex.draw(0, 0, ofGetWidth(), ofGetHeight());
 };

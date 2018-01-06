@@ -81,7 +81,7 @@ class Calib
     void render()
     { 
       render_proj_pts();
-    };
+    }; 
 
     void transform(ofPixels &src, ofPixels &dst)
     {
@@ -94,10 +94,14 @@ class Calib
       float sh = src.getHeight(); 
 
       ofPixels src_t; 
-      ofxCv::imitate(src, src_t);
+      //ofxCv::imitate(src_t, src);
+      ofxCv::copy(src, src_t);
       ofxCv::resize(src, src_t, w/sw, h/sh);
       _transform(src_t, dst);
     }; 
+
+    //in place
+    void transform(ofPixels &pix) { transform(pix, pix); };
 
     void transform(vector<ChiliTag>& src_tags, vector<ChiliTag>& dst_tags)
     {
@@ -171,7 +175,6 @@ class Calib
 
     void _transform(ofPixels& src, ofPixels& dst)
     {
-      //TODO fix warpPerspective of pixels
       cv::Mat srcMat = toCv(src);
       cv::Mat dstMat = toCv(dst);
       cv::warpPerspective(srcMat, dstMat, H_cv, srcMat.size(), cv::INTER_LINEAR);

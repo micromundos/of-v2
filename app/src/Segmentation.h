@@ -28,8 +28,10 @@ class Segmentation
 
     void render(float x, float y, float w, float h)
     {
-      bin_tex.loadData(bin_pix);
-      bin_tex.draw(x, y, w, h);
+      if (bin_pix.isAllocated())
+        bin_tex.loadData(bin_pix);
+      if (bin_tex.isAllocated())
+        bin_tex.draw(x, y, w, h);
     };
 
     void dispose()

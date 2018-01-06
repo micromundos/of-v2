@@ -26,24 +26,23 @@ class RGB
     {
       vid.update();
       _updated = vid.isFrameNew();
-      if (!_updated)
-        return false;
-      pix = vid.getPixels();
+      return _updated;
+      //pix = vid.getPixels();
       //ofxCv::flip(pix, pix, 1); //some cameras need flipping
-      return true;
     };
 
     void render(float x, float y, float w, float h)
     {
       if (_updated)
-        tex.loadData(pix);
-      tex.draw(x, y, w, h);
+        tex.loadData(vid.getPixels());
+      if (tex.isAllocated())
+        tex.draw(x, y, w, h);
     };
 
     void dispose()
     {
       vid.close();
-      pix.clear();
+      //pix.clear();
       tex.clear();
     };
 
@@ -54,23 +53,23 @@ class RGB
 
     ofPixels& pixels()
     {
-      return pix;
+      return vid.getPixels();
     };
 
     int width()
     {
-      return pix.getWidth();
+      return vid.getPixels().getWidth();
     };
 
     int height()
     {
-      return pix.getHeight();
+      return vid.getPixels().getHeight();
     };
 
   private:
 
     shared_ptr<GUI> gui;
-    ofPixels pix;
+    //ofPixels pix;
     ofVideoGrabber vid;
     ofTexture tex;
     bool _updated;
