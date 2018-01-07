@@ -16,16 +16,16 @@ class Backend
       dispose();
     };
 
-    void init(shared_ptr<GUI>& gui)
+    void init(shared_ptr<GUI>& gui, float w, float h)
     {
       this->gui = gui;
       rgb.init(gui);
       chilitags.init(); 
-      calib.init();
+      calib.init(w, h);
       seg.init();
     };
 
-    bool update()
+    bool update(float w, float h)
     {
       if (!rgb.update())
         return false;
@@ -37,21 +37,21 @@ class Backend
 
       calib_enabled = calib.enabled(tags);
       if (calib_enabled)
-        calib.find(tags);
+        calib.find(tags, w, h);
 
       //copy before transform
       proj_pix = seg.pixels();
-      calib.transform(proj_pix);
-      calib.transform(tags, proj_tags);
+      calib.transform(proj_pix, w, h);
+      calib.transform(tags, proj_tags, w, h);
 
       return true;
     };
 
-    void render()
+    void render(float w, float h)
     {
       if (gui->calib_render)
       {
-        render_proj_pix();
+        render_proj_pix(w, h);
         render_proj_tags();
       }
 
@@ -112,12 +112,12 @@ class Backend
     ofTexture proj_tex;
     vector<ChiliTag> proj_tags;
 
-    void render_proj_pix()
+    void render_proj_pix(float w, float h)
     {
       if (proj_pix.isAllocated())
         proj_tex.loadData(proj_pix);
       if (proj_tex.isAllocated())
-        proj_tex.draw(0, 0, ofGetWidth(), ofGetHeight());
+        proj_tex.draw(0, 0, w, h);
     };
 
     void render_proj_tags()

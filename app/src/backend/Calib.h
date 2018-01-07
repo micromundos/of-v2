@@ -15,15 +15,12 @@ class Calib
       dispose();
     };
 
-    bool init()
+    bool init(float w, float h)
     {
       calib_tag_id = 0;
       file_calib = "calib/H_rgb_proj.yml";
       UP = ofVec2f(0,1);
       H_ready = false;
-
-      float w = ofGetWidth();
-      float h = ofGetHeight();
 
       //float s = 50.;
       //float cx = w/2;
@@ -50,15 +47,13 @@ class Calib
       return false;
     };
 
-    void find(vector<ChiliTag>& _tags)
+    void find(vector<ChiliTag>& _tags, float w, float h)
     {
       vector<ChiliTag> tags = filter_calib_tag(_tags);
 
       if (tags.size() != proj_pts.size())
         return;
 
-      float w = ofGetWidth();
-      float h = ofGetHeight(); 
       ofVec2f scale(w,h);
 
       ofVec2f ctr = tags_ctr(tags);
@@ -83,13 +78,11 @@ class Calib
       render_proj_pts();
     }; 
 
-    void transform(ofPixels &src, ofPixels &dst)
+    void transform(ofPixels &src, ofPixels &dst, float w, float h)
     {
       if (!H_ready)
         return;
 
-      float w = ofGetWidth();
-      float h = ofGetHeight();
       float sw = src.getWidth();
       float sh = src.getHeight(); 
 
@@ -101,15 +94,16 @@ class Calib
     }; 
 
     //in place
-    void transform(ofPixels &pix) { transform(pix, pix); };
+    void transform(ofPixels &pix, float w, float h) 
+    { 
+      transform(pix, pix, w, h); 
+    };
 
-    void transform(vector<ChiliTag>& src_tags, vector<ChiliTag>& dst_tags)
+    void transform(vector<ChiliTag>& src_tags, vector<ChiliTag>& dst_tags, float w, float h)
     {
       if (!H_ready)
         return;
 
-      float w = ofGetWidth();
-      float h = ofGetHeight();
       ofVec2f scale(w,h); 
 
       dst_tags.clear();

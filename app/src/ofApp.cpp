@@ -13,17 +13,18 @@ void ofApp::setup()
   ofSetVerticalSync(true);
   ofSetWindowPosition(ofGetScreenWidth()-ofGetWidth(), 0);
   ofBackground(0);
-  backend->init(gui);
+
+  backend->init(gui, ofGetWidth(), ofGetHeight());
 };
 
 void ofApp::update()
 {
   ofSetWindowTitle(ofToString(ofGetFrameRate(),2));
-  backend->update();
+  backend->update(ofGetWidth(), ofGetHeight());
 };
 
 void ofApp::draw()
 {  
-  backend->render();
+  backend->render(ofGetWidth(), ofGetHeight());
 };
 
