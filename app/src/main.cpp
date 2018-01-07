@@ -1,7 +1,7 @@
 #include "ofMain.h"
 #include "ofAppGLFWWindow.h"
 #include "ofApp.h"
-#include "Backend.h"
+#include "backend/Backend.h"
 #include "BackendMonitorApp.h"
 #include "GUI.h"
 

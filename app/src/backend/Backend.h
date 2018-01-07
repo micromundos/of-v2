@@ -2,9 +2,9 @@
 
 #include "ofxChilitags.h"
 #include "GUI.h"
-#include "RGB.h"
-#include "Calib.h"
-#include "Segmentation.h"
+#include "backend/RGB.h"
+#include "backend/Calib.h"
+#include "backend/Segmentation.h"
 
 class Backend
 {

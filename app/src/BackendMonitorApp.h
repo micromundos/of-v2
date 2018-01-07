@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ofMain.h"
-#include "Backend.h"
+#include "backend/Backend.h"
 #include "GUI.h"
 
 class BackendMonitorApp: public ofBaseApp 
