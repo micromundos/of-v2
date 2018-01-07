@@ -8,13 +8,13 @@ class GUI: public ofBaseApp
   public:
 
     ofParameter<bool> backend_monitor;
-    ofParameter<bool> calib_render;
+    ofParameter<bool> backend_debug;
     //ofParameter<float> flout;
 
     void init_params()
     {
       p.add( backend_monitor.set("backend_monitor", true) );
-      p.add( calib_render.set("calib_render", true) );
+      p.add( backend_debug.set("backend_debug", true) );
       //p.add( flout.set("flout", 0.5, 0., 1.) );
     };
 

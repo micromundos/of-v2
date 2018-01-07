@@ -1,9 +1,9 @@
 #include "ofMain.h"
 #include "ofAppGLFWWindow.h"
 #include "ofApp.h"
-#include "backend/Backend.h"
 #include "BackendMonitorApp.h"
 #include "GUI.h"
+#include "ofxMicromundos/Backend.h"
 
 int main()
 {
@@ -39,7 +39,6 @@ int main()
 
   shared_ptr<Backend> backend = make_shared<Backend>();
 
-  backend->inject(gui);
   app->inject(backend, gui);
   backend_monitor->inject(backend, gui);
 

@@ -25,6 +25,12 @@ void ofApp::update()
 
 void ofApp::draw()
 {  
-  backend->render(ofGetWidth(), ofGetHeight());
+  float w = ofGetWidth();
+  float h = ofGetHeight();
+
+  backend->render_calib(w, h);
+
+  if (gui->backend_debug)
+    backend->render_projected(w, h);
 };
 
