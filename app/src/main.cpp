@@ -1,8 +1,9 @@
 #include "ofMain.h"
-#include "ofApp.h"
-#include "GUI.h"
-#include "BackendMonitor.h"
 #include "ofAppGLFWWindow.h"
+#include "ofApp.h"
+#include "Backend.h"
+#include "BackendMonitorApp.h"
+#include "GUI.h"
 
 int main()
 {
@@ -34,11 +35,12 @@ int main()
 
   shared_ptr<ofApp> app(new ofApp);
   shared_ptr<GUI> gui(new GUI);
-  shared_ptr<BackendMonitor> backend_monitor(new BackendMonitor);
+  shared_ptr<BackendMonitorApp> backend_monitor(new BackendMonitorApp);
 
-  app->gui = gui;
-  backend_monitor->gui = gui;
-  backend_monitor->app = app;
+  shared_ptr<Backend> backend = make_shared<Backend>();
+
+  app->inject(backend, gui);
+  backend_monitor->inject(backend, gui);
 
   ofRunApp(gui_win, gui);
   ofRunApp(app_win, app);

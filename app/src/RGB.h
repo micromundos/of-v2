@@ -44,6 +44,7 @@ class RGB
       vid.close();
       //pix.clear();
       tex.clear();
+      gui = nullptr;
     };
 
     bool updated()

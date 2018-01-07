@@ -1,6 +1,5 @@
 ofxChilitags
 ofxCv
 ofxGui
-ofxImageSegmentation
 ofxMicromundos
 ofxOpenCv

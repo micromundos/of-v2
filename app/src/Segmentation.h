@@ -12,9 +12,7 @@ class Segmentation
       dispose();
     };
 
-    void init()
-    {
-    };
+    void init() {};
 
     void update(ofPixels& pix, vector<ChiliTag>& tags)
     {
