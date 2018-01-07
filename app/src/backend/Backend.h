@@ -16,10 +16,14 @@ class Backend
       dispose();
     };
 
-    void init(shared_ptr<GUI>& gui, float w, float h)
+    void inject(shared_ptr<GUI> gui)
     {
       this->gui = gui;
-      rgb.init(gui);
+    };
+
+    void init(float w, float h)
+    {
+      rgb.init();
       chilitags.init(); 
       calib.init(w, h);
       seg.init();
@@ -100,13 +104,14 @@ class Backend
 
   private:
 
+    shared_ptr<GUI> gui;
+
     float calib_enabled;
 
     RGB rgb;
     Calib calib;
     Segmentation seg;
     ofxChilitags chilitags;
-    shared_ptr<GUI> gui;
 
     ofPixels proj_pix;
     ofTexture proj_tex;

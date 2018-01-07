@@ -14,9 +14,9 @@ class RGB
       dispose();
     };
 
-    void init(shared_ptr<GUI>& gui)
+    //TODO RGB init camera from settings file
+    void init()
     {
-      this->gui = gui;
       vid.setDeviceID(1);
       vid.setDesiredFrameRate(30);
       vid.initGrabber(1920, 1080);
@@ -44,7 +44,6 @@ class RGB
       vid.close();
       //pix.clear();
       tex.clear();
-      gui = nullptr;
     };
 
     bool updated()
@@ -69,7 +68,6 @@ class RGB
 
   private:
 
-    shared_ptr<GUI> gui;
     //ofPixels pix;
     ofVideoGrabber vid;
     ofTexture tex;

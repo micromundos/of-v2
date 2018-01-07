@@ -14,7 +14,7 @@ void ofApp::setup()
   ofSetWindowPosition(ofGetScreenWidth()-ofGetWidth(), 0);
   ofBackground(0);
 
-  backend->init(gui, ofGetWidth(), ofGetHeight());
+  backend->init(ofGetWidth(), ofGetHeight());
 };
 
 void ofApp::update()

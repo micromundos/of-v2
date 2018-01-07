@@ -39,6 +39,7 @@ int main()
 
   shared_ptr<Backend> backend = make_shared<Backend>();
 
+  backend->inject(gui);
   app->inject(backend, gui);
   backend_monitor->inject(backend, gui);
 
