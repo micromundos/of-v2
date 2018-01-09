@@ -19,15 +19,20 @@ void ofApp::setup()
   fisica.init();
   particles.init();
 
+  //test particles
   float w = ofGetWidth();
   float h = ofGetHeight();
+  float x = w/2;
+  float y = h/2;
   b2ParticleSystem* b2ps = particles.b2_particles();
-  b2Vec2 force(1,1);
-  force *= 100.;
+  b2Vec2 force(ofRandom(0.5),ofRandom(0.5));
+  //force *= 10.;
   ofColor c = ofColor(200, 0, 0);
-  for (int i = 0; i < 100; i++)
+  for (int i = 0; i < 2000; i++)
   {
-    int32 pidx = particles.make_particle(w/2, h/2, 10, 10, c); 
+    int32 pidx = particles.make_particle(
+        ofRandom(x-10,x+10), ofRandom(y-10,y+10), 
+        0, 0, c); 
     b2ps->ParticleApplyForce(pidx, force);
   }
 };
@@ -35,9 +40,12 @@ void ofApp::setup()
 void ofApp::update()
 {
   ofSetWindowTitle(ofToString(ofGetFrameRate(),2));
+
   backend->update(ofGetWidth(), ofGetHeight());
-  fisica.update();
+
+  //particles.update_flowfield(nullptr, ofVec2f(), ofVec2f()); 
   particles.update();
+  fisica.update();
 };
 
 void ofApp::draw()

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Fisica.h"
+#include "CoordMap.h"
 
 class Particles
 { 
@@ -20,11 +21,11 @@ class Particles
 
     void init() 
     {
-      radius = 6;
-      max_particles = 5000;
-      max_speed = 10;
-      render_size = 4;
-      lifetime = 15;
+      radius = 6.;
+      max_particles = 5000.;
+      max_speed = 3.;
+      render_size = 4.;
+      lifetime = 15.;
 
       mesh.setMode( OF_PRIMITIVE_POINTS );
 
@@ -54,21 +55,43 @@ class Particles
 
     void update()
     {
-      //limit particles speed
-      float max_speed = max_speed;
-      if ( max_speed == 0.0 )
+      limit_speed();
+    };
+
+    void update_flowfield(float* field, ofVec2f& screen_size, ofVec2f& flowfield_size) 
+    {
+      screen2ff.set( screen_size.x, screen_size.y, flowfield_size.x, flowfield_size.y );
+
+      if (field == nullptr) 
+      {
+        ofLogWarning("Particles") << "flow field input process has no data";
         return;
+      }
 
       int32 n = b2particles->GetParticleCount();
-      b2Vec2 *vels = b2particles->GetVelocityBuffer(); 
+      b2Vec2 *locs = b2particles->GetPositionBuffer(); 
+
+      b2Vec2 force;
+      ofVec2f ff_loc, screen_loc;
       for (int i = 0; i < n; i++)
       {
-        b2Vec2& vel = vels[i];
-        float len = vel.Normalize();
-        vel *= len > max_speed ? max_speed : len;
-        //cout << i << ": vel len " << len << ", max " << max_speed << endl;
+        b2Vec2& loc = locs[i]; 
+
+        fisica->world2screen( loc, screen_loc );
+        screen2ff.dst( screen_loc, ff_loc );
+
+        int fi = ((int)ff_loc.x + (int)ff_loc.y * flowfield_size.x) * 4; //chann:rgba
+        force.Set( field[fi], field[fi+1] );
+
+        if ( max_force > 0 )
+        {
+          float len = force.Normalize();
+          force *= len > max_force ? max_force : len;
+        }
+
+        b2particles->ParticleApplyForce( i, force );
       }
-    }; 
+    };
 
     void render()
     {
@@ -136,6 +159,7 @@ class Particles
     b2ParticleSystem* b2particles;
 
     ofVboMesh mesh;
+    CoordMap screen2ff;
 
     //ofColor ofcolor;
     //b2ParticleColor b2color;
@@ -143,7 +167,24 @@ class Particles
     float radius;
     float max_particles;
     float max_speed;
+    float max_force;
     float render_size;
-    float lifetime;
+    float lifetime; 
+
+    void limit_speed()
+    {
+      if ( max_speed == 0.0 )
+        return;
+
+      int32 n = b2particles->GetParticleCount();
+      b2Vec2 *vels = b2particles->GetVelocityBuffer(); 
+      for (int i = 0; i < n; i++)
+      {
+        b2Vec2& vel = vels[i];
+        float len = vel.Normalize();
+        vel *= len > max_speed ? max_speed : len;
+      }
+    };
+
 };
 
