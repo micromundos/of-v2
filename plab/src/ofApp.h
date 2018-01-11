@@ -1,30 +1,34 @@
 #pragma once
 
 #include "ofMain.h"
-#include "ofxMicromundos/data_path.h"
 #include "ofxMicromundos/Backend.h"
 #include "GUI.h"
 
 #include "plab/Fisica.h"
 #include "plab/Particles.h"
+#include "plab/FlowField.h"
 
 class ofApp : public ofBaseApp
 {
 
   public:
 
-    void inject(shared_ptr<Backend> backend, shared_ptr<GUI> gui);
+    void inject(shared_ptr<GUI> gui);
 
     void setup();
     void update();
     void draw();
 
+    Backend& get_backend() { return backend; };
+    FlowField& get_flowfield() { return flowfield; };
+
   private:
 
+    Backend backend;
     Fisica fisica;
     Particles particles;
+    FlowField flowfield;
 
-    shared_ptr<Backend> backend;
     shared_ptr<GUI> gui;
 };
 

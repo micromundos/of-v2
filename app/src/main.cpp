@@ -4,9 +4,12 @@
 #include "BackendMonitorApp.h"
 #include "GUI.h"
 #include "ofxMicromundos/Backend.h"
+#include "ofxMicromundos/data_path.h"
 
 int main()
 {
+  ofxMicromundos::setDataPathRoot();
+
   ofGLFWWindowSettings settings;
 
   //app -> projector
@@ -26,11 +29,12 @@ int main()
   shared_ptr<ofAppBaseWindow> gui_win = ofCreateWindow(settings);
 
   //backend monitor
-  settings.width = 800;
-  settings.height = 600;
+  settings.width = 640;
+  settings.height = 480;
   settings.setPosition(ofVec2f(240,0));
   settings.resizable = false;
   settings.decorated = true;
+  settings.shareContextWith = app_win;
   shared_ptr<ofAppBaseWindow> backend_monitor_win = ofCreateWindow(settings);
 
   shared_ptr<ofApp> app(new ofApp);

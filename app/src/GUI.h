@@ -23,6 +23,7 @@ class GUI: public ofBaseApp
       p.setName("params");
       init_params();
       gui.setup(p, "gui.xml");
+      gui.loadFromFile("gui.xml");
       ofSetVerticalSync(false);
     };
 

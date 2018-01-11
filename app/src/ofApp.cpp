@@ -8,7 +8,6 @@ void ofApp::inject(shared_ptr<Backend> backend, shared_ptr<GUI> gui)
 
 void ofApp::setup()
 {
-  ofxMicromundos::setDataPathRoot();
   ofSetLogLevel(OF_LOG_NOTICE);
   ofSetVerticalSync(true);
   ofSetWindowPosition(ofGetScreenWidth()-ofGetWidth(), 0);
@@ -28,9 +27,9 @@ void ofApp::draw()
   float w = ofGetWidth();
   float h = ofGetHeight();
 
-  backend->render_calib(w, h);
-
   if (gui->backend_debug)
     backend->render_projected(w, h);
+
+  backend->render_calib(w, h);
 };
 

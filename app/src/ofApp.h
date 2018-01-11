@@ -1,7 +1,6 @@
 #pragma once
 
 #include "ofMain.h"
-#include "ofxMicromundos/data_path.h"
 #include "ofxMicromundos/Backend.h"
 #include "GUI.h"
 

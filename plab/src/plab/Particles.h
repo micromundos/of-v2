@@ -24,6 +24,7 @@ class Particles
       radius = 6.;
       max_particles = 5000.;
       max_speed = 3.;
+      max_force = 0.;
       render_size = 4.;
       lifetime = 15.;
 
@@ -58,9 +59,9 @@ class Particles
       limit_speed();
     };
 
-    void update_flowfield(float* field, ofVec2f& screen_size, ofVec2f& flowfield_size) 
+    void update_flowfield(float* field, float screen_width, float screen_height, float flowfield_width, float flowfield_height) 
     {
-      screen2ff.set( screen_size.x, screen_size.y, flowfield_size.x, flowfield_size.y );
+      screen2ff.set( screen_width, screen_height, flowfield_width, flowfield_height );
 
       if (field == nullptr) 
       {
@@ -80,8 +81,8 @@ class Particles
         fisica->world2screen( loc, screen_loc );
         screen2ff.dst( screen_loc, ff_loc );
 
-        int fi = ((int)ff_loc.x + (int)ff_loc.y * flowfield_size.x) * 4; //chann:rgba
-        force.Set( field[fi], field[fi+1] );
+        int idx = ((int)ff_loc.x + (int)ff_loc.y * flowfield_width) * 4; //chann:rgba
+        force.Set( field[idx], field[idx+1] );
 
         if ( max_force > 0 )
         {
