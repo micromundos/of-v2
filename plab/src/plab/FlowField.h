@@ -65,6 +65,7 @@ class FlowField
       if (!pix.isAllocated())
         return;
 
+      //TODO flow field passes stack
       //edge container
       //stream flow
       //attractors

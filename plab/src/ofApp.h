@@ -2,6 +2,7 @@
 
 #include "ofMain.h"
 #include "ofxMicromundos/Backend.h"
+#include "ofxMicromundos/Bloque.h"
 #include "GUI.h"
 
 #include "plab/Fisica.h"

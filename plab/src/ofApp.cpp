@@ -9,7 +9,9 @@ void ofApp::setup()
 {
   ofSetLogLevel(OF_LOG_NOTICE);
   ofSetVerticalSync(true);
-  ofSetWindowPosition(ofGetScreenWidth()-ofGetWidth(), 0);
+  ofSetWindowPosition(ofGetScreenWidth()
+      //-ofGetWidth()
+      , 0);
   ofBackground(0);
 
   particles.inject(&fisica);
@@ -19,6 +21,13 @@ void ofApp::setup()
   flowfield.init(320, 240); //TODO flow field size from settings
   fisica.init();
   particles.init();
+
+  //TODO sistema de bloques que operan sobre las particulas y el flow field
+  //flowfield.add(new FlowFieldContainer);
+  //flowfield.add(new FlowFieldStream);
+  //flowfield.add(new FlowFieldAttractors);
+  //bloques.add(new Emitter);
+  //bloques.add(new Attractor);
 
   //TODO emit particles c bloque
   float w = ofGetWidth();
@@ -47,7 +56,12 @@ void ofApp::update()
   float h = ofGetHeight();
 
   backend.update(ofGetWidth(), ofGetHeight());
-  flowfield.update(backend.projected_pixels());
+
+  //map<int, Bloque>& proj_bloques = backend.projected_bloques();
+  ofPixels& proj_pix = backend.projected_pixels();
+  flowfield.update(proj_pix); //proj_bloques);
+
+  //bloques.update(proj_bloques, particles, fisica);
 
   particles.update_flowfield(flowfield.get(), w, h, flowfield.width(), flowfield.height()); 
   particles.update();
@@ -63,6 +77,8 @@ void ofApp::draw()
     backend.render_projected(w, h);
 
   backend.render_calib(w, h);
+
+  //bloques.render();
 
   particles.render();
 };

@@ -13,8 +13,8 @@ int main()
   ofGLFWWindowSettings settings;
 
   //app -> projector
-  settings.width = 1024./2;
-  settings.height = 768./2; 
+  settings.width = 1024.;
+  settings.height = 768.; 
   settings.setPosition(ofVec2f(0,0));
   settings.resizable = false;
   settings.decorated = false;
