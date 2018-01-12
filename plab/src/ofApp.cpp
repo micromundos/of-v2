@@ -58,9 +58,12 @@ void ofApp::update()
 
   backend.update(w, h);
 
-  //map<int, Bloque>& proj_bloques = backend.projected_bloques();
+  map<int, Bloque>& proj_bloques = backend.projected_bloques();
   ofPixels& proj_pix = backend.projected_pixels();
-  flowfield.update(proj_pix); //proj_bloques);
+
+  //parse_input(proj_pix, input_pix, input_tex);
+
+  flowfield.update(input_tex, proj_bloques);
 
   //bloques.update(proj_bloques, particles, fisica);
 
@@ -82,5 +85,29 @@ void ofApp::draw()
   //bloques.render();
 
   particles.render();
+};
+
+void ofApp::parse_input(ofPixels& src, ofFloatPixels& dst_pix, ofTexture& dst_tex)
+{
+  float xscale = flowfield.width() / src.getWidth();
+  float yscale = flowfield.height() / src.getHeight();
+
+  ofPixels scaled;
+  ofxCv::resize(src, scaled, xscale, yscale);
+
+  if (!dst_pix.isAllocated())
+    dst_pix.allocate(scaled.getWidth(), scaled.getHeight(), 4);
+
+  for (int i = 0; i < scaled.size(); i++) 
+  {
+    unsigned char p = scaled[i];
+    int j = i*4;
+    dst_pix[j] = p/255.;
+    dst_pix[j+1] = p/255.;
+    dst_pix[j+2] = p/255.;
+    dst_pix[j+3] = 1.;
+  }
+
+  dst_tex.loadData(dst_pix);
 };
 

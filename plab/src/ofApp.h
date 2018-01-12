@@ -7,7 +7,7 @@
 
 #include "plab/Fisica.h"
 #include "plab/Particles.h"
-#include "plab/FlowField.h"
+#include "plab/flowfields/FlowField.h"
 
 class ofApp : public ofBaseApp
 {
@@ -29,6 +29,10 @@ class ofApp : public ofBaseApp
     Fisica fisica;
     Particles particles;
     FlowField flowfield;
+
+    void parse_input(ofPixels& src, ofFloatPixels& dst_pix, ofTexture& dst_tex);
+    ofTexture input_tex;
+    ofFloatPixels input_pix;
 
     shared_ptr<GUI> gui; 
     cv::FileStorage config;

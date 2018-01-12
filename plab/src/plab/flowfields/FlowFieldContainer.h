@@ -1,73 +1,69 @@
 #pragma once
 
-#include "ofxCv.h"
 #include "ofxGPGPU.h"
 #include "ofxGPGPU/shaders/gaussian.h"
+#include "ofxCv.h"
+#include "plab/flowfields/FlowFieldLayer.h"
 #include "GUI.h"
 
-using namespace ofxCv;
-
-class FlowField
+class FlowFieldContainer : public FlowFieldLayer
 { 
 
   public:
 
-    FlowField() {};
-    ~FlowField() 
+    FlowFieldContainer() {};
+    ~FlowFieldContainer() 
     {
       dispose();
     }; 
 
+    ofTexture& get() 
+    { 
+      return container.get(); 
+    };
+
     void inject(shared_ptr<GUI> gui) 
     {
       this->gui = gui;
-    };
+    }; 
 
     void init(float w, float h) 
     {
-      ff = nullptr;
       ff_w = w;
       ff_h = h; 
 
       edges
         .init("glsl/openvision/canny.fs", w, h)
-        .on("update", this, &FlowField::update_edges);
+        .on("update", this, &FlowFieldContainer::update_edges);
 
       gaussian
         .init(w, h)
-        .on("update", this, &FlowField::update_gaussian);
+        .on("update", this, &FlowFieldContainer::update_gaussian);
 
       container
         .init("glsl/flowfields/flowfield_container.frag", w, h)
-        .on("update", this, &FlowField::update_container);
+        .on("update", this, &FlowFieldContainer::update_container);
     };
 
     void dispose() 
     {
-      ff = nullptr;
       gui = nullptr;
 
       edges
-        .off("update", this, &FlowField::update_edges)
+        .off("update", this, &FlowFieldContainer::update_edges)
         .dispose();
 
       gaussian
-        .off("update", this, &FlowField::update_gaussian)
+        .off("update", this, &FlowFieldContainer::update_gaussian)
         .dispose();
 
       container
-        .off("update", this, &FlowField::update_container)
+        .off("update", this, &FlowFieldContainer::update_container)
         .dispose();
     };
 
     void update(ofTexture& proj_tex, map<int, Bloque>& bloques)
     {
-      //TODO flow field passes stack
-      //edge container
-      //stream flow
-      //attractors
-      //ff = merge
-
       //int canny_kernel = 3;
       //double canny_low_thres = 100;
       //double canny_high_thres = 150;
@@ -87,15 +83,10 @@ class FlowField
         .set("edges", gaussian.get())
         .update()
         .update_render(gui->backend_monitor);
-
-      ff = container.get_data();
     };
 
     void render_monitor(float x, float y, float w, float h)
     {
-      if (!gui->backend_monitor)
-        return;
-
       edges.get().draw(x, y, w, h);
       gaussian.get().draw(x + w, y, w, h);
       container.render(x + w*2, y, w, h);
@@ -105,17 +96,12 @@ class FlowField
         //edges_tex.loadData(edges_pix);
       //if (edges_tex.isAllocated())
         //edges_tex.draw(x + w, y, w, h);
-    };
-
-    float* get() { return ff; };
-    float width() { return ff_w; };
-    float height() { return ff_h; };
+    }; 
 
   private:
 
     shared_ptr<GUI> gui;
 
-    float* ff;
     float ff_w;
     float ff_h;
 

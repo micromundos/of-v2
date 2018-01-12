@@ -12,21 +12,28 @@
 #pragma include "../lib/math.glsl"
 #pragma include "../lib/gpgpu.glsl"
 
-uniform float weight_container;
-uniform float weight_gradient;
-uniform float weight_attractors;
+uniform int n_layers;
+
+uniform float weight_0;
+/*uniform float weight_1;*/
+/*uniform float weight_2;*/
+/*uniform float weight_3;*/
 
 /*https://www.opengl.org/wiki/Data_Type_%28GLSL%29#Opaque_arrays*/
-uniform sampler2DRect flowfield_container;
-uniform sampler2DRect flowfield_gradient;
-uniform sampler2DRect flowfield_attractors;
+uniform sampler2DRect layer_0;
+/*uniform sampler2DRect layer_1;*/
+/*uniform sampler2DRect layer_2;*/
+/*uniform sampler2DRect layer_3;*/
 
 void main( void ) 
 {
   vec2 force = vec2(0.,0.);
-  force += texel( flowfield_container ).xy * weight_container;
-  force += texel( flowfield_gradient ).xy * weight_gradient;
-  force += texel( flowfield_attractors ).xy * weight_attractors;
+
+  if (n_layers > 0) force += texel( layer_0 ).xy * weight_0;
+  /*if (n_layers > 1) force += texel( layer_1 ).xy * weight_1;*/
+  /*if (n_layers > 2) force += texel( layer_2 ).xy * weight_2;*/
+  /*if (n_layers > 3) force += texel( layer_3 ).xy * weight_3;*/
+
   gl_FragColor = vec4( force, 0., 1. );
 }
 
