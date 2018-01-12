@@ -2,6 +2,7 @@
 
 #include "ofMain.h"
 #include "ofxMicromundos/Backend.h"
+#include "ofxMicromundos/Bloque.h"
 #include "GUI.h"
 
 class ofApp : public ofBaseApp
@@ -9,15 +10,19 @@ class ofApp : public ofBaseApp
 
   public:
 
-    void inject(shared_ptr<Backend> backend, shared_ptr<GUI> gui);
+    void inject(shared_ptr<GUI> gui, cv::FileStorage config);
 
     void setup();
     void update();
     void draw();
 
+    Backend& get_backend() { return backend; };
+
   private:
 
-    shared_ptr<Backend> backend;
-    shared_ptr<GUI> gui;
+    Backend backend;
+
+    shared_ptr<GUI> gui; 
+    cv::FileStorage config;
 };
 

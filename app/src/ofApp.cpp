@@ -1,25 +1,28 @@
 #include "ofApp.h"
 
-void ofApp::inject(shared_ptr<Backend> backend, shared_ptr<GUI> gui)
+void ofApp::inject(shared_ptr<GUI> gui, cv::FileStorage config)
 {
-  this->backend = backend;
   this->gui = gui;
+  this->config = config;
 };
 
 void ofApp::setup()
 {
   ofSetLogLevel(OF_LOG_NOTICE);
   ofSetVerticalSync(true);
-  ofSetWindowPosition(ofGetScreenWidth()-ofGetWidth(), 0);
+  ofSetWindowPosition(ofGetScreenWidth()
+      -ofGetWidth()
+      , 0);
   ofBackground(0);
 
-  backend->init(ofGetWidth(), ofGetHeight());
+  backend.init(ofGetWidth(), ofGetHeight(), config["rgb_width"], config["rgb_height"], config["rgb_device_id"]);
 };
 
 void ofApp::update()
 {
   ofSetWindowTitle(ofToString(ofGetFrameRate(),2));
-  backend->update(ofGetWidth(), ofGetHeight());
+
+  backend.update(ofGetWidth(), ofGetHeight());
 };
 
 void ofApp::draw()
@@ -28,8 +31,8 @@ void ofApp::draw()
   float h = ofGetHeight();
 
   if (gui->backend_debug)
-    backend->render_projected(w, h);
+    backend.render_projected(w, h);
 
-  backend->render_calib(w, h);
+  backend.render_calib(w, h);
 };
 

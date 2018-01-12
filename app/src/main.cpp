@@ -10,28 +10,35 @@ int main()
 {
   ofxMicromundos::setDataPathRoot();
 
+  cv::FileStorage config( ofToDataPath("config.yml", false), cv::FileStorage::READ );
+  if (!config.isOpened())
+  {
+    ofLogError() << "failed to load config.yml";
+    ofExit();
+  }
+
   ofGLFWWindowSettings settings;
 
   //app -> projector
-  settings.width = 1024./2;
-  settings.height = 768./2; 
+  settings.width = config["projector_width"];
+  settings.height = config["projector_height"]; 
   settings.setPosition(ofVec2f(0,0));
   settings.resizable = false;
   settings.decorated = false;
   shared_ptr<ofAppBaseWindow> app_win = ofCreateWindow(settings);
 
   //gui
-  settings.width = 220;
-  settings.height = 600;
-  settings.setPosition(ofVec2f(0,0));
-  settings.resizable = false;
+  settings.width = config["gui_width"];
+  settings.height = config["gui_height"];
+  settings.setPosition(ofVec2f(config["gui_x"],config["gui_y"]));
+  settings.resizable = true;
   settings.decorated = true;
   shared_ptr<ofAppBaseWindow> gui_win = ofCreateWindow(settings);
 
   //backend monitor
-  settings.width = 640;
-  settings.height = 480;
-  settings.setPosition(ofVec2f(240,0));
+  settings.width = config["backend_monitor_width"];
+  settings.height = config["backend_monitor_height"];
+  settings.setPosition(ofVec2f(config["backend_monitor_x"],config["backend_monitor_y"]));
   settings.resizable = false;
   settings.decorated = true;
   settings.shareContextWith = app_win;
@@ -41,10 +48,8 @@ int main()
   shared_ptr<GUI> gui(new GUI);
   shared_ptr<BackendMonitorApp> backend_monitor(new BackendMonitorApp);
 
-  shared_ptr<Backend> backend = make_shared<Backend>();
-
-  app->inject(backend, gui);
-  backend_monitor->inject(backend, gui);
+  app->inject(gui, config);
+  backend_monitor->inject(app, gui);
 
   ofRunApp(gui_win, gui);
   ofRunApp(app_win, app);

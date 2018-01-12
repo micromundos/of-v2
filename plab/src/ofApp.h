@@ -14,7 +14,7 @@ class ofApp : public ofBaseApp
 
   public:
 
-    void inject(shared_ptr<GUI> gui);
+    void inject(shared_ptr<GUI> gui, cv::FileStorage config);
 
     void setup();
     void update();
@@ -30,6 +30,7 @@ class ofApp : public ofBaseApp
     Particles particles;
     FlowField flowfield;
 
-    shared_ptr<GUI> gui;
+    shared_ptr<GUI> gui; 
+    cv::FileStorage config;
 };
 

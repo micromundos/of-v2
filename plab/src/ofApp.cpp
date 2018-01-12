@@ -1,8 +1,9 @@
 #include "ofApp.h"
 
-void ofApp::inject(shared_ptr<GUI> gui)
+void ofApp::inject(shared_ptr<GUI> gui, cv::FileStorage config)
 {
   this->gui = gui;
+  this->config = config;
 };
 
 void ofApp::setup()
@@ -10,15 +11,15 @@ void ofApp::setup()
   ofSetLogLevel(OF_LOG_NOTICE);
   ofSetVerticalSync(true);
   ofSetWindowPosition(ofGetScreenWidth()
-      //-ofGetWidth()
+      -ofGetWidth()
       , 0);
   ofBackground(0);
 
   particles.inject(&fisica);
   flowfield.inject(gui);
 
-  backend.init(ofGetWidth(), ofGetHeight());
-  flowfield.init(320, 240); //TODO flow field size from settings
+  backend.init(ofGetWidth(), ofGetHeight(), config["rgb_width"], config["rgb_height"], config["rgb_device_id"]);
+  flowfield.init(config["flow_field_width"], config["flow_field_width"]);
   fisica.init();
   particles.init();
 
@@ -55,7 +56,7 @@ void ofApp::update()
   float w = ofGetWidth();
   float h = ofGetHeight();
 
-  backend.update(ofGetWidth(), ofGetHeight());
+  backend.update(w, h);
 
   //map<int, Bloque>& proj_bloques = backend.projected_bloques();
   ofPixels& proj_pix = backend.projected_pixels();

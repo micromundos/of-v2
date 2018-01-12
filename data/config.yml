@@ -1,0 +1,16 @@
+%YAML:1.0
+projector_width: 512 #1024
+projector_height: 384 #768
+backend_monitor_width: 640
+backend_monitor_height: 480
+backend_monitor_x: 240
+backend_monitor_y: 0
+gui_width: 220
+gui_height: 600
+gui_x: 0
+gui_y: 0
+rgb_width: 1920
+rgb_height: 1080
+rgb_device_id: 1
+flow_field_width: 320
+flow_field_height: 240

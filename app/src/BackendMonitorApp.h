@@ -8,13 +8,14 @@ class BackendMonitorApp: public ofBaseApp
 {
   public: 
 
-    void inject(shared_ptr<Backend> backend, shared_ptr<GUI> gui) 
+    void inject(shared_ptr<ofApp> app, shared_ptr<GUI> gui) 
     {
-      this->backend = backend;
+      this->app = app;
       this->gui = gui;
     };
 
-    void setup() {};
+    void setup() 
+    {};
 
     void update()
     {
@@ -25,12 +26,16 @@ class BackendMonitorApp: public ofBaseApp
     {
       if (!gui->backend_monitor)
         return;
-      backend->render_monitor(ofGetWidth(), ofGetHeight()); 
+
+      float w = ofGetWidth();
+      float h = ofGetHeight();
+
+      app->get_backend().render_monitor(0, 0, w/2, h/2);
     };
 
   private:
 
-    shared_ptr<Backend> backend;
+    shared_ptr<ofApp> app;
     shared_ptr<GUI> gui;
 };
 
