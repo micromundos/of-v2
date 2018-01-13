@@ -1,8 +1,8 @@
 %YAML:1.0
 projector_width: 512 #1024
 projector_height: 384 #768
-backend_monitor_width: 640
-backend_monitor_height: 480
+backend_monitor_width: 600
+backend_monitor_height: 800
 backend_monitor_x: 240
 backend_monitor_y: 0
 gui_width: 220

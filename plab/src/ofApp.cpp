@@ -10,29 +10,31 @@ void ofApp::setup()
 {
   ofSetLogLevel(OF_LOG_NOTICE);
   ofSetVerticalSync(true);
-  ofSetWindowPosition(ofGetScreenWidth()
-      -ofGetWidth()
-      , 0);
   ofBackground(0);
+
+  float w = ofGetWidth();
+  float h = ofGetHeight();
+
+  ofSetWindowPosition(ofGetScreenWidth()
+      -w
+      , 0);
 
   particles.inject(&fisica);
   flowfield.inject(gui);
 
-  backend.init(ofGetWidth(), ofGetHeight(), config["rgb_width"], config["rgb_height"], config["rgb_device_id"]);
-  flowfield.init(config["flow_field_width"], config["flow_field_width"]);
+  backend.init(w, h, config["rgb_width"], config["rgb_height"], config["rgb_device_id"]);
   fisica.init();
   particles.init();
 
-  //TODO sistema de bloques que operan sobre las particulas y el flow field
-  //flowfield.add(new FlowFieldContainer);
+  flowfield.add(make_shared<FlowFieldContainer>());
   //flowfield.add(new FlowFieldStream);
   //flowfield.add(new FlowFieldAttractors);
+  flowfield.init(config["flow_field_width"], config["flow_field_width"]);
+
   //bloques.add(new Emitter);
   //bloques.add(new Attractor);
 
-  //TODO emit particles c bloque
-  float w = ofGetWidth();
-  float h = ofGetHeight();
+  //TODO emit particles c bloque 
   float x = w/2;
   float y = h/2;
   //b2ParticleSystem* b2ps = particles.b2_particles();
@@ -58,12 +60,10 @@ void ofApp::update()
 
   backend.update(w, h);
 
-  map<int, Bloque>& proj_bloques = backend.projected_bloques();
   ofPixels& proj_pix = backend.projected_pixels();
+  map<int, Bloque>& proj_bloques = backend.projected_bloques();
 
-  //parse_input(proj_pix, input_pix, input_tex);
-
-  flowfield.update(input_tex, proj_bloques);
+  flowfield.update(proj_pix, proj_bloques);
 
   //bloques.update(proj_bloques, particles, fisica);
 
@@ -85,29 +85,5 @@ void ofApp::draw()
   //bloques.render();
 
   particles.render();
-};
-
-void ofApp::parse_input(ofPixels& src, ofFloatPixels& dst_pix, ofTexture& dst_tex)
-{
-  float xscale = flowfield.width() / src.getWidth();
-  float yscale = flowfield.height() / src.getHeight();
-
-  ofPixels scaled;
-  ofxCv::resize(src, scaled, xscale, yscale);
-
-  if (!dst_pix.isAllocated())
-    dst_pix.allocate(scaled.getWidth(), scaled.getHeight(), 4);
-
-  for (int i = 0; i < scaled.size(); i++) 
-  {
-    unsigned char p = scaled[i];
-    int j = i*4;
-    dst_pix[j] = p/255.;
-    dst_pix[j+1] = p/255.;
-    dst_pix[j+2] = p/255.;
-    dst_pix[j+3] = 1.;
-  }
-
-  dst_tex.loadData(dst_pix);
 };
 

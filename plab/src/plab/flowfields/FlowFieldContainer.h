@@ -22,6 +22,11 @@ class FlowFieldContainer : public FlowFieldLayer
       return container.get(); 
     };
 
+    float* get_data() 
+    { 
+      return container.get_data();
+    };
+
     void inject(shared_ptr<GUI> gui) 
     {
       this->gui = gui;
@@ -87,9 +92,11 @@ class FlowFieldContainer : public FlowFieldLayer
 
     void render_monitor(float x, float y, float w, float h)
     {
-      edges.get().draw(x, y, w, h);
-      gaussian.get().draw(x + w, y, w, h);
-      container.render(x + w*2, y, w, h);
+      float _w = w/3;
+      float _h = _w;
+      edges.get().draw(x, y, _w, _h);
+      gaussian.get().draw(x + _w, y, _w, _h);
+      container.render(x + _w*2, y, _w, _h);
 
       //toOf(edges_mat, edges_pix); 
       //if (edges_pix.isAllocated())

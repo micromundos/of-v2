@@ -30,8 +30,8 @@ class BackendMonitorApp: public ofBaseApp
       float w = ofGetWidth();
       float h = ofGetHeight();
 
-      app->get_backend().render_monitor(0, 0, w/2, h/2);
-      app->get_flowfield().render_monitor(0, h/2, w/3, h/3);
+      app->get_backend().render_monitor(0, 0, w, h*0.3);
+      app->get_flowfield().render_monitor(0, h*0.3, w, h*0.7);
     };
 
   private:
