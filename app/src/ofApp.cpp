@@ -30,8 +30,11 @@ void ofApp::draw()
   float w = ofGetWidth();
   float h = ofGetHeight();
 
-  if (gui->backend_debug)
-    backend.render_projected(w, h);
+  if (gui->backend_debug_pixels)
+    backend.render_projected_pixels(w, h);
+
+  if (gui->backend_debug_tags)
+    backend.render_projected_tags();
 
   backend.render_calib(w, h);
 };
