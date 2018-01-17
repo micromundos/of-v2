@@ -8,8 +8,9 @@ class GUI: public ofBaseApp
   public:
 
     ofParameter<bool> backend_monitor;
-    ofParameter<bool> debug_tags;
-    ofParameter<bool> debug_pixels;
+    ofParameter<bool> backend_debug_tags;
+    ofParameter<bool> backend_debug_pixels;
+    ofParameter<bool> flowfield_debug;
 
     ofParameter<float> container_force_mult;
     ofParameter<float> edge_threshold;
@@ -21,11 +22,14 @@ class GUI: public ofBaseApp
       p.add( backend_monitor
           .set("backend_monitor", true) );
 
-      p.add( debug_tags
-          .set("debug_tags", true) );
+      p.add( backend_debug_tags
+          .set("backend_debug_tags", true) );
 
-      p.add( debug_pixels
-          .set("debug_pixels", true) );
+      p.add( backend_debug_pixels
+          .set("backend_debug_pixels", true) );
+
+      p.add( flowfield_debug
+          .set("flowfield_debug", true) );
 
       p.add( container_force_mult
           .set("container_force_mult", 1., 0., 10.) );

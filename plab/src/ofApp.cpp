@@ -76,13 +76,14 @@ void ofApp::draw()
   float w = ofGetWidth();
   float h = ofGetHeight(); 
 
-  if (gui->debug_pixels)
+  if (gui->backend_debug_pixels)
     backend.render_projected_pixels(w, h);
-  if (gui->debug_tags)
+
+  if (gui->backend_debug_tags)
     backend.render_projected_tags();
 
-  //if (gui->flowfield_debug)
-    //flowfield.render(w, h);
+  if (gui->flowfield_debug)
+    flowfield.render(0, 0, w, h);
 
   backend.render_calib(w, h);
 

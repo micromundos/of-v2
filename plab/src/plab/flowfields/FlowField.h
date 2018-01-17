@@ -86,7 +86,7 @@ class FlowField
 
     void render(float x, float y, float w, float h)
     {
-      integration.render(x, y, h, h);
+      integration.render(x, y, w, h);
     };
 
     void render_monitor(float x, float y, float w, float h)
