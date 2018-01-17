@@ -84,6 +84,11 @@ class FlowField
       ff = integration.get_data();
     };
 
+    void render(float x, float y, float w, float h)
+    {
+      integration.render(x, y, h, h);
+    };
+
     void render_monitor(float x, float y, float w, float h)
     {
       if (!gui->backend_monitor)

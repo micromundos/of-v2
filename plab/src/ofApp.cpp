@@ -15,9 +15,8 @@ void ofApp::setup()
   float w = ofGetWidth();
   float h = ofGetHeight();
 
-  ofSetWindowPosition(ofGetScreenWidth()
-      -w
-      , 0);
+  float xoff = config["projector_x_offset_from_desktop_width"];
+  ofSetWindowPosition(ofGetScreenWidth() + xoff, config["projector_y"]);
 
   particles.inject(&fisica);
   flowfield.inject(gui);
@@ -75,15 +74,19 @@ void ofApp::update()
 void ofApp::draw()
 {  
   float w = ofGetWidth();
-  float h = ofGetHeight();
+  float h = ofGetHeight(); 
 
-  if (gui->backend_debug)
-    backend.render_projected(w, h);
+  if (gui->debug_pixels)
+    backend.render_projected_pixels(w, h);
+  if (gui->debug_tags)
+    backend.render_projected_tags();
+
+  //if (gui->flowfield_debug)
+    //flowfield.render(w, h);
 
   backend.render_calib(w, h);
 
   //bloques.render();
-
   particles.render();
 };
 

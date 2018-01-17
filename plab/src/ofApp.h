@@ -30,6 +30,7 @@ class ofApp : public ofBaseApp
     Fisica fisica;
     Particles particles;
     FlowField flowfield;
+    //TODO Bloques bloques;
 
     shared_ptr<GUI> gui; 
     cv::FileStorage config;

@@ -2,8 +2,10 @@
 	<backend_monitor>1</backend_monitor>
 	<backend_debug>1</backend_debug>
 	<edge_threshold>1</edge_threshold>
-	<gaussian_kernel>8</gaussian_kernel>
-	<gaussian_sigma>5</gaussian_sigma>
+	<gaussian_kernel>4.5</gaussian_kernel>
+	<gaussian_sigma>4</gaussian_sigma>
 <params/>
 <container_force_mult>6</container_force_mult>
+<debug_tags>1</debug_tags>
+	<debug_pixels>1</debug_pixels>
 </params>
