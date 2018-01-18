@@ -11,4 +11,5 @@
 <backend_debug_tags>1</backend_debug_tags>
 	<backend_debug_pixels>1</backend_debug_pixels>
 	<flowfield_debug>0</flowfield_debug>
+<edge_dilate>0</edge_dilate>
 </params>

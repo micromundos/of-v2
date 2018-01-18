@@ -15,8 +15,8 @@ void ofApp::setup()
   float xoff = config["projector_x_offset_from_desktop_width"];
   ofSetWindowPosition(ofGetScreenWidth() + xoff, config["projector_y"]);
 
-  particles.inject(&fisica);
-  flowfield.inject(&fisica, &particles, gui);
+  flowfield.inject(gui);
+  particles.inject(&fisica, &flowfield);
   bloques.inject(&fisica, &particles);
 
   backend.init(
@@ -29,14 +29,15 @@ void ofApp::setup()
       config["calib_tag_id"]);
 
   fisica.init();
-  particles.init();
+
+  particles.init(
+      config["projector_width"], 
+      config["projector_height"]);
 
   flowfield.add(make_shared<FlowFieldContainer>());
   //flowfield.add(make_shared<FlowFieldStream>());
   //flowfield.add(make_shared<FlowFieldAttractors>());
   flowfield.init(
-      config["projector_width"], 
-      config["projector_height"], 
       config["flow_field_width"], 
       config["flow_field_height"]); 
 
@@ -76,7 +77,7 @@ void ofApp::update()
   ofPixels& proj_pix = backend.projected_pixels();
   map<int, Bloque>& proj_bloques = backend.projected_bloques();
 
-  flowfield.update(proj_pix, proj_bloques);
+  flowfield.update(proj_pix);
   bloques.update(proj_bloques);
 
   particles.update();

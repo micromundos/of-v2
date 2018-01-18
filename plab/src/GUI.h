@@ -14,6 +14,7 @@ class GUI: public ofBaseApp
 
     ofParameter<float> container_force_mult;
     ofParameter<float> edge_threshold;
+    ofParameter<float> edge_dilate;
     ofParameter<float> gaussian_kernel;
     ofParameter<float> gaussian_sigma;
 
@@ -36,6 +37,9 @@ class GUI: public ofBaseApp
 
       p.add( edge_threshold
           .set("edge_threshold", 1., 0., 10.) );
+
+      p.add( edge_dilate
+          .set("edge_dilate", 1., 0., 10.) );
 
       p.add( gaussian_kernel
           .set("gaussian_kernel", 3., 0., 10.) );

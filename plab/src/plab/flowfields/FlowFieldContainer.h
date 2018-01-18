@@ -39,15 +39,23 @@ class FlowFieldContainer : public FlowFieldLayer
 
       edges
         .init("glsl/openvision/canny.fs", w, h)
-        .on("update", this, &FlowFieldContainer::update_edges);
+        .on("update",this,&FlowFieldContainer::update_edges); 
+
+      dilate
+        .add_backbuffer("tex")
+        .init("glsl/openvision/dilate.fs", w, h);
+
+      //erode
+        //.add_backbuffer("tex")
+        //.init("glsl/openvision/erode.fs", w, h);
 
       gaussian
         .init(w, h)
-        .on("update", this, &FlowFieldContainer::update_gaussian);
+        .on("update",this,&FlowFieldContainer::update_gaussian);
 
       container
         .init("glsl/flowfields/flowfield_container.frag", w, h)
-        .on("update", this, &FlowFieldContainer::update_container);
+        .on("update",this,&FlowFieldContainer::update_container);
     };
 
     void dispose() 
@@ -55,19 +63,22 @@ class FlowFieldContainer : public FlowFieldLayer
       gui = nullptr;
 
       edges
-        .off("update", this, &FlowFieldContainer::update_edges)
+        .off("update",this,&FlowFieldContainer::update_edges)
         .dispose();
 
+      dilate.dispose();
+      //erode.dispose();
+
       gaussian
-        .off("update", this, &FlowFieldContainer::update_gaussian)
+        .off("update",this,&FlowFieldContainer::update_gaussian)
         .dispose();
 
       container
-        .off("update", this, &FlowFieldContainer::update_container)
+        .off("update",this,&FlowFieldContainer::update_container)
         .dispose();
     };
 
-    void update(ofTexture& proj_tex, map<int, Bloque>& bloques)
+    void update(ofTexture& proj_tex)
     {
       //int canny_kernel = 3;
       //double canny_low_thres = 100;
@@ -80,8 +91,22 @@ class FlowFieldContainer : public FlowFieldLayer
         .set("tex", proj_tex)
         .update();
 
+      ofTexture* _edges;
+      if (gui->edge_dilate > 0.)
+      {
+        dilate
+          .set("tex", edges.get())
+          .update(gui->edge_dilate);
+        //erode
+          //.set("tex", dilate.get())
+          //.update(2);
+        _edges = &(dilate.get());
+      }
+      else
+        _edges = &(edges.get());
+
       gaussian
-        .set("data", edges.get())
+        .set("data", *_edges)
         .update(2); //horiz + vert
 
       container
@@ -115,6 +140,8 @@ class FlowFieldContainer : public FlowFieldLayer
     gpgpu::Process container;
     gpgpu::Process edges;
     gpgpu::Gaussian gaussian; 
+    gpgpu::Process dilate;
+    //gpgpu::Process erode;
 
     void update_container(ofShader& shader)
     {

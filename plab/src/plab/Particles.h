@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Fisica.h"
+#include "plab/CoordMap.h"
+#include "plab/flowfields/FlowField.h"
 
 class Particles
 { 
@@ -13,16 +15,21 @@ class Particles
       dispose();
     };
 
-    void inject(Fisica* fisica) 
+    void inject(Fisica* fisica, FlowField* flowfield) 
     {
       this->fisica = fisica;
+      this->flowfield = flowfield;
     };
 
-    void init() 
+    void init(float proj_w, float proj_h) 
     {
+      this->proj_w = proj_w;
+      this->proj_h = proj_h;
+
       radius = 6.;
       max_particles = 5000.;
       max_speed = 3.;
+      max_force = 0.;
       render_size = 4.;
       lifetime = 15.;
 
@@ -54,6 +61,7 @@ class Particles
 
     void update()
     {
+      update_flowfield();
       limit_speed();
     }; 
 
@@ -89,6 +97,7 @@ class Particles
     void dispose()
     {
       fisica = nullptr;
+      flowfield = nullptr;
     };
 
     int32 make_particle( float _locx, float _locy, float _velx, float _vely, ofColor _color )
@@ -120,18 +129,64 @@ class Particles
   private:
 
     Fisica* fisica;
+    FlowField* flowfield;
+
     b2ParticleSystem* b2particles;
+    CoordMap proj2ff;
 
     ofVboMesh mesh;
 
     //ofColor ofcolor;
     //b2ParticleColor b2color;
 
+    float proj_w, proj_h;
+
     float radius;
     float max_particles;
     float max_speed;
+    float max_force;
     float render_size;
     float lifetime; 
+
+
+    void update_flowfield()
+    {
+      float* ff = flowfield->get();
+      float ff_w = flowfield->width();
+      float ff_h = flowfield->height();
+
+      if (ff == nullptr) 
+      {
+        ofLogWarning("Particles") << "no flowfield data";
+        return;
+      }
+
+      proj2ff.set(proj_w, proj_h, ff_w, ff_h);
+
+      int32 n = b2particles->GetParticleCount();
+      b2Vec2 *locs = b2particles->GetPositionBuffer(); 
+
+      b2Vec2 force;
+      ofVec2f ff_loc, proj_loc;
+      for (int i = 0; i < n; i++)
+      {
+        b2Vec2& loc = locs[i]; 
+
+        fisica->world2screen( loc, proj_loc );
+        proj2ff.dst( proj_loc, ff_loc );
+
+        int idx = ((int)ff_loc.x + (int)ff_loc.y * ff_w) * 4; //chann:rgba
+        force.Set( ff[idx], ff[idx+1] );
+
+        if ( max_force > 0 )
+        {
+          float len = force.Normalize();
+          force *= len > max_force ? max_force : len;
+        }
+
+        b2particles->ParticleApplyForce( i, force );
+      }
+    };
 
     void limit_speed()
     {
