@@ -10,30 +10,44 @@ void ofApp::setup()
 {
   ofSetLogLevel(OF_LOG_NOTICE);
   ofSetVerticalSync(true);
-  ofBackground(0);
-
-  float w = ofGetWidth();
-  float h = ofGetHeight();
+  ofBackground(0); 
 
   float xoff = config["projector_x_offset_from_desktop_width"];
   ofSetWindowPosition(ofGetScreenWidth() + xoff, config["projector_y"]);
 
   particles.inject(&fisica);
-  flowfield.inject(gui);
+  flowfield.inject(&fisica, &particles, gui);
+  bloques.inject(&fisica, &particles);
 
-  backend.init(w, h, config["rgb_width"], config["rgb_height"], config["rgb_device_id"]);
+  backend.init(
+      config["projector_width"], 
+      config["projector_height"],  
+      config["cam_width"], 
+      config["cam_height"], 
+      config["cam_device_id"],
+      config["calib_file"],
+      config["calib_tag_id"]);
+
   fisica.init();
   particles.init();
 
   flowfield.add(make_shared<FlowFieldContainer>());
-  //flowfield.add(new FlowFieldStream);
-  //flowfield.add(new FlowFieldAttractors);
-  flowfield.init(config["flow_field_width"], config["flow_field_width"]);
+  //flowfield.add(make_shared<FlowFieldStream>());
+  //flowfield.add(make_shared<FlowFieldAttractors>());
+  flowfield.init(
+      config["projector_width"], 
+      config["projector_height"], 
+      config["flow_field_width"], 
+      config["flow_field_height"]); 
 
-  //bloques.add(new Emitter);
-  //bloques.add(new Attractor);
+  bloques.add(make_shared<Emitter>());
+  //bloques.add(make_shared<Portal>());
+  bloques.init();
+
 
   //TODO emit particles c bloque 
+  float w = ofGetWidth();
+  float h = ofGetHeight();
   float x = w/2;
   float y = h/2;
   //b2ParticleSystem* b2ps = particles.b2_particles();
@@ -63,10 +77,8 @@ void ofApp::update()
   map<int, Bloque>& proj_bloques = backend.projected_bloques();
 
   flowfield.update(proj_pix, proj_bloques);
+  bloques.update(proj_bloques);
 
-  //bloques.update(proj_bloques, particles, fisica);
-
-  particles.update_flowfield(flowfield.get(), w, h, flowfield.width(), flowfield.height()); 
   particles.update();
   fisica.update();
 };
@@ -87,7 +99,7 @@ void ofApp::draw()
 
   backend.render_calib(w, h);
 
-  //bloques.render();
+  bloques.render();
   particles.render();
 };
 

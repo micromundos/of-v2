@@ -1,6 +1,10 @@
 #pragma once
 
 #include "plab/flowfields/FlowFieldLayer.h"
+#include "plab/Fisica.h"
+#include "plab/Particles.h"
+#include "plab/CoordMap.h"
+
 #include "ofxGPGPU.h"
 #include "ofxMicromundos/Bloque.h"
 #include "GUI.h"
@@ -25,24 +29,30 @@ class FlowField
         ofLogError("FlowField") << "does not support more than " << MAX_LAYERS << " layers";
     };
 
-    void inject(shared_ptr<GUI> gui) 
+    void inject(Fisica* fisica, Particles* particles, shared_ptr<GUI> gui) 
     {
+      this->fisica = fisica;
+      this->particles = particles;
       this->gui = gui;
     };
 
-    void init(float w, float h) 
+    void init(float proj_w, float proj_h, float w, float h) 
     {
       ff = nullptr;
       ff_w = w;
       ff_h = h; 
+
+      max_force = 0.;
+
+      proj2ff.set(proj_w, proj_h, ff_w, ff_h);
 
       if (layers.size() == 0)
         ofLogWarning("FlowField") << "initialized with empty layers";
 
       for (int i = 0; i < layers.size(); i++)
       {
-        layers[i]->init(w, h);
         layers[i]->inject(gui);
+        layers[i]->init(w, h);
       }
 
       integration
@@ -53,6 +63,8 @@ class FlowField
     void dispose() 
     {
       ff = nullptr;
+      fisica = nullptr; 
+      particles = nullptr;
       gui = nullptr;
 
       for (int i = 0; i < layers.size(); i++)
@@ -82,6 +94,8 @@ class FlowField
         .update_render(gui->backend_monitor);
 
       ff = integration.get_data();
+
+      update_flowfield(); 
     };
 
     void render(float x, float y, float w, float h)
@@ -110,12 +124,17 @@ class FlowField
     float ff_w;
     float ff_h;
 
+    float max_force;
+
     vector<shared_ptr<FlowFieldLayer>> layers;
     gpgpu::Process integration;
 
     ofTexture input_tex;
     ofFloatPixels input_pix;
+    CoordMap proj2ff;
 
+    Fisica* fisica;
+    Particles* particles;
     shared_ptr<GUI> gui;
 
 
@@ -150,6 +169,40 @@ class FlowField
       }
 
       dst_tex.loadData(dst_pix);
+    };
+
+    void update_flowfield()
+    {
+      if (ff == nullptr) 
+      {
+        ofLogWarning("FlowField") << "update: no data";
+        return;
+      }
+
+      b2ParticleSystem* b2particles = particles->b2_particles();
+      int32 n = b2particles->GetParticleCount();
+      b2Vec2 *locs = b2particles->GetPositionBuffer(); 
+
+      b2Vec2 force;
+      ofVec2f ff_loc, proj_loc;
+      for (int i = 0; i < n; i++)
+      {
+        b2Vec2& loc = locs[i]; 
+
+        fisica->world2screen( loc, proj_loc );
+        proj2ff.dst( proj_loc, ff_loc );
+
+        int idx = ((int)ff_loc.x + (int)ff_loc.y * ff_w) * 4; //chann:rgba
+        force.Set( ff[idx], ff[idx+1] );
+
+        if ( max_force > 0 )
+        {
+          float len = force.Normalize();
+          force *= len > max_force ? max_force : len;
+        }
+
+        b2particles->ParticleApplyForce( i, force );
+      }
     };
 };
 

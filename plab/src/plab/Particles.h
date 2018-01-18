@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Fisica.h"
-#include "CoordMap.h"
 
 class Particles
 { 
@@ -24,7 +23,6 @@ class Particles
       radius = 6.;
       max_particles = 5000.;
       max_speed = 3.;
-      max_force = 0.;
       render_size = 4.;
       lifetime = 15.;
 
@@ -57,42 +55,7 @@ class Particles
     void update()
     {
       limit_speed();
-    };
-
-    void update_flowfield(float* field, float screen_width, float screen_height, float flowfield_width, float flowfield_height) 
-    {
-      screen2ff.set( screen_width, screen_height, flowfield_width, flowfield_height );
-
-      if (field == nullptr) 
-      {
-        ofLogWarning("Particles") << "flow field input process has no data";
-        return;
-      }
-
-      int32 n = b2particles->GetParticleCount();
-      b2Vec2 *locs = b2particles->GetPositionBuffer(); 
-
-      b2Vec2 force;
-      ofVec2f ff_loc, screen_loc;
-      for (int i = 0; i < n; i++)
-      {
-        b2Vec2& loc = locs[i]; 
-
-        fisica->world2screen( loc, screen_loc );
-        screen2ff.dst( screen_loc, ff_loc );
-
-        int idx = ((int)ff_loc.x + (int)ff_loc.y * flowfield_width) * 4; //chann:rgba
-        force.Set( field[idx], field[idx+1] );
-
-        if ( max_force > 0 )
-        {
-          float len = force.Normalize();
-          force *= len > max_force ? max_force : len;
-        }
-
-        b2particles->ParticleApplyForce( i, force );
-      }
-    };
+    }; 
 
     void render()
     {
@@ -160,7 +123,6 @@ class Particles
     b2ParticleSystem* b2particles;
 
     ofVboMesh mesh;
-    CoordMap screen2ff;
 
     //ofColor ofcolor;
     //b2ParticleColor b2color;
@@ -168,7 +130,6 @@ class Particles
     float radius;
     float max_particles;
     float max_speed;
-    float max_force;
     float render_size;
     float lifetime; 
 
