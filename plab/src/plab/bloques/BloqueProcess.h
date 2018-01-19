@@ -12,9 +12,10 @@ class BloqueProcess
     BloqueProcess() {};
     ~BloqueProcess() {}; 
 
-    virtual void init() = 0;
-    virtual void render() = 0;
-    virtual void update(map<int, Bloque>& bloques) = 0;
+    virtual void init(float proj_w, float proj_h) = 0;
+    virtual void update(Bloque& bloque) = 0;
+    virtual void render(Bloque& bloque) = 0;
+    virtual string name() = 0;
 
     void dispose() 
     {

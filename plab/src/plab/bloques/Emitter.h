@@ -18,15 +18,26 @@ class Emitter : public BloqueProcess
       BloqueProcess::dispose(); 
     }; 
 
-    void init() 
+    string name()
     {
+      return "emitter";
+    };
+
+    void init(float proj_w, float proj_h) 
+    {
+      this->proj_w = proj_w;
+      this->proj_h = proj_h;
+
       initial_fps = fisica->fps();
       emit_remainder = 0.;
       emit_rate = 10.;
       emit_force = 15.;
+
+      color = ofColor(0,140,140);
+      //color = ofColor(140,0,140);
     };
 
-    void update(map<int, Bloque>& bloques) 
+    void update(Bloque& bloque) 
     { 
       // How many (fractional) particles should we have emitted this frame?
       float	dt = (1.0f / initial_fps);
@@ -35,15 +46,22 @@ class Emitter : public BloqueProcess
       emit_remainder += emit_rate * dt;
 
       // Keep emitting particles on this frame until we only have a fractional particle left.
-      //while (emit_remainder > 1.0f) 
-      //{
-        //emit_remainder -= 1.0f;
-        //emit(bloq, render_data);
-      //}
+      while (emit_remainder > 1.0f) 
+      {
+        emit_remainder -= 1.0f;
+        emit(bloque);
+      }
     };
 
-    void render()
+    void render(Bloque& bloque)
     {
+      ofPushStyle();
+      ofSetColor(ofColor::red);
+      ofSetLineWidth(4);
+      ofVec2f p0(bloque.loc_i.x*proj_w, bloque.loc_i.y*proj_h);
+      ofVec2f p1 = p0 + bloque.dir_i * off(bloque);
+      ofDrawLine(p0.x, p0.y, p1.x, p1.y);
+      ofPopStyle();
     };
 
   private:
@@ -52,23 +70,32 @@ class Emitter : public BloqueProcess
     float emit_remainder;
     float emit_rate;
     float emit_force;
+    ofColor color;
+
+    float proj_w, proj_h;
 
 
-    //void emit( Bloq* bloq, RenderComponent* render_data )
-    //{
-      //ParticleSystem* ps = system<ParticleSystem>();
-      //b2ParticleSystem* b2ps = ps->b2_particles();
+    float off(Bloque& b)
+    {
+      ofVec2f loc(b.loc.x * proj_w, b.loc.y * proj_h);
+      ofVec2f corner(b.corners[0].x * proj_w, b.corners[0].y * proj_h);
+      return loc.distance(corner);
+    };
 
-      //ofVec2f screen_loc( bloq->loc.x * render_data->width, bloq->loc.y * render_data->height );
+    void emit(Bloque& bloque)
+    {
+      b2ParticleSystem* b2ps = particles->b2_particles();
 
-      //int32 pidx = ps->make_particle( screen_loc.x, screen_loc.y, 0, 0 , bloq->id == "1" ? ofColor(0,140,140) : ofColor(140,0,140));
+      ofVec2f proj_loc(bloque.loc.x*proj_w, bloque.loc.y*proj_h);
+      proj_loc += bloque.dir * off(bloque);
 
-      //float force_m = emit_force;
+      int32 pidx = particles->make_particle(proj_loc.x, proj_loc.y, 0, 0, color);
 
-      ////ofVec2f force = bloq->dir * force_m;
-      //b2Vec2 force( bloq->dir.x, bloq->dir.y );
-      //force *= force_m;
-      //b2ps->ParticleApplyForce( pidx, force );
-    //};
+      float force_m = emit_force;
+
+      b2Vec2 force( bloque.dir.x, bloque.dir.y );
+      force *= force_m;
+      b2ps->ParticleApplyForce( pidx, force );
+    };
 };
 

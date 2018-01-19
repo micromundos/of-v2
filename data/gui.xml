@@ -2,14 +2,14 @@
 	<backend_monitor>1</backend_monitor>
 	<backend_debug>1</backend_debug>
 	<edge_threshold>1</edge_threshold>
-	<gaussian_kernel>4.5</gaussian_kernel>
-	<gaussian_sigma>4</gaussian_sigma>
+	<gaussian_kernel>2</gaussian_kernel>
+	<gaussian_sigma>2</gaussian_sigma>
 <params/>
 <container_force_mult>6</container_force_mult>
 <debug_tags>1</debug_tags>
 	<debug_pixels>1</debug_pixels>
-<backend_debug_tags>1</backend_debug_tags>
-	<backend_debug_pixels>1</backend_debug_pixels>
+<backend_debug_tags>0</backend_debug_tags>
+	<backend_debug_pixels>0</backend_debug_pixels>
 	<flowfield_debug>0</flowfield_debug>
-<edge_dilate>0</edge_dilate>
+<edge_dilate>2</edge_dilate>
 </params>

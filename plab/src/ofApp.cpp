@@ -17,7 +17,7 @@ void ofApp::setup()
 
   flowfield.inject(gui);
   particles.inject(&fisica, &flowfield);
-  bloques.inject(&fisica, &particles);
+  bloques.inject(&fisica, &particles, config);
 
   backend.init(
       config["projector_width"], 
@@ -43,26 +43,28 @@ void ofApp::setup()
 
   bloques.add(make_shared<Emitter>());
   //bloques.add(make_shared<Portal>());
-  bloques.init();
+  bloques.init(
+      config["projector_width"], 
+      config["projector_height"]);
 
 
   //TODO emit particles c bloque 
-  float w = ofGetWidth();
-  float h = ofGetHeight();
-  float x = w/2;
-  float y = h/2;
-  //b2ParticleSystem* b2ps = particles.b2_particles();
-  //b2Vec2 force(ofRandom(0.5),ofRandom(0.5));
-  ////force *= 10.;
-  ofColor c = ofColor(200, 0, 0);
-  float off = w/3;
-  for (int i = 0; i < 2000; i++)
-  {
-    int32 pidx = particles.make_particle(
-        ofRandom(x-off,x+off), ofRandom(y-off,y+off), 
-        0, 0, c); 
-    //b2ps->ParticleApplyForce(pidx, force);
-  }
+  //float w = ofGetWidth();
+  //float h = ofGetHeight();
+  //float x = w/2;
+  //float y = h/2;
+  ////b2ParticleSystem* b2ps = particles.b2_particles();
+  ////b2Vec2 force(ofRandom(0.5),ofRandom(0.5));
+  //////force *= 10.;
+  //ofColor c = ofColor(200, 0, 0);
+  //float off = w/3;
+  //for (int i = 0; i < 2000; i++)
+  //{
+    //int32 pidx = particles.make_particle(
+        //ofRandom(x-off,x+off), ofRandom(y-off,y+off), 
+        //0, 0, c); 
+    ////b2ps->ParticleApplyForce(pidx, force);
+  //}
 };
 
 void ofApp::update()
@@ -100,7 +102,7 @@ void ofApp::draw()
 
   backend.render_calib(w, h);
 
-  bloques.render();
+  bloques.render(backend.projected_bloques());
   particles.render();
 };
 

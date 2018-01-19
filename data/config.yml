@@ -18,3 +18,4 @@ calib_file: calib/H_cam_proj.yml
 calib_tag_id: 0
 flow_field_width: 320
 flow_field_height: 240
+bloques_emitter: [ 17 ]
