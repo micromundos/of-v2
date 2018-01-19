@@ -38,8 +38,9 @@ class FlowFieldContainer : public FlowFieldLayer
       ff_h = h; 
 
       edges
-        .init("glsl/openvision/canny.fs", w, h)
-        .on("update",this,&FlowFieldContainer::update_edges); 
+        //.init("glsl/openvision/canny.fs", w, h)
+        //.on("update",this,&FlowFieldContainer::update_canny); 
+        .init("glsl/openvision/sobel.fs", w, h);
 
       dilate
         .add_backbuffer("tex")
@@ -63,7 +64,7 @@ class FlowFieldContainer : public FlowFieldLayer
       gui = nullptr;
 
       edges
-        .off("update",this,&FlowFieldContainer::update_edges)
+        //.off("update",this,&FlowFieldContainer::update_canny)
         .dispose();
 
       dilate.dispose();
@@ -105,12 +106,16 @@ class FlowFieldContainer : public FlowFieldLayer
       else
         _edges = &(edges.get());
 
-      gaussian
-        .set("data", *_edges)
-        .update(2); //horiz + vert
+      if (gui->gaussian_kernel > 0.)
+      {
+        gaussian
+          .set("data", *_edges)
+          .update(2); //horiz + vert
+        _edges = &(gaussian.get());
+      }
 
       container
-        .set("edges", gaussian.get())
+        .set("edges", *_edges)
         .update()
         .update_render(gui->backend_monitor);
     };
@@ -148,10 +153,10 @@ class FlowFieldContainer : public FlowFieldLayer
       shader.setUniform1f("force_mult", gui->container_force_mult);
     };
 
-    void update_edges(ofShader& shader)
-    {
-      shader.setUniform1f("threshold", gui->edge_threshold);
-    };
+    //void update_canny(ofShader& shader)
+    //{
+      //shader.setUniform1f("threshold", gui->canny_threshold);
+    //};
 
     void update_gaussian(ofShader& shader)
     {

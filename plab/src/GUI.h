@@ -13,7 +13,7 @@ class GUI: public ofBaseApp
     ofParameter<bool> flowfield_debug;
 
     ofParameter<float> container_force_mult;
-    ofParameter<float> edge_threshold;
+    //ofParameter<float> canny_threshold;
     ofParameter<float> edge_dilate;
     ofParameter<float> gaussian_kernel;
     ofParameter<float> gaussian_sigma;
@@ -35,8 +35,8 @@ class GUI: public ofBaseApp
       p.add( container_force_mult
           .set("container_force_mult", 1., 0., 10.) );
 
-      p.add( edge_threshold
-          .set("edge_threshold", 1., 0., 10.) );
+      //p.add( canny_threshold
+          //.set("canny_threshold", 1., 0., 10.) );
 
       p.add( edge_dilate
           .set("edge_dilate", 1., 0., 10.) );
