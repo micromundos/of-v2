@@ -8,15 +8,20 @@ class GUI: public ofBaseApp
   public:
 
     ofParameter<bool> backend_monitor;
+    ofParameter<bool> send;
 
     void init_params()
     {
       p.add( backend_monitor
           .set("backend_monitor", true) );
+
+      p.add( send
+          .set("send", true) );
     };
 
     void setup()
     {
+      ofSetFrameRate(30);
       ofBackground(40);
       p.setName("params");
       init_params();

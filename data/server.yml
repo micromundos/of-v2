@@ -1,6 +1,9 @@
 %YAML:1.0
 backend_server:
   width: 600
-  height: 800
+  height: 600
   x: 240
   y: 0
+tcp:
+  enabled: true
+  port: 9999 

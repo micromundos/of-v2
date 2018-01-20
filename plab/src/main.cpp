@@ -18,8 +18,8 @@ int main()
   //app -> projector
   settings.width = config["projector"]["width"];
   settings.height = config["projector"]["height"]; 
-  int fullscreen = config["projector"]["fullscreen"];
-  if (fullscreen != 0) settings.windowMode = OF_FULLSCREEN; 
+  if (string(server_config["projector"]["fullscreen"]).compare("true") == 0) 
+    settings.windowMode = OF_FULLSCREEN; 
   settings.setPosition(ofVec2f(0,0));
   settings.resizable = false;
   settings.decorated = false;

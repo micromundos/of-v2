@@ -11,6 +11,7 @@ void ofApp::setup()
 {
   ofSetLogLevel(OF_LOG_NOTICE);
   ofSetVerticalSync(true);
+  ofSetFrameRate(60);
   ofBackground(40);
 
   backend.init(
@@ -21,7 +22,9 @@ void ofApp::setup()
       config["cam"]["device_id"],
       config["calib"]["file"],
       config["calib"]["tag_id"],
-      config["calib"]["tags_size"]);
+      config["calib"]["tags_size"],
+      string(server_config["tcp"]["enabled"]).compare("true") == 0,
+      server_config["tcp"]["port"]);
 };
 
 void ofApp::update()
@@ -31,9 +34,8 @@ void ofApp::update()
   if (!backend.update())
     return;
 
-  ofPixels& proj_pix = backend.projected_pixels();
-  map<int, Bloque>& proj_bloques = backend.projected_bloques();
-  //TODO pix + bloques -> tcp
+  if (gui->send)
+    backend.send();
 };
 
 void ofApp::draw()
@@ -41,7 +43,11 @@ void ofApp::draw()
   float w = ofGetWidth();
   float h = ofGetHeight();
 
+  float hh = h*0.333;
+
   if (gui->backend_monitor)
-    backend.render_monitor(0, 0, w, h*0.333);
+    backend.render_monitor(0, 0, w, hh);
+
+  backend.render_tcp_info(0, hh+20);
 };
 

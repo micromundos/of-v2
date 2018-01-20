@@ -11,6 +11,7 @@ void ofApp::setup()
 {
   ofSetLogLevel(OF_LOG_NOTICE);
   ofSetVerticalSync(true);
+  ofSetFrameRate(60);
   ofBackground(0); 
 
   ofVec2f proj = ofxMicromundos::projector_position(config);

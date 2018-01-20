@@ -16,6 +16,7 @@ class BackendMonitorApp: public ofBaseApp
 
     void setup() 
     {
+      ofSetFrameRate(30);
       ofBackground(40);
     };
 

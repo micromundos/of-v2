@@ -17,6 +17,7 @@ class CalibProjApp: public ofBaseApp
     void setup() 
     {
       ofSetVerticalSync(true);
+      ofSetFrameRate(30);
       ofBackground(0); 
 
       ofVec2f proj = ofxMicromundos::projector_position(config);

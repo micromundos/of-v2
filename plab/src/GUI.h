@@ -50,6 +50,7 @@ class GUI: public ofBaseApp
 
     void setup()
     {
+      ofSetFrameRate(30);
       ofBackground(40);
       p.setName("params");
       init_params();

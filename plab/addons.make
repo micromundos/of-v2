@@ -3,4 +3,5 @@ ofxCv
 ofxGPGPU
 ofxGui
 ofxMicromundos
+ofxNetwork
 ofxOpenCv
