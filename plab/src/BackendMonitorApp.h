@@ -15,7 +15,9 @@ class BackendMonitorApp: public ofBaseApp
     };
 
     void setup() 
-    {};
+    {
+      ofBackground(40);
+    };
 
     void update()
     {

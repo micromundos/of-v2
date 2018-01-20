@@ -1,0 +1,8 @@
+%YAML:1.0
+backend_monitor_width: 600
+backend_monitor_height: 800
+backend_monitor_x: 240
+backend_monitor_y: 0
+flow_field_width: 320
+flow_field_height: 240
+bloques_emitter: [ 17 ]

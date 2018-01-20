@@ -19,7 +19,7 @@ class ofApp : public ofBaseApp
 
   public:
 
-    void inject(shared_ptr<GUI> gui, cv::FileStorage config);
+    void inject(shared_ptr<GUI> gui, cv::FileStorage config, cv::FileStorage plab_config);
 
     void setup();
     void update();
@@ -36,10 +36,8 @@ class ofApp : public ofBaseApp
     FlowField flowfield;
     Bloques bloques;
 
-    cv::FileStorage plab_config;
-    cv::FileStorage load_plab_config();
-
     shared_ptr<GUI> gui; 
     cv::FileStorage config;
+    cv::FileStorage plab_config;
 };
 

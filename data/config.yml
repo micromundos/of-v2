@@ -1,13 +1,9 @@
 %YAML:1.0
 projector_width: 1024
 projector_height: 768
+projector_fullscreen: 0
 projector_x_offset_from_desktop_width: 0  
 projector_y: 0
-projector_fullscreen: 0
-backend_monitor_width: 600
-backend_monitor_height: 800
-backend_monitor_x: 240
-backend_monitor_y: 0
 gui_width: 220
 gui_height: 600
 gui_x: 0

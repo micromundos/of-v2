@@ -50,10 +50,11 @@ class GUI: public ofBaseApp
 
     void setup()
     {
+      ofBackground(40);
       p.setName("params");
       init_params();
-      gui.setup(p, "gui.xml");
-      gui.loadFromFile("gui.xml");
+      gui.setup(p, "plab_gui.xml");
+      gui.loadFromFile("plab_gui.xml");
       ofSetVerticalSync(false);
     };
 

@@ -1,9 +1,10 @@
 #include "ofApp.h"
 
-void ofApp::inject(shared_ptr<GUI> gui, cv::FileStorage config)
+void ofApp::inject(shared_ptr<GUI> gui, cv::FileStorage config, cv::FileStorage plab_config)
 {
   this->gui = gui;
   this->config = config;
+  this->plab_config = plab_config;
 };
 
 void ofApp::setup()
@@ -11,8 +12,6 @@ void ofApp::setup()
   ofSetLogLevel(OF_LOG_NOTICE);
   ofSetVerticalSync(true);
   ofBackground(0); 
-
-  plab_config = load_plab_config();
 
   float xoff = config["projector_x_offset_from_desktop_width"];
   ofSetWindowPosition(ofGetScreenWidth() + xoff, config["projector_y"]);
@@ -48,35 +47,13 @@ void ofApp::setup()
   bloques.init(
       config["projector_width"], 
       config["projector_height"]);
-
-
-  //TODO emit particles c bloque 
-  //float w = ofGetWidth();
-  //float h = ofGetHeight();
-  //float x = w/2;
-  //float y = h/2;
-  ////b2ParticleSystem* b2ps = particles.b2_particles();
-  ////b2Vec2 force(ofRandom(0.5),ofRandom(0.5));
-  //////force *= 10.;
-  //ofColor c = ofColor(200, 0, 0);
-  //float off = w/3;
-  //for (int i = 0; i < 2000; i++)
-  //{
-    //int32 pidx = particles.make_particle(
-        //ofRandom(x-off,x+off), ofRandom(y-off,y+off), 
-        //0, 0, c); 
-    ////b2ps->ParticleApplyForce(pidx, force);
-  //}
 };
 
 void ofApp::update()
 {
   ofSetWindowTitle(ofToString(ofGetFrameRate(),2));
 
-  float w = ofGetWidth();
-  float h = ofGetHeight();
-
-  bool updated = backend.update(w, h);
+  bool updated = backend.update();
 
   if (updated)
   {
@@ -102,22 +79,12 @@ void ofApp::draw()
   if (gui->backend_debug_tags)
     backend.render_projected_tags();
 
-  if (gui->flowfield_debug)
-    flowfield.render(0, 0, w, h);
+  if (backend.render_calib(w, h))
+    return;
 
-  backend.render_calib(w, h);
+  if (gui->flowfield_debug)
+    flowfield.render(0, 0, w, h); 
 
   bloques.render(backend.projected_bloques());
   particles.render();
-};
-
-cv::FileStorage ofApp::load_plab_config()
-{
-  cv::FileStorage cfg( ofToDataPath("plab.yml", false), cv::FileStorage::READ );
-  if (!cfg.isOpened())
-  {
-    ofLogError() << "failed to load plab.yml";
-    ofExit();
-  }
-  return cfg;
 };
