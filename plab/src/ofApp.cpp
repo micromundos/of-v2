@@ -12,12 +12,14 @@ void ofApp::setup()
   ofSetVerticalSync(true);
   ofBackground(0); 
 
+  plab_config = load_plab_config();
+
   float xoff = config["projector_x_offset_from_desktop_width"];
   ofSetWindowPosition(ofGetScreenWidth() + xoff, config["projector_y"]);
 
   flowfield.inject(gui);
   particles.inject(&fisica, &flowfield);
-  bloques.inject(&fisica, &particles, config);
+  bloques.inject(&fisica, &particles, plab_config);
 
   backend.init(
       config["projector_width"], 
@@ -38,8 +40,8 @@ void ofApp::setup()
   //flowfield.add(make_shared<FlowFieldStream>());
   //flowfield.add(make_shared<FlowFieldAttractors>());
   flowfield.init(
-      config["flow_field_width"], 
-      config["flow_field_height"]); 
+      plab_config["flow_field_width"], 
+      plab_config["flow_field_height"]); 
 
   bloques.add(make_shared<Emitter>());
   //bloques.add(make_shared<Portal>());
@@ -109,3 +111,13 @@ void ofApp::draw()
   particles.render();
 };
 
+cv::FileStorage ofApp::load_plab_config()
+{
+  cv::FileStorage cfg( ofToDataPath("plab.yml", false), cv::FileStorage::READ );
+  if (!cfg.isOpened())
+  {
+    ofLogError() << "failed to load plab.yml";
+    ofExit();
+  }
+  return cfg;
+};

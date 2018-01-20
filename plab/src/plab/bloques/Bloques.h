@@ -31,11 +31,11 @@ class Bloques
       procs.push_back(bloque_proc);
     };
 
-    void inject(Fisica* fisica, Particles* particles, cv::FileStorage config)
+    void inject(Fisica* fisica, Particles* particles, cv::FileStorage plab_config)
     {
       this->fisica = fisica;
       this->particles = particles;
-      this->config = config;
+      this->plab_config = plab_config;
     };
 
     void init(float proj_w, float proj_h)
@@ -47,7 +47,7 @@ class Bloques
 
         string name = procs[i]->name();
         vector<int> ids;
-        config["bloques_"+name] >> ids;
+        plab_config["bloques_"+name] >> ids;
         proc_tags[name] = ids;
       }
     };
@@ -81,7 +81,7 @@ class Bloques
 
     Fisica* fisica;
     Particles* particles;
-    cv::FileStorage config;
+    cv::FileStorage plab_config;
 
 };
 

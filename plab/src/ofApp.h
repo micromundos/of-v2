@@ -36,6 +36,9 @@ class ofApp : public ofBaseApp
     FlowField flowfield;
     Bloques bloques;
 
+    cv::FileStorage plab_config;
+    cv::FileStorage load_plab_config();
+
     shared_ptr<GUI> gui; 
     cv::FileStorage config;
 };
