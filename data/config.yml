@@ -13,3 +13,4 @@ cam_height: 1080
 cam_device_id: 1
 calib_file: calib/H_cam_proj.yml
 calib_tag_id: 0
+calib_tags_size: 80

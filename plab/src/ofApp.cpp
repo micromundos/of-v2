@@ -27,7 +27,8 @@ void ofApp::setup()
       config["cam_height"], 
       config["cam_device_id"],
       config["calib_file"],
-      config["calib_tag_id"]);
+      config["calib_tag_id"],
+      config["calib_tags_size"]);
 
   fisica.init();
 
