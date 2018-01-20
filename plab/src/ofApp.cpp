@@ -74,13 +74,16 @@ void ofApp::update()
   float w = ofGetWidth();
   float h = ofGetHeight();
 
-  backend.update(w, h);
+  bool updated = backend.update(w, h);
 
-  ofPixels& proj_pix = backend.projected_pixels();
-  map<int, Bloque>& proj_bloques = backend.projected_bloques();
+  if (updated)
+  {
+    ofPixels& proj_pix = backend.projected_pixels();
+    map<int, Bloque>& proj_bloques = backend.projected_bloques();
 
-  flowfield.update(proj_pix);
-  bloques.update(proj_bloques);
+    flowfield.update(proj_pix);
+    bloques.update(proj_bloques);
+  }
 
   particles.update();
   fisica.update();

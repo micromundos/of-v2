@@ -33,8 +33,7 @@ class Emitter : public BloqueProcess
       emit_rate = 10.;
       emit_force = 15.;
 
-      color = ofColor(0,140,140);
-      //color = ofColor(140,0,140);
+      color = ofColor(255,255,255);
     };
 
     void update(Bloque& bloque) 

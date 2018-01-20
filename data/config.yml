@@ -3,6 +3,7 @@ projector_width: 1024
 projector_height: 768
 projector_x_offset_from_desktop_width: 0  
 projector_y: 0
+projector_fullscreen: 0
 backend_monitor_width: 600
 backend_monitor_height: 800
 backend_monitor_x: 240
@@ -13,7 +14,7 @@ gui_x: 0
 gui_y: 0
 cam_width: 1920
 cam_height: 1080
-cam_device_id: 1
+cam_device_id: 0
 calib_file: calib/H_cam_proj.yml
 calib_tag_id: 0
 flow_field_width: 320
