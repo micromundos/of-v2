@@ -13,8 +13,8 @@ void ofApp::setup()
   ofSetVerticalSync(true);
   ofBackground(0); 
 
-  float xoff = config["projector"]["x_offset_from_desktop_width"];
-  ofSetWindowPosition(ofGetScreenWidth() + xoff, config["projector"]["y"]);
+  ofVec2f proj = ofxMicromundos::projector_position(config);
+  ofSetWindowPosition(proj.x, proj.y);
 
   flowfield.inject(gui);
   particles.inject(&fisica, &flowfield);

@@ -1,8 +1,11 @@
 #pragma once
 
 #include "ofMain.h"
+
+#include "ofxMicromundos/utils.h"
 #include "ofxMicromundos/Backend.h"
 #include "ofxMicromundos/Bloque.h"
+
 #include "GUI.h"
 
 #include "plab/Fisica.h"

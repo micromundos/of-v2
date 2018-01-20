@@ -3,7 +3,8 @@ projector:
   width: 1024
   height: 768
   fullscreen: 0
-  x_offset_from_desktop_width: 0  
+  position: right
+  x: 0  
   y: 0
 gui:
   width: 220

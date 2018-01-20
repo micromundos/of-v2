@@ -4,8 +4,7 @@
 #include "CalibProjApp.h"
 #include "GUI.h"
 #include "ofxMicromundos/Backend.h"
-#include "ofxMicromundos/data_path.h"
-#include "ofxMicromundos/load_config.h"
+#include "ofxMicromundos/utils.h"
 
 int main()
 {

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ofMain.h"
+#include "ofxMicromundos/utils.h"
 #include "GUI.h"
 
 class CalibProjApp: public ofBaseApp 
@@ -18,8 +19,8 @@ class CalibProjApp: public ofBaseApp
       ofSetVerticalSync(true);
       ofBackground(0); 
 
-      float xoff = config["projector"]["x_offset_from_desktop_width"];
-      ofSetWindowPosition(ofGetScreenWidth() + xoff, config["projector"]["y"]);
+      ofVec2f proj = ofxMicromundos::projector_position(config);
+      ofSetWindowPosition(proj.x, proj.y);
     };
 
     void update()
