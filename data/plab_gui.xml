@@ -5,7 +5,7 @@
 	<gaussian_kernel>0</gaussian_kernel>
 	<gaussian_sigma>2</gaussian_sigma>
 <params/>
-<container_force_mult>6</container_force_mult>
+<container_force_mult>5</container_force_mult>
 <debug_tags>1</debug_tags>
 	<debug_pixels>1</debug_pixels>
 <backend_debug_tags>0</backend_debug_tags>

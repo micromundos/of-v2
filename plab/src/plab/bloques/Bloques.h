@@ -47,7 +47,7 @@ class Bloques
 
         string name = procs[i]->name();
         vector<int> ids;
-        plab_config["bloques_"+name] >> ids;
+        plab_config["bloques"][name] >> ids;
         proc_tags[name] = ids;
       }
     };

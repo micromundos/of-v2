@@ -18,8 +18,8 @@ class CalibProjApp: public ofBaseApp
       ofSetVerticalSync(true);
       ofBackground(0); 
 
-      float xoff = config["projector_x_offset_from_desktop_width"];
-      ofSetWindowPosition(ofGetScreenWidth() + xoff, config["projector_y"]);
+      float xoff = config["projector"]["x_offset_from_desktop_width"];
+      ofSetWindowPosition(ofGetScreenWidth() + xoff, config["projector"]["y"]);
     };
 
     void update()

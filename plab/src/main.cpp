@@ -17,9 +17,9 @@ int main()
   ofGLFWWindowSettings settings;
 
   //app -> projector
-  settings.width = config["projector_width"];
-  settings.height = config["projector_height"]; 
-  int fullscreen = config["projector_fullscreen"];
+  settings.width = config["projector"]["width"];
+  settings.height = config["projector"]["height"]; 
+  int fullscreen = config["projector"]["fullscreen"];
   if (fullscreen != 0) settings.windowMode = OF_FULLSCREEN; 
   settings.setPosition(ofVec2f(0,0));
   settings.resizable = false;
@@ -27,17 +27,17 @@ int main()
   shared_ptr<ofAppBaseWindow> app_win = ofCreateWindow(settings);
 
   //gui
-  settings.width = config["gui_width"];
-  settings.height = config["gui_height"];
-  settings.setPosition(ofVec2f(config["gui_x"],config["gui_y"]));
+  settings.width = config["gui"]["width"];
+  settings.height = config["gui"]["height"];
+  settings.setPosition(ofVec2f(config["gui"]["x"],config["gui"]["y"]));
   settings.resizable = true;
   settings.decorated = true;
   shared_ptr<ofAppBaseWindow> gui_win = ofCreateWindow(settings);
 
   //backend monitor
-  settings.width = plab_config["backend_monitor_width"];
-  settings.height = plab_config["backend_monitor_height"];
-  settings.setPosition(ofVec2f(plab_config["backend_monitor_x"], plab_config["backend_monitor_y"]));
+  settings.width = plab_config["backend_monitor"]["width"];
+  settings.height = plab_config["backend_monitor"]["height"];
+  settings.setPosition(ofVec2f(plab_config["backend_monitor"]["x"], plab_config["backend_monitor"]["y"]));
   settings.resizable = false;
   settings.decorated = true;
   settings.shareContextWith = app_win;

@@ -17,25 +17,25 @@ int main()
   ofGLFWWindowSettings settings;
 
   //backend server
-  settings.width = server_config["backend_server_width"];
-  settings.height = server_config["backend_server_height"];
-  settings.setPosition(ofVec2f(server_config["backend_server_x"], server_config["backend_server_y"]));
+  settings.width = server_config["backend_server"]["width"];
+  settings.height = server_config["backend_server"]["height"];
+  settings.setPosition(ofVec2f(server_config["backend_server"]["x"], server_config["backend_server"]["y"]));
   settings.resizable = false;
   settings.decorated = true;
   shared_ptr<ofAppBaseWindow> app_win = ofCreateWindow(settings);
 
   //gui
-  settings.width = config["gui_width"];
-  settings.height = config["gui_height"];
-  settings.setPosition(ofVec2f(config["gui_x"],config["gui_y"]));
+  settings.width = config["gui"]["width"];
+  settings.height = config["gui"]["height"];
+  settings.setPosition(ofVec2f(config["gui"]["x"],config["gui"]["y"]));
   settings.resizable = true;
   settings.decorated = true;
   shared_ptr<ofAppBaseWindow> gui_win = ofCreateWindow(settings);
 
   //calib -> projector
-  settings.width = config["projector_width"];
-  settings.height = config["projector_height"]; 
-  int fullscreen = config["projector_fullscreen"];
+  settings.width = config["projector"]["width"];
+  settings.height = config["projector"]["height"]; 
+  int fullscreen = config["projector"]["fullscreen"];
   if (fullscreen != 0) settings.windowMode = OF_FULLSCREEN; 
   settings.setPosition(ofVec2f(0,0));
   settings.resizable = false;

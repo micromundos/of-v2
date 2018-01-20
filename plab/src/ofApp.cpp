@@ -13,41 +13,41 @@ void ofApp::setup()
   ofSetVerticalSync(true);
   ofBackground(0); 
 
-  float xoff = config["projector_x_offset_from_desktop_width"];
-  ofSetWindowPosition(ofGetScreenWidth() + xoff, config["projector_y"]);
+  float xoff = config["projector"]["x_offset_from_desktop_width"];
+  ofSetWindowPosition(ofGetScreenWidth() + xoff, config["projector"]["y"]);
 
   flowfield.inject(gui);
   particles.inject(&fisica, &flowfield);
   bloques.inject(&fisica, &particles, plab_config);
 
   backend.init(
-      config["projector_width"], 
-      config["projector_height"],  
-      config["cam_width"], 
-      config["cam_height"], 
-      config["cam_device_id"],
-      config["calib_file"],
-      config["calib_tag_id"],
-      config["calib_tags_size"]);
+      config["projector"]["width"], 
+      config["projector"]["height"],  
+      config["cam"]["width"], 
+      config["cam"]["height"], 
+      config["cam"]["device_id"],
+      config["calib"]["file"],
+      config["calib"]["tag_id"],
+      config["calib"]["tags_size"]);
 
   fisica.init();
 
   particles.init(
-      config["projector_width"], 
-      config["projector_height"]);
+      config["projector"]["width"], 
+      config["projector"]["height"]);
 
   flowfield.add(make_shared<FlowFieldContainer>());
   //flowfield.add(make_shared<FlowFieldStream>());
   //flowfield.add(make_shared<FlowFieldAttractors>());
   flowfield.init(
-      plab_config["flow_field_width"], 
-      plab_config["flow_field_height"]); 
+      plab_config["flow_field"]["width"], 
+      plab_config["flow_field"]["height"]); 
 
   bloques.add(make_shared<Emitter>());
   //bloques.add(make_shared<Portal>());
   bloques.init(
-      config["projector_width"], 
-      config["projector_height"]);
+      config["projector"]["width"], 
+      config["projector"]["height"]);
 };
 
 void ofApp::update()

@@ -14,14 +14,14 @@ void ofApp::setup()
   ofBackground(40);
 
   backend.init(
-      config["projector_width"], 
-      config["projector_height"],  
-      config["cam_width"], 
-      config["cam_height"], 
-      config["cam_device_id"],
-      config["calib_file"],
-      config["calib_tag_id"],
-      config["calib_tags_size"]);
+      config["projector"]["width"], 
+      config["projector"]["height"],  
+      config["cam"]["width"], 
+      config["cam"]["height"], 
+      config["cam"]["device_id"],
+      config["calib"]["file"],
+      config["calib"]["tag_id"],
+      config["calib"]["tags_size"]);
 };
 
 void ofApp::update()
