@@ -18,11 +18,11 @@ class BinClient
       locked = false;
     };
 
-    void update()
+    void update(int pix_w, int pix_h, int pix_chan)
     {
       if ( !received )
         return;
-      parse();
+      parse(pix_w, pix_h, pix_chan);
       received = false;
       locked = false;
     };
@@ -87,10 +87,11 @@ class BinClient
     bool received, locked;
 
     char* pix_data;
+    size_t pix_size;
     ofPixels pix;
     ofTexture tex;
 
-    void parse()
+    void parse(int pix_w, int pix_h, int pix_chan)
     {
       if (pix_data == nullptr)
       {
@@ -99,8 +100,7 @@ class BinClient
       }
 
       unsigned char* pix_data2 = reinterpret_cast<unsigned char*>(pix_data);
-      pix.setFromPixels(pix_data2, 1024, 768, 1);
-      //pix.setFromPixels(pix_data2, pix_w, pix_h, pix_chan);
+      pix.setFromPixels(pix_data2, pix_w, pix_h, pix_chan);
       tex.loadData(pix);
     }; 
 };

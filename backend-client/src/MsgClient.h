@@ -14,8 +14,13 @@ class MsgClient
     {
       client.connect(host, port);
       client.addListener(this);
+
       received = false;
       locked = false;
+
+      _pix_w = 0;
+      _pix_h = 0;
+      _pix_chan = 0;
     };
 
     void update()
@@ -40,10 +45,9 @@ class MsgClient
     {
       stringstream info;
       info << "msg pix" 
-        << " w " << pix_w
-        << " h " << pix_h 
-        << " chan " << pix_chan
-        << " size " << pix_size;
+        << " w " << _pix_w
+        << " h " << _pix_h 
+        << " chan " << _pix_chan;
       ofDrawBitmapStringHighlight(info.str(), x, y);
     };
 
@@ -84,11 +88,20 @@ class MsgClient
     void onBroadcast( ofxLibwebsockets::Event& args )
     {
       ofLogVerbose()<<"msg got broadcast "<<args.message;
-    }
+    } 
 
-    vector<string>& get_bloques()
+    int pix_width() { return _pix_w; };
+    int pix_height() { return _pix_h; };
+    int pix_chan() { return _pix_chan; };
+
+    bool pix_ready()
     {
-      return bloques;
+      return _pix_w != 0 && _pix_h != 0 && _pix_chan != 0;
+    };
+
+    vector<string>& bloques()
+    {
+      return _bloques;
     };
 
   private:
@@ -97,10 +110,10 @@ class MsgClient
     bool received, locked;
 
     string message;
-    vector<string> bloques;
-    int pix_w, pix_h, pix_chan, pix_size;
+    vector<string> _bloques;
+    int _pix_w, _pix_h, _pix_chan;
 
-    //pixels:size=307200#dim=640,480#chan=1_bloques:id=0#loc=0,0#dir=0,0#ang=0;id=1#loc=1,1#dir=1,1#ang=1
+    //pixels:dim=640,480#chan=1_bloques:id=0#loc=0,0#dir=0,0#ang=0;id=1#loc=1,1#dir=1,1#ang=1
     void parse()
     {
       vector<string> data = ofSplitString(message, "_");
@@ -111,17 +124,16 @@ class MsgClient
         if (p0.size() > 1)
         {
           vector<string> pix_metadata = ofSplitString(p0[1], "#");
-          pix_size = stoi(ofSplitString(pix_metadata[0], "=")[1]);
-          vector<string> pix_dim = ofSplitString(ofSplitString(pix_metadata[1], "=")[1], ",");
-          pix_w = stoi(pix_dim[0]);
-          pix_h = stoi(pix_dim[1]);
-          pix_chan = stoi(ofSplitString(pix_metadata[2], "=")[1]);
+          vector<string> pix_dim = ofSplitString(ofSplitString(pix_metadata[0], "=")[1], ",");
+          _pix_w = stoi(pix_dim[0]);
+          _pix_h = stoi(pix_dim[1]);
+          _pix_chan = stoi(ofSplitString(pix_metadata[1], "=")[1]);
         }
       }
 
       if (data.size() > 1)
       {
-        bloques = ofSplitString(ofSplitString(data[1], ":")[1], ";");
+        _bloques = ofSplitString(ofSplitString(data[1], ":")[1], ";");
       }
     };
 };

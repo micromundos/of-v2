@@ -23,14 +23,6 @@ int main()
   settings.decorated = true;
   shared_ptr<ofAppBaseWindow> app_win = ofCreateWindow(settings);
 
-  //gui
-  settings.width = config["gui"]["width"];
-  settings.height = config["gui"]["height"];
-  settings.setPosition(ofVec2f(config["gui"]["x"],config["gui"]["y"]));
-  settings.resizable = true;
-  settings.decorated = true;
-  shared_ptr<ofAppBaseWindow> gui_win = ofCreateWindow(settings);
-
   //calib -> projector
   settings.width = config["projector"]["width"];
   settings.height = config["projector"]["height"]; 
@@ -49,7 +41,6 @@ int main()
   app->inject(gui, config, server_config);
   calib->inject(app, config);
 
-  ofRunApp(gui_win, gui);
   ofRunApp(app_win, app);
   ofRunApp(calib_win, calib);
 

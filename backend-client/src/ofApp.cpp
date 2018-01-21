@@ -11,8 +11,8 @@ void ofApp::setup(){
   ofSetFullscreen(false);
   ofSetWindowPosition(300, 0);
 
-  bin.init("localhost", 9999);
   msg.init("localhost", 9998); 
+  bin.init("localhost", 9999);
 
   //tcp.setup("127.0.0.1", 9999);
 }
@@ -20,8 +20,10 @@ void ofApp::setup(){
 
 void ofApp::update(){
 
-  bin.update();
   msg.update(); 
+
+  if (msg.pix_ready())
+    bin.update(msg.pix_width(), msg.pix_height(), msg.pix_chan());
 
   //if (!tcp.isConnected())
     //return;
@@ -74,7 +76,7 @@ void ofApp::draw(){
   ofDrawBitmapStringHighlight("bloques", x, y);
   y += lh;
 
-  vector<string>& bloques = msg.get_bloques();
+  vector<string>& bloques = msg.bloques();
   for (int i = 0; i < bloques.size(); i++)
   {
     ofDrawBitmapStringHighlight(bloques[i], x, y);
@@ -94,6 +96,7 @@ void ofApp::keyReleased(int key){
   {
     fullscreen = !fullscreen;
     ofSetFullscreen(fullscreen);
+    ofSetWindowShape(fullscreen ? 1024 : 600, fullscreen ? 768 : 600);
     ofSetWindowPosition(fullscreen ? ofGetScreenWidth() : 300, 0);
   }
 

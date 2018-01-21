@@ -3,7 +3,7 @@
 #include "ofMain.h"
 #include "ofxGui.h"
 
-class GUI: public ofBaseApp 
+class GUI //: public ofBaseApp 
 {
   public:
 
@@ -17,26 +17,37 @@ class GUI: public ofBaseApp
 
       p.add( send
           .set("send", true) );
-    };
+    }; 
 
-    void setup()
+    void init(float w)
     {
-      ofSetFrameRate(30);
-      ofBackground(40);
+      ofxBaseGui::setDefaultWidth(w);
       p.setName("params");
       init_params();
       gui.setup(p, "server_gui.xml");
       gui.loadFromFile("server_gui.xml");
-      ofSetVerticalSync(false);
+    }; 
+
+    void render(float x, float y)
+    { 
+      gui.setPosition(x, y);
+      gui.draw();
     };
 
-    void update()
-    {};
+    //void setup()
+    //{
+      //ofSetFrameRate(30);
+      //ofBackground(40);
+      //ofSetVerticalSync(false);
+      //init(ofGetWidth());
+    //};
 
-    void draw()
-    {
-      gui.draw();
-    }; 
+    //void draw()
+    //{ 
+      //render(0, 0);
+    //};
+
+    //void update() {}; 
 
   private:
 
