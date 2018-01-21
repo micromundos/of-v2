@@ -11,7 +11,7 @@ void ofApp::setup()
 {
   ofSetLogLevel(OF_LOG_NOTICE);
   ofSetVerticalSync(true);
-  ofSetFrameRate(60);
+  ofSetFrameRate(30);
   ofBackground(40);
 
   backend.init(
@@ -37,7 +37,7 @@ void ofApp::update()
     return;
 
   if (gui->send)
-    backend.send();
+    backend.send(server_config["network"]["resize_pixels"]);
 };
 
 void ofApp::draw()

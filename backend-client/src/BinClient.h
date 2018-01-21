@@ -99,8 +99,8 @@ class BinClient
         return;
       }
 
-      unsigned char* pix_data2 = reinterpret_cast<unsigned char*>(pix_data);
-      pix.setFromPixels(pix_data2, pix_w, pix_h, pix_chan);
+      unsigned char* pixd = reinterpret_cast<unsigned char*>(pix_data);
+      pix.setFromPixels(pixd, pix_w, pix_h, pix_chan);
       tex.loadData(pix);
     }; 
 };

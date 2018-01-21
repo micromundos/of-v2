@@ -5,7 +5,7 @@ void ofApp::setup(){
 
   ofSetLogLevel(OF_LOG_NOTICE);
   ofBackground(40);
-  ofSetFrameRate(60);
+  ofSetFrameRate(30);
 
   fullscreen = false;
   ofSetFullscreen(false);
