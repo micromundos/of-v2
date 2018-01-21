@@ -34,7 +34,7 @@ int main()
   //calib -> projector
   settings.width = config["projector"]["width"];
   settings.height = config["projector"]["height"]; 
-  if (string(server_config["projector"]["fullscreen"]).compare("true") == 0) 
+  if (string(config["projector"]["fullscreen"]).compare("true") == 0) 
     settings.windowMode = OF_FULLSCREEN; 
   settings.setPosition(ofVec2f(0,0));
   settings.resizable = false;
