@@ -34,7 +34,7 @@ void ofApp::update(){
 
   if ( msg_received )
   {
-    //parse_message();
+    parse_message();
     msg_received = false;
     msg_locked = false;
   }
@@ -131,21 +131,22 @@ void ofApp::parse_message()
 //--------------------------------------------------------------
 void ofApp::onMessage( ofxLibwebsockets::Event& args ){
 
-    // need to load this next frame!
-    if ( args.isBinary && !bin_locked )
-    {
-      //ofLog() << "binary size " << args.data.size() << " -- pix size " << pix_size;
-      pix_data = args.data.getData();
-      bin_locked = true;
-      bin_received = true;
-    } 
+  // need to load this next frame!
+  if ( args.isBinary && !bin_locked )
+  {
+    ofLog() << "binary msg size " << args.data.size() << " -- pix size " << pix_size;
+    pix_data = args.data.getData();
+    bin_locked = true;
+    bin_received = true;
+  } 
 
-    else if (!msg_locked)
-    {
-      message = args.message;
-      msg_locked = true;
-      msg_received = true;
-    }
+  else if (!msg_locked)
+  {
+    ofLog() << "string msg " << args.message;
+    message = args.message;
+    msg_locked = true;
+    msg_received = true;
+  }
 }
 
 //--------------------------------------------------------------
