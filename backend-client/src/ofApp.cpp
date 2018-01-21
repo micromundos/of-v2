@@ -97,7 +97,7 @@ void ofApp::keyReleased(int key){
     fullscreen = !fullscreen;
     ofSetFullscreen(fullscreen);
     ofSetWindowShape(fullscreen ? 1024 : 600, fullscreen ? 768 : 600);
-    ofSetWindowPosition(fullscreen ? ofGetScreenWidth() : 300, 0);
+    //ofSetWindowPosition(fullscreen ? ofGetScreenWidth() : 300, 0);
   }
 
 }
