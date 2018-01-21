@@ -8,4 +8,4 @@ flow_field:
   width: 320
   height: 240
 bloques:
-  emitter: [ 17 ]
+  emitter: [ 1 ]
