@@ -1,7 +1,8 @@
 #pragma once
 
 #include "ofMain.h"
-#include "ofxNetwork.h"
+#include "ofxLibwebsockets.h"
+//#include "ofxNetwork.h"
 
 class ofApp : public ofBaseApp{
 
@@ -22,6 +23,30 @@ class ofApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
 
-		ofxTCPClient tcpClient;
-    vector<string> bloques;
+		//ofxTCPClient tcp;
+    ofxLibwebsockets::Client ws;
+
+    bool fullscreen;
+
+    char* pix_data;
+    int pix_w, pix_h, pix_chan, pix_size;
+    string message;
+    vector<string> bloques; 
+
+    bool bin_received, bin_locked;
+    bool msg_received, msg_locked;
+
+    void parse_message();
+    void parse_binary();
+
+    ofPixels pix;
+    ofTexture tex;
+
+    // websocket 
+    void onConnect( ofxLibwebsockets::Event& args );
+    void onOpen( ofxLibwebsockets::Event& args );
+    void onClose( ofxLibwebsockets::Event& args );
+    void onIdle( ofxLibwebsockets::Event& args );
+    void onMessage( ofxLibwebsockets::Event& args );
+    void onBroadcast( ofxLibwebsockets::Event& args );
 };

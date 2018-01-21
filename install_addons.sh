@@ -7,6 +7,7 @@ addons=(
 'git@github.com:chparsons/ofxChilitags.git'
 'git@github.com:chparsons/ofxGPGPU.git'
 '--branch stable git@github.com:kylemcdonald/ofxCv.git'
+'--branch 0.9.8 git@github.com:robotconscience/ofxLibwebsockets.git'
 )
 cd $addons_loc ;
 for i in "${addons[@]}"

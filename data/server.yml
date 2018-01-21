@@ -4,6 +4,6 @@ backend_server:
   height: 600
   x: 240
   y: 0
-tcp:
+network:
   enabled: true
   port: 9999 

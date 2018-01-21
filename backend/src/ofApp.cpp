@@ -23,8 +23,8 @@ void ofApp::setup()
       config["calib"]["file"],
       config["calib"]["tag_id"],
       config["calib"]["tags_size"],
-      string(server_config["tcp"]["enabled"]).compare("true") == 0,
-      server_config["tcp"]["port"]);
+      string(server_config["network"]["enabled"]).compare("true") == 0,
+      server_config["network"]["port"]);
 };
 
 void ofApp::update()
@@ -48,6 +48,6 @@ void ofApp::draw()
   if (gui->backend_monitor)
     backend.render_monitor(0, 0, w, hh);
 
-  backend.render_tcp_info(0, hh+20);
+  backend.render_server_info(0, hh+20);
 };
 
