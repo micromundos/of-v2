@@ -23,8 +23,8 @@ void ofApp::setup()
       config["calib"]["file"],
       config["calib"]["tag_id"],
       config["calib"]["tags_size"],
-      string(server_config["network"]["enabled"]).compare("true") == 0,
-      server_config["network"]["port"]);
+      server_config["network"]["port_bin"],
+      server_config["network"]["port_msg"]);
 };
 
 void ofApp::update()

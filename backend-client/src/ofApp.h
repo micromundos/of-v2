@@ -4,6 +4,9 @@
 #include "ofxLibwebsockets.h"
 //#include "ofxNetwork.h"
 
+#include "BinClient.h"
+#include "MsgClient.h"
+
 class ofApp : public ofBaseApp{
 
 	public:
@@ -24,23 +27,10 @@ class ofApp : public ofBaseApp{
 		void gotMessage(ofMessage msg);
 
 		//ofxTCPClient tcp;
-    ofxLibwebsockets::Client ws;
+    BinClient bin;
+    MsgClient msg;
 
-    bool fullscreen;
-
-    char* pix_data;
-    int pix_w, pix_h, pix_chan, pix_size;
-    string message;
-    vector<string> bloques; 
-
-    bool bin_received, bin_locked;
-    bool msg_received, msg_locked;
-
-    void parse_message();
-    void parse_binary();
-
-    ofPixels pix;
-    ofTexture tex;
+    bool fullscreen;  
 
     // websocket 
     void onConnect( ofxLibwebsockets::Event& args );
