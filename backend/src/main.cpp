@@ -34,8 +34,8 @@ int main()
   settings.shareContextWith = app_win;
   shared_ptr<ofAppBaseWindow> calib_win = ofCreateWindow(settings);
 
-  shared_ptr<ofApp> app(new ofApp);
   shared_ptr<GUI> gui(new GUI);
+  shared_ptr<ofApp> app(new ofApp);
   shared_ptr<CalibProjApp> calib(new CalibProjApp);
 
   app->inject(gui, config, server_config);

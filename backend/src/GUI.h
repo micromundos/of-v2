@@ -3,7 +3,7 @@
 #include "ofMain.h"
 #include "ofxGui.h"
 
-class GUI //: public ofBaseApp 
+class GUI
 {
   public:
 
@@ -33,21 +33,6 @@ class GUI //: public ofBaseApp
       gui.setPosition(x, y);
       gui.draw();
     };
-
-    //void setup()
-    //{
-      //ofSetFrameRate(30);
-      //ofBackground(40);
-      //ofSetVerticalSync(false);
-      //init(ofGetWidth());
-    //};
-
-    //void draw()
-    //{ 
-      //render(0, 0);
-    //};
-
-    //void update() {}; 
 
   private:
 

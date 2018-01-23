@@ -1,0 +1,7 @@
+ofxChilitags
+ofxCv
+ofxGPGPU
+ofxGui
+ofxLibwebsockets
+ofxMicromundos
+ofxOpenCv

@@ -7,4 +7,5 @@ backend_server:
 network:
   port_bin: 9999 
   port_msg: 9998 
-  resize_pixels: 0.5
+  ip: localhost
+  resize_pixels: 0.4

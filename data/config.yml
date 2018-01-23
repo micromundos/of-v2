@@ -6,16 +6,10 @@ projector:
   position: right
   x: 0  
   y: 0
-gui:
-  width: 220
-  height: 600
-  x: 0
-  y: 0
 cam:
   width: 1920
   height: 1080
-  device_id: 0
+  device_id: 1
 calib:
   file: calib/H_cam_proj.yml
   tag_id: 0
-  tags_size: 80
