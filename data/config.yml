@@ -2,8 +2,8 @@
 projector:
   width: 1024
   height: 768
-  fullscreen: false
-  position: right
+  fullscreen: true
+  position: center
   x: 0  
   y: 0
 cam:
