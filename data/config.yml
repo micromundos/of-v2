@@ -3,13 +3,13 @@ projector:
   width: 1024
   height: 768
   fullscreen: true
-  position: right
+  position: center
   x: 0  
   y: 0
 cam:
   width: 1920
   height: 1080
-  device_id: 1
+  device_id: 0
 calib:
   file: calib/H_cam_proj.yml
   tag_id: 0
