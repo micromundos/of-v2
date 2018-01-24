@@ -21,6 +21,7 @@ class MsgClient
       _pix_w = 0;
       _pix_h = 0;
       _pix_chan = 0;
+      _calib_enabled = false;
     };
 
     void update()
@@ -93,6 +94,7 @@ class MsgClient
     int pix_width() { return _pix_w; };
     int pix_height() { return _pix_h; };
     int pix_chan() { return _pix_chan; };
+    int calib_enabled() { return _calib_enabled; };
 
     bool pix_ready()
     {
@@ -112,8 +114,8 @@ class MsgClient
     string message;
     vector<string> _bloques;
     int _pix_w, _pix_h, _pix_chan;
+    bool _calib_enabled;
 
-    //pixels:dim=640,480#chan=1_bloques:id=0#loc=0,0#dir=0,0#ang=0;id=1#loc=1,1#dir=1,1#ang=1
     void parse()
     {
       vector<string> data = ofSplitString(message, "_");
@@ -132,8 +134,19 @@ class MsgClient
       }
 
       if (data.size() > 1)
+        parse_calib_data(data[1]);
+
+      if (data.size() > 2)
+        _bloques = ofSplitString(ofSplitString(data[2], ":")[1], ";");
+    };
+
+    void parse_calib_data(string calib_str)
+    {
+      vector<string> cd = ofSplitString(calib_str, ":");
+      if (cd.size() > 1)
       {
-        _bloques = ofSplitString(ofSplitString(data[1], ":")[1], ";");
+        vector<string> cdata = ofSplitString(cd[1], "#");
+        _calib_enabled = bool(d2i(cdata[0]));
       }
     };
 };
