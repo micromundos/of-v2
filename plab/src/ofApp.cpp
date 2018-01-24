@@ -86,9 +86,6 @@ void ofApp::draw()
   if (gui->backend_debug_pixels)
     backend.render_projected_pixels(w, h);  
 
-  if (gui->backend_debug_tags)
-    backend.render_projected_tags();
-
   if (gui->flowfield_debug)
     flowfield.render(0, 0, w, h); 
 
