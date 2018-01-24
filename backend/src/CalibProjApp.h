@@ -35,12 +35,13 @@ class CalibProjApp: public ofBaseApp
     {
       Backend& backend = app->get_backend();
 
-      if (backend.calib_enabled() && !projector)
-        projector = ofxMicromundos::projector(true, config);
-      if (!backend.calib_enabled() && projector)
-        projector = ofxMicromundos::projector(false, config);
-      if (!projector)
-        return;
+      //TODO backend: mover calib proj
+      //if (backend.calib_enabled() && !projector)
+        //projector = ofxMicromundos::projector(true, config);
+      //if (!backend.calib_enabled() && projector)
+        //projector = ofxMicromundos::projector(false, config);
+      //if (!projector)
+        //return;
 
       backend.render_calib(ofGetWidth(),ofGetHeight());
     };
