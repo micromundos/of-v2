@@ -12,4 +12,5 @@
 	<backend_debug_pixels>0</backend_debug_pixels>
 	<flowfield_debug>0</flowfield_debug>
 <edge_dilate>0</edge_dilate>
+<plab_monitor>0</plab_monitor>
 </params>

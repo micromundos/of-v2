@@ -1,4 +1,5 @@
 <params>
-	<backend_monitor>1</backend_monitor>
+	<backend_monitor>0</backend_monitor>
 <params/>
+<send>1</send>
 </params>
