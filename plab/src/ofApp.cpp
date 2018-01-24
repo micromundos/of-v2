@@ -15,8 +15,7 @@ void ofApp::setup()
   ofSetFrameRate(60);
   ofBackground(0); 
 
-  ofVec2f proj = ofxMicromundos::projector_position(config);
-  ofSetWindowPosition(proj.x, proj.y);
+  projector = ofxMicromundos::projector(true, config);
 
   flowfield.inject(gui);
   particles.inject(&fisica, &flowfield);
@@ -68,20 +67,12 @@ void ofApp::draw()
   float w = ofGetWidth();
   float h = ofGetHeight(); 
 
-  //TODO BackendClient->calib_enabled: pasar el dato por el socket
-  //TODO plab-client: desaparecer del proyector en modo calib
-  //if (backend.calib_enabled())
-  //{
-    //ofSetWindowShape(10, 10);
-    //ofSetWindowPosition(0, 0);
-    //return;
-  //}
-  //else
-  //{
-    //ofSetWindowShape(config["projector"]["width"], config["projector"]["height"]);
-    //ofVec2f proj = ofxMicromundos::projector_position(config);
-    //ofSetWindowPosition(proj.x, proj.y);
-  //}
+  if (backend.calib_enabled() && projector)
+    projector = ofxMicromundos::projector(false, config);
+  if (!backend.calib_enabled() && !projector)
+    projector = ofxMicromundos::projector(true, config);
+  if (!projector)
+    return;
 
   if (gui->backend_debug_pixels)
     backend.render_projected_pixels(w, h);  
@@ -102,8 +93,8 @@ void ofApp::render_monitor(float w, float h)
 
   float lh = 24;
   float yinfo = mh;
-  backend.print_info(0, yinfo);
-  backend.print_pix_data(0, yinfo + lh*2);
+  backend.print_connection(0, yinfo);
+  backend.print_metadata(0, yinfo + lh*2);
 
   if (gui->plab_monitor)
     backend.print_bloques(0, yinfo + lh*3);

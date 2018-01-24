@@ -17,11 +17,6 @@ int main()
   ofGLFWWindowSettings settings;
 
   //projector
-  settings.width = config["projector"]["width"];
-  settings.height = config["projector"]["height"]; 
-  if (string(config["projector"]["fullscreen"]).compare("true") == 0) 
-    settings.windowMode = OF_FULLSCREEN; 
-  settings.setPosition(ofVec2f(0,0));
   settings.resizable = false;
   settings.decorated = false;
   shared_ptr<ofAppBaseWindow> app_win = ofCreateWindow(settings);

@@ -32,6 +32,7 @@ class ofApp : public ofBaseApp
   private:
 
     BackendClient backend;
+    bool projector;
 
     Fisica fisica;
     Particles particles;
