@@ -18,7 +18,6 @@ class CalibProjApp: public ofBaseApp
     {
       ofSetVerticalSync(true);
       ofSetFrameRate(30);
-      ofBackground(0); 
 
       projector = ofxMicromundos::projector(true, config);
 
@@ -35,13 +34,14 @@ class CalibProjApp: public ofBaseApp
     {
       Backend& backend = app->get_backend();
 
-      //TODO backend: mover calib proj
-      //if (backend.calib_enabled() && !projector)
-        //projector = ofxMicromundos::projector(true, config);
-      //if (!backend.calib_enabled() && projector)
+      //TODO calib proj
+      //if (backend.calib_enabled())
+      //{
+        //if (!projector)
+          //projector = ofxMicromundos::projector(true, config);
+      //}
+      //else if (projector)
         //projector = ofxMicromundos::projector(false, config);
-      //if (!projector)
-        //return;
 
       backend.render_calib(ofGetWidth(),ofGetHeight());
     };

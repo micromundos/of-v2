@@ -13,7 +13,6 @@ void ofApp::setup()
   ofSetLogLevel(OF_LOG_NOTICE);
   ofSetVerticalSync(true);
   ofSetFrameRate(60);
-  ofBackground(0); 
 
   projector = ofxMicromundos::projector(true, config);
 
@@ -67,11 +66,16 @@ void ofApp::draw()
   float w = ofGetWidth();
   float h = ofGetHeight(); 
 
-  if (backend.calib_enabled() && projector)
-    projector = ofxMicromundos::projector(false, config);
-  if (!backend.calib_enabled() && !projector)
-    projector = ofxMicromundos::projector(true, config);
-  if (!projector)
+  //TODO calib proj
+  //if (backend.calib_enabled())
+  //{
+    //if (projector)
+      //projector = ofxMicromundos::projector(false, config);
+  //}
+  //else if (!projector)
+    //projector = ofxMicromundos::projector(true, config);
+
+  if (backend.calib_enabled())
     return;
 
   if (gui->backend_debug_pixels)

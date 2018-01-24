@@ -37,8 +37,8 @@ int main()
   app->inject(gui, config, server_config);
   calib->inject(app, config);
 
-  ofRunApp(app_win, app);
   ofRunApp(calib_win, calib);
+  ofRunApp(app_win, app);
 
   ofRunMainLoop();
 }
