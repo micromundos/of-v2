@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ofMain.h"
-#include "GUI.h"
+#include "plab/GUI.h"
 
 class MonitorApp : public ofBaseApp 
 {

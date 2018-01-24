@@ -2,7 +2,7 @@
 #include "ofAppGLFWWindow.h"
 #include "ofApp.h"
 #include "MonitorApp.h"
-#include "GUI.h"
+#include "plab/GUI.h"
 #include "ofxMicromundos/Backend.h"
 #include "ofxMicromundos/utils.h"
 
@@ -29,6 +29,7 @@ int main()
   //monitor
   settings.width = plab_config["monitor"]["width"];
   settings.height = plab_config["monitor"]["height"];
+  settings.windowMode = OF_WINDOW; 
   settings.setPosition(ofVec2f(plab_config["monitor"]["x"], plab_config["monitor"]["y"]));
   settings.resizable = false;
   settings.decorated = true;

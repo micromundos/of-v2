@@ -2,7 +2,7 @@
 #include "ofAppGLFWWindow.h"
 #include "ofApp.h"
 #include "CalibProjApp.h"
-#include "GUI.h"
+#include "ofxMicromundos/GUI.h"
 #include "ofxMicromundos/Backend.h"
 #include "ofxMicromundos/utils.h"
 
@@ -18,6 +18,7 @@ int main()
   //backend server
   settings.width = server_config["backend_server"]["width"];
   settings.height = server_config["backend_server"]["height"];
+  settings.windowMode = OF_WINDOW; 
   settings.setPosition(ofVec2f(server_config["backend_server"]["x"], server_config["backend_server"]["y"]));
   settings.resizable = false;
   settings.decorated = true;

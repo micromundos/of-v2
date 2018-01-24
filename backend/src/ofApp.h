@@ -3,7 +3,7 @@
 #include "ofMain.h"
 #include "ofxMicromundos/Backend.h"
 #include "ofxMicromundos/Bloque.h"
-#include "GUI.h"
+#include "ofxMicromundos/GUI.h"
 
 class ofApp : public ofBaseApp
 {

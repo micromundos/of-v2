@@ -2,7 +2,7 @@
 
 #include "ofMain.h"
 #include "ofxMicromundos/utils.h"
-#include "GUI.h"
+#include "ofxMicromundos/GUI.h"
 
 class CalibProjApp: public ofBaseApp 
 {

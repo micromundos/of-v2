@@ -6,8 +6,7 @@
 #include "ofxMicromundos/BackendClient.h"
 #include "ofxMicromundos/Bloque.h"
 
-#include "GUI.h"
-
+#include "plab/GUI.h"
 #include "plab/Fisica.h"
 #include "plab/Particles.h"
 
