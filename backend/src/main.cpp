@@ -1,7 +1,6 @@
 #include "ofMain.h"
 #include "ofAppGLFWWindow.h"
 #include "ofApp.h"
-#include "CalibProjApp.h"
 #include "ofxMicromundos/GUI.h"
 #include "ofxMicromundos/Backend.h"
 #include "ofxMicromundos/utils.h"
@@ -24,20 +23,11 @@ int main()
   settings.decorated = true;
   shared_ptr<ofAppBaseWindow> app_win = ofCreateWindow(settings);
 
-  //calib -> projector
-  settings.resizable = false;
-  settings.decorated = false;
-  settings.shareContextWith = app_win;
-  shared_ptr<ofAppBaseWindow> calib_win = ofCreateWindow(settings);
-
   shared_ptr<GUI> gui(new GUI);
   shared_ptr<ofApp> app(new ofApp);
-  shared_ptr<CalibProjApp> calib(new CalibProjApp);
 
   app->inject(gui, config, server_config);
-  calib->inject(app, config);
 
-  ofRunApp(calib_win, calib);
   ofRunApp(app_win, app);
 
   ofRunMainLoop();

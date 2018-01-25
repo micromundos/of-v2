@@ -14,7 +14,7 @@ void ofApp::setup()
   ofSetFrameRate(30);
   ofBackground(40);
 
-  gui->init((float)ofGetWidth()/2);
+  gui->init((float)ofGetWidth()/2); 
 
   backend.init(
       config["projector"]["width"], 
@@ -24,6 +24,7 @@ void ofApp::setup()
       config["cam"]["device_id"],
       config["calib"]["file"],
       config["calib"]["tag_id"],
+      config["calib"]["proj_pts"],
       server_config["network"]["port_bin"],
       server_config["network"]["port_msg"]);
 };

@@ -54,34 +54,25 @@ void ofApp::draw(){
 
   float lh = 24; 
 
-  bin.render_info(x, y);
+  bin.print_connection(x, y);
   y += lh;
 
-  msg.render_info(x, y);
+  msg.print_connection(x, y);
   y += lh;
 
+  y += lh/2;
   ofDrawBitmapStringHighlight("f = fullscreen", x, y);
   y += lh;
-
 
   float w = ((float)ofGetWidth())/2;
   float h = w*(3./4);
   bin.render(x, y, w, h);
   y += h + lh;
 
-
-  msg.render_pix_data(x, y);
+  msg.print_metadata(x, y);
   y += lh;
 
-  ofDrawBitmapStringHighlight("bloques", x, y);
-  y += lh;
-
-  vector<string>& bloques = msg.bloques();
-  for (int i = 0; i < bloques.size(); i++)
-  {
-    ofDrawBitmapStringHighlight(bloques[i], x, y);
-    y += lh;
-  } 
+  msg.print_bloques(x, y);
 }
 
 

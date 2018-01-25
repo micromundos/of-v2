@@ -1,2 +1,4 @@
 ofxLibwebsockets
+ofxMicromundos
 ofxNetwork
+ofxOpenCv

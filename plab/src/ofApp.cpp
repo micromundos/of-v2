@@ -23,7 +23,10 @@ void ofApp::setup()
   backend.init(
       server_config["network"]["ip"],
       server_config["network"]["port_bin"],
-      server_config["network"]["port_msg"]);
+      server_config["network"]["port_msg"],
+      config["projector"]["width"], 
+      config["projector"]["height"],
+      config["calib"]["proj_pts"]);
 
   fisica.init();
 
@@ -66,16 +69,7 @@ void ofApp::draw()
   float w = ofGetWidth();
   float h = ofGetHeight(); 
 
-  //TODO calib proj
-  //if (backend.calib_enabled())
-  //{
-    //if (projector)
-      //projector = ofxMicromundos::projector(false, config);
-  //}
-  //else if (!projector)
-    //projector = ofxMicromundos::projector(true, config);
-
-  if (backend.calib_enabled())
+  if (backend.render_calib(w, h))
     return;
 
   if (gui->backend_debug_pixels)

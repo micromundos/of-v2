@@ -4,8 +4,8 @@
 #include "ofxLibwebsockets.h"
 //#include "ofxNetwork.h"
 
-#include "BinClient.h"
-#include "MsgClient.h"
+#include "ofxMicromundos/BinClient.h"
+#include "ofxMicromundos/MsgClient.h"
 
 class ofApp : public ofBaseApp{
 
@@ -31,12 +31,4 @@ class ofApp : public ofBaseApp{
     MsgClient msg;
 
     bool fullscreen;  
-
-    // websocket 
-    void onConnect( ofxLibwebsockets::Event& args );
-    void onOpen( ofxLibwebsockets::Event& args );
-    void onClose( ofxLibwebsockets::Event& args );
-    void onIdle( ofxLibwebsockets::Event& args );
-    void onMessage( ofxLibwebsockets::Event& args );
-    void onBroadcast( ofxLibwebsockets::Event& args );
 };
