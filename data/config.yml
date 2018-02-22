@@ -11,7 +11,8 @@ cam:
   height: 1080
   device_id: 0
 calib:
-  file: calib/H_cam_proj.yml
+  H_cam_proj: calib/H_cam_proj.yml
+  cam_calib: calib/cam1.yml
   tag_id: 0
   proj_pts: [ 
     [ 0.33, 0.33 ], [ 0.67, 0.33 ],

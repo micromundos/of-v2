@@ -2,7 +2,6 @@
 
 #include "ofMain.h"
 #include "ofxMicromundos/Backend.h"
-#include "ofxMicromundos/Bloque.h"
 #include "ofxMicromundos/GUI.h"
 
 class ofApp : public ofBaseApp
@@ -15,8 +14,6 @@ class ofApp : public ofBaseApp
     void setup();
     void update();
     void draw();
-
-    Backend& get_backend() { return backend; };
 
   private:
 
