@@ -45,14 +45,12 @@ void ofApp::draw()
 {  
   float w = ofGetWidth();
   float h = ofGetHeight();
-
-  float h_ = h/3;
+  float h_ = h/2;
 
   if (gui->backend_monitor)
     backend.render_monitor(0, 0, w, h_);
 
   backend.render_server_info(0, h_+20);
-
   gui->render(w/2, h_);
 };
 
