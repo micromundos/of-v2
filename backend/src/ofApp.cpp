@@ -32,8 +32,6 @@ void ofApp::setup()
 
 void ofApp::update()
 {
-  ofSetWindowTitle(ofToString(ofGetFrameRate(),2));
-
   if (!backend.update())
     return;
 
@@ -46,6 +44,8 @@ void ofApp::draw()
   float w = ofGetWidth();
   float h = ofGetHeight();
   float h_ = h/2;
+
+  ofDrawBitmapStringHighlight(ofToString(ofGetFrameRate(),2), 0, 0);
 
   if (gui->backend_monitor)
     backend.render_monitor(0, 0, w, h_);
