@@ -43,14 +43,16 @@ void ofApp::draw()
 {  
   float w = ofGetWidth();
   float h = ofGetHeight();
-  float h_ = h/2;
 
   ofDrawBitmapStringHighlight(ofToString(ofGetFrameRate(),2), 0, 0);
 
   if (gui->backend_monitor)
-    backend.render_monitor(0, 0, w, h_);
+    backend.render_monitor(0, 0, w, h/2); 
 
-  backend.render_server_info(0, h_+20);
-  gui->render(w/2, h_);
+  backend.print_server_info(0, h/2+20);
+  gui->render(w/2, h/2);
+
+  if (gui->print_bloques)
+    backend.print_bloques(0, h/4*3);
 };
 
