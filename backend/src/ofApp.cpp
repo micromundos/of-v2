@@ -53,6 +53,6 @@ void ofApp::draw()
   if (gui->print_bloques)
     backend.print_bloques(0, h/4*3);
 
-  ofDrawBitmapStringHighlight(ofToString(ofGetFrameRate(),2), 10, 10);
+  ofDrawBitmapStringHighlight(ofToString(ofGetFrameRate(),2), 10, 10, ofColor::yellow, ofColor::black);
 };
 
