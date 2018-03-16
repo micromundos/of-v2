@@ -1,15 +1,15 @@
 %YAML:1.0
 projector:
-  width: 1024
-  height: 768
+  width: 1280
+  height: 720
   fullscreen: true
-  position: center
+  position: right
   x: 0  
   y: 0
 cam:
   width: 1920
   height: 1080
-  device_id: 0
+  device_id: 1
 calib:
   H_cam_proj: calib/H_cam_proj.yml
   cam_calib: calib/cam1.yml

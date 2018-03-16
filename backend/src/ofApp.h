@@ -9,7 +9,7 @@ class ofApp : public ofBaseApp
 
   public:
 
-    void inject(shared_ptr<GUI> gui, cv::FileStorage config, cv::FileStorage server_config);
+    void inject(shared_ptr<GUI> gui, cv::FileStorage config, cv::FileStorage backend_config);
 
     void setup();
     void update();
@@ -21,6 +21,6 @@ class ofApp : public ofBaseApp
 
     shared_ptr<GUI> gui; 
     cv::FileStorage config;
-    cv::FileStorage server_config;
+    cv::FileStorage backend_config;
 };
 
