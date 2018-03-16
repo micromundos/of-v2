@@ -1,7 +1,7 @@
 %YAML:1.0
 monitor:
   width: 600
-  height: 800
+  height: 600
   x: 600
   y: 0
 flow_field:

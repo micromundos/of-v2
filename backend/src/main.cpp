@@ -19,7 +19,7 @@ int main()
   settings.height = backend_config["monitor"]["height"];
   settings.windowMode = OF_WINDOW; 
   settings.setPosition(ofVec2f(backend_config["monitor"]["x"], backend_config["monitor"]["y"]));
-  settings.resizable = true;
+  settings.resizable = false;
   settings.decorated = true;
   shared_ptr<ofAppBaseWindow> app_win = ofCreateWindow(settings);
 
