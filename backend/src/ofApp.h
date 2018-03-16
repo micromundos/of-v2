@@ -1,15 +1,15 @@
 #pragma once
 
 #include "ofMain.h"
+#include "GUI.h"
 #include "ofxMicromundos/Backend.h"
-#include "ofxMicromundos/GUI.h"
 
 class ofApp : public ofBaseApp
 {
 
   public:
 
-    void inject(shared_ptr<GUI> gui, cv::FileStorage config, cv::FileStorage backend_config);
+    void inject(cv::FileStorage config, cv::FileStorage backend_config);
 
     void setup();
     void update();
@@ -19,7 +19,7 @@ class ofApp : public ofBaseApp
 
     Backend backend;
 
-    shared_ptr<GUI> gui; 
+    GUI gui; 
     cv::FileStorage config;
     cv::FileStorage backend_config;
 };

@@ -1,7 +1,6 @@
 #include "ofMain.h"
 #include "ofAppGLFWWindow.h"
 #include "ofApp.h"
-#include "ofxMicromundos/GUI.h"
 #include "ofxMicromundos/Backend.h"
 #include "ofxMicromundos/utils.h"
 
@@ -23,10 +22,9 @@ int main()
   settings.decorated = true;
   shared_ptr<ofAppBaseWindow> app_win = ofCreateWindow(settings);
 
-  shared_ptr<GUI> gui(new GUI);
   shared_ptr<ofApp> app(new ofApp);
 
-  app->inject(gui, config, backend_config);
+  app->inject(config, backend_config);
 
   ofRunApp(app_win, app);
 
