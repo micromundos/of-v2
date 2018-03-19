@@ -9,3 +9,4 @@ network:
   port_msg: 9998 
   ip: localhost
   resize_pixels: 0.3
+  syphon_name: backend_syphon

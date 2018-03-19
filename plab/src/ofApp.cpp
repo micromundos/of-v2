@@ -20,7 +20,7 @@ void ofApp::setup()
   particles.inject(&fisica, &flowfield);
   bloques.inject(&fisica, &particles, plab_config);
 
-  backend.init(
+  backend_client.init(
       backend_config["network"]["ip"],
       backend_config["network"]["port_bin"],
       backend_config["network"]["port_msg"],
@@ -47,21 +47,27 @@ void ofApp::setup()
       config["projector"]["width"], 
       config["projector"]["height"]);
 
-  backend_syphon.init("backend_syphon", "");
+  backend_syphon.init(backend_config["network"]["syphon_name"], "");
+  plab_syphon.setName(plab_config["network"]["syphon_name"]);
 };
 
 void ofApp::update()
 {
   ofSetWindowTitle(ofToString(ofGetFrameRate(),2)); 
 
-  backend.update();
+  backend_client.update();
 
-  if (backend.syphon_enabled())
+  proj_bloques = backend_client.projected_bloques();
+
+  //TODO GameManager: prender/apagar plab con un tag
+  //if (proj_bloques.find(plab_game_id) == proj_bloques.end())
+    //return;
+
+  if (backend_client.syphon_enabled())
     flowfield.update(backend_syphon.projected_texture());
   else
-    flowfield.update(backend.projected_pixels());
+    flowfield.update(backend_client.projected_pixels());
 
-  map<int, Bloque>& proj_bloques = backend.projected_bloques();
   bloques.update(proj_bloques);
 
   particles.update();
@@ -73,20 +79,23 @@ void ofApp::draw()
   float w = ofGetWidth();
   float h = ofGetHeight(); 
 
-  if (backend.render_calib(w, h))
+  if (backend_client.render_calib(w, h))
     return;
 
   if (gui->backend_debug_pixels)
-    if (backend.syphon_enabled())
+    if (backend_client.syphon_enabled())
       backend_syphon.render_projected_texture(0, 0, w, h);
     else
-      backend.render_projected_pixels(w, h);  
+      backend_client.render_projected_pixels(w, h);  
 
   if (gui->flowfield_debug)
     flowfield.render(0, 0, w, h); 
 
-  bloques.render(backend.projected_bloques());
+  bloques.render(backend_client.projected_bloques());
   particles.render();
+
+  if (gui->send_syphon)
+    plab_syphon.publishScreen();
 };
 
 void ofApp::render_monitor(float w, float h)
@@ -101,11 +110,11 @@ void ofApp::render_monitor(float w, float h)
 
   float lh = 24;
   float yinfo = mh;
-  backend.print_connection(0, yinfo);
-  backend.print_metadata(0, yinfo + lh*2);
+  backend_client.print_connection(0, yinfo);
+  backend_client.print_metadata(0, yinfo + lh*2);
 
   if (gui->plab_monitor)
-    backend.print_bloques(0, yinfo + lh*4);
+    backend_client.print_bloques(0, yinfo + lh*4);
 
   gui->render(w/2, mh); 
 };

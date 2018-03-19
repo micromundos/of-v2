@@ -29,7 +29,7 @@ void ofApp::setup()
       backend_config["network"]["port_bin"],
       backend_config["network"]["port_msg"]);
 
-  syphon.setName("backend_syphon");
+  syphon.setName(backend_config["network"]["syphon_name"]);
 };
 
 void ofApp::update()

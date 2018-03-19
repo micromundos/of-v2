@@ -2,6 +2,7 @@
 
 #include "ofMain.h"
 #include "BackendSyphon.h"
+#include "ofxSyphon.h"
 
 #include "ofxMicromundos/utils.h"
 #include "ofxMicromundos/BackendClient.h"
@@ -32,15 +33,18 @@ class ofApp : public ofBaseApp
 
   private:
 
-    BackendClient backend;
+    BackendClient backend_client;
     BackendSyphon backend_syphon;
+    ofxSyphonServer plab_syphon;
 
-    bool projector;
+    map<int, Bloque> proj_bloques;
 
     Fisica fisica;
     Particles particles;
     FlowField flowfield;
     Bloques bloques;
+
+    bool projector;
 
     shared_ptr<GUI> gui; 
     cv::FileStorage config;
