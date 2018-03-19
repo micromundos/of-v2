@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ofMain.h"
+#include "BackendSyphon.h"
 
 #include "ofxMicromundos/utils.h"
 #include "ofxMicromundos/BackendClient.h"
@@ -32,6 +33,8 @@ class ofApp : public ofBaseApp
   private:
 
     BackendClient backend;
+    BackendSyphon backend_syphon;
+
     bool projector;
 
     Fisica fisica;

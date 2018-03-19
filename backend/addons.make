@@ -4,3 +4,4 @@ ofxGui
 ofxLibwebsockets
 ofxMicromundos
 ofxOpenCv
+ofxSyphon

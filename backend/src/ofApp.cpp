@@ -28,6 +28,8 @@ void ofApp::setup()
       backend_config["network"]["resize_pixels"],
       backend_config["network"]["port_bin"],
       backend_config["network"]["port_msg"]);
+
+  syphon.setName("backend_syphon");
 };
 
 void ofApp::update()
@@ -35,7 +37,10 @@ void ofApp::update()
   if (!backend.update())
     return;
 
-  backend.send(gui.send_message, gui.send_binary);
+  backend.send(gui.send_message, gui.send_binary, gui.send_syphon);
+
+  if (gui.send_syphon)
+    syphon.publishTexture(&backend.projected_texture());
 };
 
 void ofApp::draw()

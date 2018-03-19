@@ -46,18 +46,22 @@ void ofApp::setup()
   bloques.init(
       config["projector"]["width"], 
       config["projector"]["height"]);
+
+  backend_syphon.init("backend_syphon", "");
 };
 
 void ofApp::update()
 {
-  ofSetWindowTitle(ofToString(ofGetFrameRate(),2));
+  ofSetWindowTitle(ofToString(ofGetFrameRate(),2)); 
 
   backend.update();
 
-  ofPixels& proj_pix = backend.projected_pixels();
-  map<int, Bloque>& proj_bloques = backend.projected_bloques();
+  if (backend.syphon_enabled())
+    flowfield.update(backend_syphon.projected_texture());
+  else
+    flowfield.update(backend.projected_pixels());
 
-  flowfield.update(proj_pix);
+  map<int, Bloque>& proj_bloques = backend.projected_bloques();
   bloques.update(proj_bloques);
 
   particles.update();
@@ -73,7 +77,10 @@ void ofApp::draw()
     return;
 
   if (gui->backend_debug_pixels)
-    backend.render_projected_pixels(w, h);  
+    if (backend.syphon_enabled())
+      backend_syphon.render_projected_texture(0, 0, w, h);
+    else
+      backend.render_projected_pixels(w, h);  
 
   if (gui->flowfield_debug)
     flowfield.render(0, 0, w, h); 
@@ -87,7 +94,10 @@ void ofApp::render_monitor(float w, float h)
   float mh = h*0.7;
 
   if (gui->plab_monitor)
+  {
     flowfield.render_monitor(0, 0, w, mh);
+    backend_syphon.render_projected_texture(w/2, 0, w/2, mh/2);
+  }
 
   float lh = 24;
   float yinfo = mh;
@@ -95,7 +105,7 @@ void ofApp::render_monitor(float w, float h)
   backend.print_metadata(0, yinfo + lh*2);
 
   if (gui->plab_monitor)
-    backend.print_bloques(0, yinfo + lh*3);
+    backend.print_bloques(0, yinfo + lh*4);
 
   gui->render(w/2, mh); 
 };

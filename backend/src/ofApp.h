@@ -1,6 +1,8 @@
 #pragma once
 
 #include "ofMain.h"
+#include "ofxSyphon.h"
+
 #include "GUI.h"
 #include "ofxMicromundos/Backend.h"
 
@@ -18,6 +20,7 @@ class ofApp : public ofBaseApp
   private:
 
     Backend backend;
+    ofxSyphonServer syphon;
 
     GUI gui; 
     cv::FileStorage config;
