@@ -1,11 +1,12 @@
 #include "ofApp.h"
 
-void ofApp::inject(shared_ptr<GUI> gui, cv::FileStorage config, cv::FileStorage backend_config, cv::FileStorage plab_config)
+void ofApp::inject(shared_ptr<GUI> gui, cv::FileStorage config, cv::FileStorage backend_config, cv::FileStorage plab_config, cv::FileStorage cartuchos_config)
 {
   this->gui = gui;
   this->config = config;
   this->backend_config = backend_config;
   this->plab_config = plab_config;
+  cartuchos.init(cartuchos_config);
 };
 
 void ofApp::setup()
@@ -57,11 +58,12 @@ void ofApp::update()
 
   backend_client.update();
 
-  proj_bloques = backend_client.projected_bloques();
+  map<int, Bloque> proj_bloques = backend_client.projected_bloques();
 
-  //TODO GameManager: prender/apagar plab con un tag
-  //if (proj_bloques.find(plab_game_id) == proj_bloques.end())
-    //return;
+  cartuchos.update(proj_bloques);
+
+  if (!cartuchos.active("plab"))
+    return;
 
   if (backend_client.syphon_enabled())
     flowfield.update(backend_syphon.projected_texture());
@@ -76,6 +78,9 @@ void ofApp::update()
 
 void ofApp::draw()
 {  
+  if (!cartuchos.active("plab"))
+    return;
+
   float w = ofGetWidth();
   float h = ofGetHeight(); 
 
@@ -100,6 +105,9 @@ void ofApp::draw()
 
 void ofApp::render_monitor(float w, float h)
 {
+  if (!cartuchos.active("plab"))
+    return;
+
   float mh = h*0.7;
 
   if (gui->plab_monitor)

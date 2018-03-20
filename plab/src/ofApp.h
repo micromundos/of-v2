@@ -7,6 +7,7 @@
 #include "ofxMicromundos/utils.h"
 #include "ofxMicromundos/BackendClient.h"
 #include "ofxMicromundos/Bloque.h"
+#include "ofxMicromundos/Cartuchos.h"
 
 #include "plab/GUI.h"
 #include "plab/Fisica.h"
@@ -23,7 +24,7 @@ class ofApp : public ofBaseApp
 
   public:
 
-    void inject(shared_ptr<GUI> gui, cv::FileStorage config, cv::FileStorage backend_config, cv::FileStorage plab_config);
+    void inject(shared_ptr<GUI> gui, cv::FileStorage config, cv::FileStorage backend_config, cv::FileStorage plab_config, cv::FileStorage cartuchos_config);
 
     void setup();
     void update();
@@ -37,12 +38,11 @@ class ofApp : public ofBaseApp
     BackendSyphon backend_syphon;
     ofxSyphonServer plab_syphon;
 
-    map<int, Bloque> proj_bloques;
-
     Fisica fisica;
     Particles particles;
     FlowField flowfield;
     Bloques bloques;
+    Cartuchos cartuchos;
 
     bool projector;
 
