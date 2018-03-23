@@ -23,10 +23,10 @@ void ofApp::setup()
       backend_config["cam"]["device_id"],
       backend_config["calib"]["H_cam_proj"],
       backend_config["calib"]["cam_calib"],
+      backend_config["network"]["resize_pixels"],
       config["calib"]["tag_id"],
       config["calib"]["proj_pts"],
       config["juegos"],
-      config["backend"]["resize_pixels"],
       config["backend"]["port_bin"],
       config["backend"]["port_msg"]);
 
