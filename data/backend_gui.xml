@@ -2,4 +2,8 @@
 	<backend_monitor>0</backend_monitor>
 <params/>
 <send>1</send>
+<print_bloques>1</print_bloques>
+	<send_message>1</send_message>
+	<send_binary>0</send_binary>
+	<send_syphon>1</send_syphon>
 </params>

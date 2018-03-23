@@ -11,7 +11,7 @@ class ofApp : public ofBaseApp
 
   public:
 
-    void inject(cv::FileStorage config, cv::FileStorage backend_config, cv::FileStorage cartuchos_config);
+    void inject(cv::FileStorage config, cv::FileStorage backend_config);
 
     void setup();
     void update();
@@ -25,6 +25,5 @@ class ofApp : public ofBaseApp
     GUI gui; 
     cv::FileStorage config;
     cv::FileStorage backend_config;
-    cv::FileStorage cartuchos_config;
 };
 

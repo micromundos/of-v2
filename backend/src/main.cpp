@@ -10,7 +10,6 @@ int main()
 
   cv::FileStorage config = ofxMicromundos::load_config("config.yml");
   cv::FileStorage backend_config = ofxMicromundos::load_config("backend.yml");
-  cv::FileStorage cartuchos_config = ofxMicromundos::load_config("cartuchos.yml");
 
   ofGLFWWindowSettings settings;
 
@@ -25,7 +24,7 @@ int main()
 
   shared_ptr<ofApp> app(new ofApp);
 
-  app->inject(config, backend_config, cartuchos_config);
+  app->inject(config, backend_config);
 
   ofRunApp(app_win, app);
 

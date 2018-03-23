@@ -9,5 +9,3 @@ flow_field:
   height: 240
 bloques:
   emitter: [ 1, 2, 4, 5 ]
-network:
-  syphon_name: plab_syphon

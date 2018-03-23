@@ -1,10 +1,9 @@
 #include "ofApp.h"
 
-void ofApp::inject(cv::FileStorage config, cv::FileStorage backend_config, cv::FileStorage cartuchos_config)
+void ofApp::inject(cv::FileStorage config, cv::FileStorage backend_config)
 {
   this->config = config;
   this->backend_config = backend_config;
-  this->cartuchos_config = cartuchos_config;
 };
 
 void ofApp::setup()
@@ -19,19 +18,19 @@ void ofApp::setup()
   backend.init(
       config["projector"]["width"], 
       config["projector"]["height"],  
-      config["cam"]["width"], 
-      config["cam"]["height"], 
-      config["cam"]["device_id"],
-      config["calib"]["H_cam_proj"],
-      config["calib"]["cam_calib"],
+      backend_config["cam"]["width"], 
+      backend_config["cam"]["height"], 
+      backend_config["cam"]["device_id"],
+      backend_config["calib"]["H_cam_proj"],
+      backend_config["calib"]["cam_calib"],
       config["calib"]["tag_id"],
       config["calib"]["proj_pts"],
-      cartuchos_config,
+      config["juegos"],
       backend_config["network"]["resize_pixels"],
       backend_config["network"]["port_bin"],
       backend_config["network"]["port_msg"]);
 
-  syphon.setName(backend_config["network"]["syphon_name"]);
+  syphon.setName(backend_config["network"]["syphon"]);
 };
 
 void ofApp::update()

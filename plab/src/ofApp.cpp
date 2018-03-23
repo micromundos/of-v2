@@ -47,8 +47,8 @@ void ofApp::setup()
       config["projector"]["width"], 
       config["projector"]["height"]);
 
-  backend_syphon.init(backend_config["network"]["syphon_name"], "");
-  plab_syphon.setName(plab_config["network"]["syphon_name"]);
+  backend_syphon.init(backend_config["network"]["syphon"], "");
+  plab_syphon.setName(config["juegos"]["plab"]["syphon"]);
 };
 
 void ofApp::update()
@@ -59,7 +59,7 @@ void ofApp::update()
 
   map<int, Bloque> proj_bloques = backend_client.projected_bloques();
 
-  if (!backend_client.cartucho_active("plab"))
+  if (!backend_client.juego_active("plab"))
     return;
 
   bloques.update(proj_bloques);
@@ -75,7 +75,7 @@ void ofApp::update()
 
 void ofApp::draw()
 {  
-  if (!backend_client.cartucho_active("plab"))
+  if (!backend_client.juego_active("plab"))
     return;
 
   float w = ofGetWidth();
@@ -102,7 +102,7 @@ void ofApp::draw()
 
 void ofApp::render_monitor(float w, float h)
 {
-  if (!backend_client.cartucho_active("plab"))
+  if (!backend_client.juego_active("plab"))
     return;
 
   float mh = h*0.7;
