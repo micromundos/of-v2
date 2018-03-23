@@ -1,10 +1,9 @@
 #include "ofApp.h"
 
-void ofApp::inject(shared_ptr<GUI> gui, cv::FileStorage config, cv::FileStorage backend_config, cv::FileStorage plab_config)
+void ofApp::inject(shared_ptr<GUI> gui, cv::FileStorage config, cv::FileStorage plab_config)
 {
   this->gui = gui;
   this->config = config;
-  this->backend_config = backend_config;
   this->plab_config = plab_config;
 };
 
@@ -21,9 +20,9 @@ void ofApp::setup()
   bloques.inject(&fisica, &particles, plab_config);
 
   backend_client.init(
-      backend_config["network"]["ip"],
-      backend_config["network"]["port_bin"],
-      backend_config["network"]["port_msg"],
+      config["backend"]["ip"],
+      config["backend"]["port_bin"],
+      config["backend"]["port_msg"],
       config["projector"]["width"], 
       config["projector"]["height"],
       config["calib"]["proj_pts"]);
@@ -47,7 +46,7 @@ void ofApp::setup()
       config["projector"]["width"], 
       config["projector"]["height"]);
 
-  backend_syphon.init(backend_config["network"]["syphon"], "");
+  backend_syphon.init(config["backend"]["syphon"], "");
   plab_syphon.setName(config["juegos"]["plab"]["syphon"]);
 };
 

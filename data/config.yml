@@ -11,6 +11,12 @@ calib:
   proj_pts: [ 
     [ 0.33, 0.33 ], [ 0.67, 0.33 ],
     [ 0.33, 0.67 ], [ 0.67, 0.67 ] ]
+backend:
+  port_bin: 9999 
+  port_msg: 9998 
+  ip: localhost
+  resize_pixels: 0.3
+  syphon: backend_syphon
 juegos:
   plab:
     tag_id: 10

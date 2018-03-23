@@ -11,7 +11,6 @@ int main()
   ofxMicromundos::setDataPathRoot();
 
   cv::FileStorage config = ofxMicromundos::load_config("config.yml");
-  cv::FileStorage backend_config = ofxMicromundos::load_config("backend.yml");
   cv::FileStorage plab_config = ofxMicromundos::load_config("plab.yml");
 
   ofGLFWWindowSettings settings;
@@ -35,7 +34,7 @@ int main()
   shared_ptr<ofApp> app(new ofApp);
   shared_ptr<MonitorApp> monitor(new MonitorApp);
 
-  app->inject(gui, config, backend_config, plab_config);
+  app->inject(gui, config, plab_config);
   monitor->inject(app, gui);
 
   ofRunApp(app_win, app);

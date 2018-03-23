@@ -26,11 +26,11 @@ void ofApp::setup()
       config["calib"]["tag_id"],
       config["calib"]["proj_pts"],
       config["juegos"],
-      backend_config["network"]["resize_pixels"],
-      backend_config["network"]["port_bin"],
-      backend_config["network"]["port_msg"]);
+      config["backend"]["resize_pixels"],
+      config["backend"]["port_bin"],
+      config["backend"]["port_msg"]);
 
-  syphon.setName(backend_config["network"]["syphon"]);
+  syphon.setName(config["backend"]["syphon"]);
 };
 
 void ofApp::update()
