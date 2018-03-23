@@ -1,12 +1,11 @@
 #include "ofApp.h"
 
-void ofApp::inject(shared_ptr<GUI> gui, cv::FileStorage config, cv::FileStorage backend_config, cv::FileStorage plab_config, cv::FileStorage cartuchos_config)
+void ofApp::inject(shared_ptr<GUI> gui, cv::FileStorage config, cv::FileStorage backend_config, cv::FileStorage plab_config)
 {
   this->gui = gui;
   this->config = config;
   this->backend_config = backend_config;
   this->plab_config = plab_config;
-  cartuchos.init(cartuchos_config);
 };
 
 void ofApp::setup()
@@ -60,9 +59,7 @@ void ofApp::update()
 
   map<int, Bloque> proj_bloques = backend_client.projected_bloques();
 
-  cartuchos.update(proj_bloques);
-
-  if (!cartuchos.active("plab"))
+  if (!backend_client.cartucho_active("plab"))
     return;
 
   bloques.update(proj_bloques);
@@ -78,7 +75,7 @@ void ofApp::update()
 
 void ofApp::draw()
 {  
-  if (!cartuchos.active("plab"))
+  if (!backend_client.cartucho_active("plab"))
     return;
 
   float w = ofGetWidth();
@@ -105,7 +102,7 @@ void ofApp::draw()
 
 void ofApp::render_monitor(float w, float h)
 {
-  if (!cartuchos.active("plab"))
+  if (!backend_client.cartucho_active("plab"))
     return;
 
   float mh = h*0.7;

@@ -1,9 +1,10 @@
 #include "ofApp.h"
 
-void ofApp::inject(cv::FileStorage config, cv::FileStorage backend_config)
+void ofApp::inject(cv::FileStorage config, cv::FileStorage backend_config, cv::FileStorage cartuchos_config)
 {
   this->config = config;
   this->backend_config = backend_config;
+  this->cartuchos_config = cartuchos_config;
 };
 
 void ofApp::setup()
@@ -25,6 +26,7 @@ void ofApp::setup()
       config["calib"]["cam_calib"],
       config["calib"]["tag_id"],
       config["calib"]["proj_pts"],
+      cartuchos_config,
       backend_config["network"]["resize_pixels"],
       backend_config["network"]["port_bin"],
       backend_config["network"]["port_msg"]);
