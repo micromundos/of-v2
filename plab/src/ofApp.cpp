@@ -65,12 +65,12 @@ void ofApp::update()
   if (!cartuchos.active("plab"))
     return;
 
+  bloques.update(proj_bloques);
+
   if (backend_client.syphon_enabled())
     flowfield.update(backend_syphon.projected_texture());
   else
     flowfield.update(backend_client.projected_pixels());
-
-  bloques.update(proj_bloques);
 
   particles.update();
   fisica.update();
