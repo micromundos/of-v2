@@ -49,14 +49,19 @@ void ofApp::draw()
   float w = ofGetWidth();
   float h = ofGetHeight();
 
-  if (gui.backend_monitor)
-    backend.render_monitor(0, 20, w, h/3-20); 
+  float hh = h/3; 
 
-  backend.print_server_info(0, h/3+20);
-  gui.render(w/2, h/3);
+  if (gui.backend_monitor)
+    backend.render_monitor(0, 20, w, hh-20); 
+
+  backend.print_connection(0, hh+20);
+  gui.render(w/2, hh); 
+
+  if (gui.print_metadata)
+    backend.print_metadata(0, 2*hh);
 
   if (gui.print_bloques)
-    backend.print_bloques(0, 2*h/3);
+    backend.print_bloques(0, 2.3*hh);
 
   ofDrawBitmapStringHighlight(ofToString(ofGetFrameRate(),2), 10, 14, ofColor::yellow, ofColor::black);
 };

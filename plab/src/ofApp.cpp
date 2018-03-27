@@ -12,8 +12,7 @@ void ofApp::setup()
   ofSetLogLevel(OF_LOG_NOTICE);
   ofSetVerticalSync(true);
   ofSetFrameRate(60);
-
-  projector = ofxMicromundos::projector(true, config);
+  ofBackground(0);
 
   flowfield.inject(gui);
   particles.inject(&fisica, &flowfield);
@@ -46,8 +45,8 @@ void ofApp::setup()
       config["projector"]["width"], 
       config["projector"]["height"]);
 
-  backend_syphon.init(config["backend"]["syphon"], "");
-  plab_syphon.setName(config["juegos"]["plab"]["syphon"]);
+  syphon_receiver.init(config["backend"]["syphon"]);
+  projector_syphon.setName(config["projector"]["syphon"]);
 };
 
 void ofApp::update()
@@ -64,7 +63,7 @@ void ofApp::update()
   bloques.update(proj_bloques);
 
   if (backend_client.syphon_enabled())
-    flowfield.update(backend_syphon.projected_texture());
+    flowfield.update(syphon_receiver.texture());
   else
     flowfield.update(backend_client.projected_pixels());
 
@@ -85,7 +84,7 @@ void ofApp::draw()
 
   if (gui->backend_debug_pixels)
     if (backend_client.syphon_enabled())
-      backend_syphon.render_projected_texture(0, 0, w, h);
+      syphon_receiver.render_texture(0, 0, w, h);
     else
       backend_client.render_projected_pixels(w, h);  
 
@@ -95,8 +94,8 @@ void ofApp::draw()
   bloques.render(backend_client.projected_bloques());
   particles.render();
 
-  if (gui->send_syphon)
-    plab_syphon.publishScreen();
+  if (gui->projector_syphon)
+    projector_syphon.publishScreen();
 };
 
 void ofApp::render_monitor(float w, float h)
@@ -109,7 +108,7 @@ void ofApp::render_monitor(float w, float h)
   if (gui->plab_monitor)
   {
     flowfield.render_monitor(0, 0, w, mh);
-    backend_syphon.render_projected_texture(w/2, 0, w/2, mh/2);
+    syphon_receiver.render_texture(w/2, 0, w/2, mh/2);
   }
 
   float lh = 24;

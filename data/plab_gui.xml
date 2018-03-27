@@ -13,4 +13,5 @@
 	<flowfield_debug>0</flowfield_debug>
 <edge_dilate>0</edge_dilate>
 <plab_monitor>0</plab_monitor>
+<projector_syphon>1</projector_syphon>
 </params>

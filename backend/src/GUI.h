@@ -8,6 +8,7 @@ class GUI
   public:
 
     ofParameter<bool> backend_monitor;
+    ofParameter<bool> print_metadata;
     ofParameter<bool> print_bloques;
     ofParameter<bool> send_message;
     ofParameter<bool> send_binary;
@@ -16,7 +17,10 @@ class GUI
     void init_params()
     {
       p.add( backend_monitor
-          .set("backend_monitor", true) );
+          .set("backend_monitor", true) ); 
+
+      p.add( print_metadata
+          .set("print_metadata", true) );
 
       p.add( print_bloques
           .set("print_bloques", true) );

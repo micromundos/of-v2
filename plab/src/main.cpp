@@ -15,9 +15,13 @@ int main()
 
   ofGLFWWindowSettings settings;
 
-  //projector
+  //projector_back
+  settings.width = config["projector"]["width"];
+  settings.height = config["projector"]["height"];
+  settings.windowMode = OF_WINDOW; 
+  settings.setPosition(ofVec2f(plab_config["projector_back"]["x"], plab_config["projector_back"]["y"]));
   settings.resizable = false;
-  settings.decorated = false;
+  settings.decorated = true;
   shared_ptr<ofAppBaseWindow> app_win = ofCreateWindow(settings);
 
   //monitor

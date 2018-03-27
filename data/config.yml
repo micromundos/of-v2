@@ -6,6 +6,7 @@ projector:
   position: center
   x: 0  
   y: 0
+  syphon: projector_syphon
 calib:
   tag_id: 0
   proj_pts: [ 
@@ -19,7 +20,5 @@ backend:
 juegos:
   plab:
     tag_id: 10
-    syphon: plab_syphon
   autitos:
     tag_id: 11
-    syphon: autitos_syphon
