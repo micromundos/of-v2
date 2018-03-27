@@ -103,22 +103,24 @@ void ofApp::render_monitor(float w, float h)
   if (!backend_client.juego_active("plab"))
     return;
 
-  float mh = h*0.7;
+  ofDrawBitmapStringHighlight(ofToString(ofGetFrameRate(),2), 10, 14, ofColor::yellow, ofColor::black);
+
+  float _w = w/2;
+  float _h = h/2; 
+  float lh = 24;
+
+  gui->render(0, lh); 
+
+  backend_client.print_connection(0, _h);
+
+  backend_client.print_metadata(0, _h*1.2);
+  backend_client.print_bloques(0, _h*1.6);
 
   if (gui->plab_monitor)
   {
-    flowfield.render_monitor(0, 0, w, mh);
-    syphon_receiver.render_texture(w/2, 0, w/2, mh/2);
+    float mh = h/4;
+    syphon_receiver.render_texture(_w, 0, _w, mh);
+    flowfield.render_monitor(_w, mh, _w, mh);
   }
-
-  float lh = 24;
-  float yinfo = mh;
-  backend_client.print_connection(0, yinfo);
-  backend_client.print_metadata(0, yinfo + lh*2);
-
-  if (gui->plab_monitor)
-    backend_client.print_bloques(0, yinfo + lh*4);
-
-  gui->render(w/2, mh); 
 };
 

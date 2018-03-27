@@ -20,11 +20,6 @@ class MonitorApp : public ofBaseApp
       gui->init((float)ofGetWidth()/2);
     };
 
-    void update()
-    {
-      ofSetWindowTitle(ofToString(ofGetFrameRate(),2));
-    };
-
     void draw()
     {
       app->render_monitor(ofGetWidth(), ofGetHeight());

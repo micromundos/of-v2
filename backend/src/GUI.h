@@ -8,8 +8,6 @@ class GUI
   public:
 
     ofParameter<bool> backend_monitor;
-    ofParameter<bool> print_metadata;
-    ofParameter<bool> print_bloques;
     ofParameter<bool> send_message;
     ofParameter<bool> send_binary;
     ofParameter<bool> send_syphon;
@@ -18,12 +16,6 @@ class GUI
     {
       p.add( backend_monitor
           .set("backend_monitor", true) ); 
-
-      p.add( print_metadata
-          .set("print_metadata", true) );
-
-      p.add( print_bloques
-          .set("print_bloques", true) );
 
       p.add( send_message
           .set("send_message", true) ); 
