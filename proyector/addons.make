@@ -1,3 +1,4 @@
+ofxLibwebsockets
 ofxMicromundos
 ofxOpenCv
 ofxSyphon
