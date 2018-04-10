@@ -1,0 +1,21 @@
+{
+	"monitor":{
+		"width": 600,
+		"height": 600,
+		"x": 0,
+  		"y": 0
+	},
+	"cam":{
+		"width": 1920,
+		"height": 1080,
+		"device_id": 0
+	},
+	"calib":{
+		"H_cam_proj": "calib/H_cam_proj.yml",
+		"cam_calib": "calib/cam1.yml"
+	},
+	
+	"network":{
+		"resize_pixels": 0.3
+	}
+}
