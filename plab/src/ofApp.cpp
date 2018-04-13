@@ -14,7 +14,7 @@ void ofApp::setup()
   ofSetFrameRate(60);
   ofBackground(0);
 
-  flowfield.inject(gui);
+  flowfield.inject(gui, plab_config);
   particles.inject(&fisica, &flowfield);
   bloques.inject(&fisica, &particles, plab_config);
 
@@ -33,8 +33,7 @@ void ofApp::setup()
       config["projector"]["height"].asFloat());
 
   flowfield.add(make_shared<FlowFieldContainer>());
-  //flowfield.add(make_shared<FlowFieldStream>());
-  //flowfield.add(make_shared<FlowFieldAttractors>());
+  flowfield.add(make_shared<FlowFieldAttractors>());
   flowfield.init(
       plab_config["flow_field"]["width"].asFloat(), 
       plab_config["flow_field"]["height"].asFloat()); 
@@ -63,9 +62,9 @@ void ofApp::update()
   bloques.update(proj_bloques);
 
   if (backend_client.syphon_enabled())
-    flowfield.update(syphon_receiver.texture());
+    flowfield.update(syphon_receiver.texture(), proj_bloques);
   else
-    flowfield.update(backend_client.projected_pixels());
+    flowfield.update(backend_client.projected_pixels(), proj_bloques);
 
   particles.update();
   fisica.update();

@@ -9,9 +9,11 @@
 <debug_tags>1</debug_tags>
 	<debug_pixels>1</debug_pixels>
 <backend_debug_tags>0</backend_debug_tags>
-	<backend_debug_pixels>1</backend_debug_pixels>
+	<backend_debug_pixels>0</backend_debug_pixels>
 	<flowfield_debug>0</flowfield_debug>
 <edge_dilate>0</edge_dilate>
-<plab_monitor>0</plab_monitor>
+<plab_monitor>1</plab_monitor>
 <projector_syphon>1</projector_syphon>
+<attractors_force>3</attractors_force>
+	<attractors_radius>0.5</attractors_radius>
 </params>
