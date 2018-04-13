@@ -70,7 +70,7 @@ void ofApp::draw(){
   y += h + lh;
 
   msg.print_metadata(x, y);
-  y += lh;
+  y += lh*4;
 
   msg.print_bloques(x, y);
 }
