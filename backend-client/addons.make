@@ -1,3 +1,4 @@
+ofxJSON
 ofxLibwebsockets
 ofxMicromundos
 ofxNetwork

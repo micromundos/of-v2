@@ -7,20 +7,20 @@ void ofApp::setup()
   ofSetFrameRate(60);
   ofBackground(0);
 
-  cv::FileStorage config = ofxMicromundos::load_config("config.yml");
+  ofxJSON config = ofxMicromundos::load_config("config.json");
   ofxMicromundos::projector(config);
 
   int port_bin = 0;
 
   backend_client.init(
-      config["backend"]["ip"],
+      config["backend"]["ip"].asString(),
       port_bin,
-      config["backend"]["port_msg"],
-      config["projector"]["width"], 
-      config["projector"]["height"],
+      config["backend"]["port_msg"].asInt(),
+      config["projector"]["width"].asFloat(), 
+      config["projector"]["height"].asFloat(),
       config["calib"]["proj_pts"]);
 
-  syphon_receiver.init(config["projector"]["syphon"]);
+  syphon_receiver.init(config["projector"]["syphon"].asString());
 }
 
 void ofApp::draw()

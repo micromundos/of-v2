@@ -5,30 +5,31 @@
 #include "plab/GUI.h"
 #include "ofxMicromundos/Backend.h"
 #include "ofxMicromundos/utils.h"
+#include "ofxJSON.h"
 
 int main()
 {
   ofxMicromundos::setDataPathRoot();
 
-  cv::FileStorage config = ofxMicromundos::load_config("config.yml");
-  cv::FileStorage plab_config = ofxMicromundos::load_config("plab.yml");
+  ofxJSON config = ofxMicromundos::load_config("config.json");
+  ofxJSON plab_config = ofxMicromundos::load_config("plab.json");
 
   ofGLFWWindowSettings settings;
 
   //projector_back
-  settings.width = config["projector"]["width"];
-  settings.height = config["projector"]["height"];
+  settings.width = config["projector"]["width"].asInt();
+  settings.height = config["projector"]["height"].asInt();
   settings.windowMode = OF_WINDOW; 
-  settings.setPosition(ofVec2f(plab_config["projector_back"]["x"], plab_config["projector_back"]["y"]));
+  settings.setPosition(ofVec2f(plab_config["projector_back"]["x"].asFloat(), plab_config["projector_back"]["y"].asFloat()));
   settings.resizable = false;
   settings.decorated = true;
   shared_ptr<ofAppBaseWindow> app_win = ofCreateWindow(settings);
 
   //monitor
-  settings.width = plab_config["monitor"]["width"];
-  settings.height = plab_config["monitor"]["height"];
+  settings.width = plab_config["monitor"]["width"].asInt();
+  settings.height = plab_config["monitor"]["height"].asInt();
   settings.windowMode = OF_WINDOW; 
-  settings.setPosition(ofVec2f(plab_config["monitor"]["x"], plab_config["monitor"]["y"]));
+  settings.setPosition(ofVec2f(plab_config["monitor"]["x"].asFloat(), plab_config["monitor"]["y"].asFloat()));
   settings.resizable = false;
   settings.decorated = true;
   settings.shareContextWith = app_win;

@@ -1,6 +1,6 @@
 #include "ofApp.h"
 
-void ofApp::inject(cv::FileStorage config, cv::FileStorage backend_config)
+void ofApp::inject(ofxJSON config, ofxJSON backend_config)
 {
   this->config = config;
   this->backend_config = backend_config;
@@ -16,21 +16,21 @@ void ofApp::setup()
   gui.init((float)ofGetWidth()/2); 
 
   backend.init(
-      config["projector"]["width"], 
-      config["projector"]["height"],  
-      backend_config["cam"]["width"], 
-      backend_config["cam"]["height"], 
-      backend_config["cam"]["device_id"],
-      backend_config["calib"]["H_cam_proj"],
-      backend_config["calib"]["cam_calib"],
-      backend_config["network"]["resize_pixels"],
-      config["calib"]["tag_id"],
+      config["projector"]["width"].asFloat(), 
+      config["projector"]["height"].asFloat(),  
+      backend_config["cam"]["width"].asFloat(), 
+      backend_config["cam"]["height"].asFloat(), 
+      backend_config["cam"]["device_id"].asInt(),
+      backend_config["calib"]["H_cam_proj"].asString(),
+      backend_config["calib"]["cam_calib"].asString(),
+      backend_config["network"]["resize_pixels"].asFloat(),
+      config["calib"]["tag_id"].asInt(),
       config["calib"]["proj_pts"],
       config["juegos"],
-      config["backend"]["port_bin"],
-      config["backend"]["port_msg"]);
+      config["backend"]["port_bin"].asInt(),
+      config["backend"]["port_msg"].asInt());
 
-  syphon.setName(config["backend"]["syphon"]);
+  syphon.setName(config["backend"]["syphon"].asString());
 };
 
 void ofApp::update()

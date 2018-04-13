@@ -24,7 +24,7 @@ class ofApp : public ofBaseApp
 
   public:
 
-    void inject(shared_ptr<GUI> gui, cv::FileStorage config, cv::FileStorage plab_config);
+    void inject(shared_ptr<GUI> gui, ofxJSON config, ofxJSON plab_config);
 
     void setup();
     void update();
@@ -44,7 +44,7 @@ class ofApp : public ofBaseApp
     Bloques bloques;
 
     shared_ptr<GUI> gui; 
-    cv::FileStorage config;
-    cv::FileStorage plab_config;
+    ofxJSON config;
+    ofxJSON plab_config;
 };
 

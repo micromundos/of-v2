@@ -1,6 +1,6 @@
 #include "ofApp.h"
 
-void ofApp::inject(shared_ptr<GUI> gui, cv::FileStorage config, cv::FileStorage plab_config)
+void ofApp::inject(shared_ptr<GUI> gui, ofxJSON config, ofxJSON plab_config)
 {
   this->gui = gui;
   this->config = config;
@@ -19,34 +19,34 @@ void ofApp::setup()
   bloques.inject(&fisica, &particles, plab_config);
 
   backend_client.init(
-      config["backend"]["ip"],
-      config["backend"]["port_bin"],
-      config["backend"]["port_msg"],
-      config["projector"]["width"], 
-      config["projector"]["height"],
+      config["backend"]["ip"].asString(),
+      config["backend"]["port_bin"].asInt(),
+      config["backend"]["port_msg"].asInt(),
+      config["projector"]["width"].asFloat(), 
+      config["projector"]["height"].asFloat(),
       config["calib"]["proj_pts"]);
 
   fisica.init();
 
   particles.init(
-      config["projector"]["width"], 
-      config["projector"]["height"]);
+      config["projector"]["width"].asFloat(), 
+      config["projector"]["height"].asFloat());
 
   flowfield.add(make_shared<FlowFieldContainer>());
   //flowfield.add(make_shared<FlowFieldStream>());
   //flowfield.add(make_shared<FlowFieldAttractors>());
   flowfield.init(
-      plab_config["flow_field"]["width"], 
-      plab_config["flow_field"]["height"]); 
+      plab_config["flow_field"]["width"].asFloat(), 
+      plab_config["flow_field"]["height"].asFloat()); 
 
   bloques.add(make_shared<Emitter>());
   //bloques.add(make_shared<Portal>());
   bloques.init(
-      config["projector"]["width"], 
-      config["projector"]["height"]);
+      config["projector"]["width"].asFloat(), 
+      config["projector"]["height"].asFloat());
 
-  syphon_receiver.init(config["backend"]["syphon"]);
-  projector_syphon.setName(config["projector"]["syphon"]);
+  syphon_receiver.init(config["backend"]["syphon"].asString());
+  projector_syphon.setName(config["projector"]["syphon"].asString());
 };
 
 void ofApp::update()

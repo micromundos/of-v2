@@ -3,21 +3,22 @@
 #include "ofApp.h"
 #include "ofxMicromundos/Backend.h"
 #include "ofxMicromundos/utils.h"
+#include "ofxJSON.h"
 
 int main()
 {
   ofxMicromundos::setDataPathRoot();
 
-  cv::FileStorage config = ofxMicromundos::load_config("config.yml");
-  cv::FileStorage backend_config = ofxMicromundos::load_config("backend.yml");
+  ofxJSON config = ofxMicromundos::load_config("config.json");
+  ofxJSON backend_config = ofxMicromundos::load_config("backend.json");
 
   ofGLFWWindowSettings settings;
 
   //backend
-  settings.width = backend_config["monitor"]["width"];
-  settings.height = backend_config["monitor"]["height"];
+  settings.width = backend_config["monitor"]["width"].asInt();
+  settings.height = backend_config["monitor"]["height"].asInt();
   settings.windowMode = OF_WINDOW; 
-  settings.setPosition(ofVec2f(backend_config["monitor"]["x"], backend_config["monitor"]["y"]));
+  settings.setPosition(ofVec2f(backend_config["monitor"]["x"].asFloat(), backend_config["monitor"]["y"].asFloat()));
   settings.resizable = false;
   settings.decorated = true;
   shared_ptr<ofAppBaseWindow> app_win = ofCreateWindow(settings);

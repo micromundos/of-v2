@@ -1,25 +1,32 @@
 {
-	"projector":{
-  		"width": 1024,
-		"height": 768,
-		"fullscreen": true,
-		"position": "center",
-		"x": 0,  
-		"y": 0,
-		"syphon": "projector_syphon"
-	},
-	"calib":{
-		"tag_id": 0,
-  		"proj_pts": [ [ 0.33, 0.33 ], [ 0.67, 0.33 ], [ 0.33, 0.67 ], [ 0.67, 0.67 ] ]
-	},
-	"backend":{
-		"port_bin": 9999,
-		"port_msg": 9998,
-		"ip": "localhost",
-  		"syphon": "backend_syphon"
-	},
-	"juegos":{
-  		"plab":{"tag_id": 10},
-  		"autitos":{"tag_id": 11}
-	}
+  "projector": {
+    "width": 1024,
+    "height": 768,
+    "fullscreen": true,
+    "position": "center",
+    "x": 0,  
+    "y": 0,
+    "syphon": "projector_syphon"
+  },
+  "calib": {
+    "tag_id": 0,
+    "proj_pts": [ 
+      [ 0.33, 0.33 ], [ 0.67, 0.33 ], 
+      [ 0.33, 0.67 ], [ 0.67, 0.67 ] 
+    ]
+  },
+  "backend": {
+    "port_bin": 9999,
+    "port_msg": 9998,
+    "ip": "localhost",
+    "syphon": "backend_syphon"
+  },
+  "juegos": {
+    "plab": {
+      "tag_id": 10
+    },
+    "autitos": { 
+      "tag_id": 11
+    }
+  }
 }

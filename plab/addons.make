@@ -2,6 +2,7 @@ ofxChilitags
 ofxCv
 ofxGPGPU
 ofxGui
+ofxJSON
 ofxLibwebsockets
 ofxMicromundos
 ofxOpenCv

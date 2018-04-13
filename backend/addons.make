@@ -1,6 +1,7 @@
 ofxChilitags
 ofxCv
 ofxGui
+ofxJSON
 ofxLibwebsockets
 ofxMicromundos
 ofxOpenCv

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ofMain.h"
+#include "ofxJSON.h"
 #include "ofxSyphon.h"
 
 #include "GUI.h"
@@ -11,7 +12,7 @@ class ofApp : public ofBaseApp
 
   public:
 
-    void inject(cv::FileStorage config, cv::FileStorage backend_config);
+    void inject(ofxJSON config, ofxJSON backend_config);
 
     void setup();
     void update();
@@ -23,7 +24,7 @@ class ofApp : public ofBaseApp
     ofxSyphonServer syphon;
 
     GUI gui; 
-    cv::FileStorage config;
-    cv::FileStorage backend_config;
+    ofxJSON config;
+    ofxJSON backend_config;
 };
 

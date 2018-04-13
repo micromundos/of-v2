@@ -3,7 +3,7 @@
 #include "ofMain.h"
 
 #include "ofxSyphon.h"
-#include "opencv2/opencv.hpp"
+#include "ofxJSON.h"
 
 #include "ofxMicromundos/utils.h"
 #include "ofxMicromundos/SyphonReceiver.h"
