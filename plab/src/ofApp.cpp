@@ -14,7 +14,7 @@ void ofApp::setup()
   ofSetFrameRate(60);
   ofBackground(0);
 
-  flowfield.inject(gui, plab_config);
+  flowfield.inject(gui, &bloques);
   particles.inject(&fisica, &flowfield);
   bloques.inject(&fisica, &particles, plab_config);
 
@@ -54,17 +54,15 @@ void ofApp::update()
 
   backend_client.update();
 
-  map<int, Bloque> proj_bloques = backend_client.projected_bloques();
-
   if (!backend_client.juego_active("plab"))
     return;
 
-  bloques.update(proj_bloques);
+  bloques.update(backend_client.projected_bloques());
 
   if (backend_client.syphon_enabled())
-    flowfield.update(syphon_receiver.texture(), proj_bloques);
+    flowfield.update(syphon_receiver.texture());
   else
-    flowfield.update(backend_client.projected_pixels(), proj_bloques);
+    flowfield.update(backend_client.projected_pixels());
 
   particles.update();
   fisica.update();
@@ -90,7 +88,7 @@ void ofApp::draw()
   if (gui->flowfield_debug)
     flowfield.render(0, 0, w, h); 
 
-  bloques.render(backend_client.projected_bloques());
+  bloques.render();
   particles.render();
 
   if (gui->projector_syphon)

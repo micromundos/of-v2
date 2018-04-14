@@ -15,6 +15,6 @@
   },
   "bloques": {
     "emitter": [ 1, 2, 4, 5 ],
-    "attractors": [ 6, 7, 8 ]
+    "attractor": [ 6, 7, 8 ]
   }
 }
