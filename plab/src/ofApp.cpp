@@ -15,7 +15,7 @@ void ofApp::setup()
   ofBackground(0);
 
   flowfield.inject(gui, &bloques);
-  particles.inject(&fisica, &flowfield);
+  particles.inject(&fisica);
   bloques.inject(&fisica, &particles, plab_config);
 
   backend_client.init(
@@ -64,7 +64,7 @@ void ofApp::update()
   else
     flowfield.update(backend_client.projected_pixels());
 
-  particles.update();
+  particles.update(flowfield.get(), flowfield.width(), flowfield.height(), flowfield.channels());
   fisica.update();
 };
 
