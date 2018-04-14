@@ -36,7 +36,9 @@ void ofApp::setup()
   flowfield.add(make_shared<FlowFieldAttractors>());
   flowfield.init(
       plab_config["flow_field"]["width"].asFloat(), 
-      plab_config["flow_field"]["height"].asFloat()); 
+      plab_config["flow_field"]["height"].asFloat(),
+      config["projector"]["width"].asFloat(), 
+      config["projector"]["height"].asFloat()); 
 
   bloques.add(make_shared<Emitter>());
   //bloques.add(make_shared<Portal>());
@@ -79,20 +81,25 @@ void ofApp::draw()
   if (backend_client.render_calib(w, h))
     return;
 
-  if (gui->backend_debug_pixels)
-    if (backend_client.syphon_enabled())
-      syphon_receiver.render_texture(0, 0, w, h);
-    else
-      backend_client.render_projected_pixels(w, h);  
+  render_debug(w, h);
 
-  if (gui->flowfield_debug)
-    flowfield.render(0, 0, w, h); 
-
+  flowfield.render(); 
   bloques.render();
   particles.render();
 
   if (gui->projector_syphon)
     projector_syphon.publishScreen();
+};
+
+void ofApp::render_debug(float w, float h)
+{
+  if (gui->backend_debug_pixels)
+    if (backend_client.syphon_enabled())
+      syphon_receiver.render_texture(0, 0, w, h);
+    else
+      backend_client.render_projected_pixels(w, h);  
+  if (gui->flowfield_debug)
+    flowfield.render_debug(0, 0, w, h);
 };
 
 void ofApp::render_monitor(float w, float h)
