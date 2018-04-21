@@ -1,4 +1,5 @@
 ofxChilitags
+ofxColorBrewer
 ofxCv
 ofxGPGPU
 ofxGui

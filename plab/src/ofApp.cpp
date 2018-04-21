@@ -33,7 +33,8 @@ void ofApp::setup()
       config["projector"]["height"].asFloat());
 
   flowfield.add(make_shared<FlowFieldContainer>());
-  flowfield.add(make_shared<FlowFieldAttractors>());
+  flowfield.add(make_shared<FlowFieldAttractors>("attractor",1));
+  flowfield.add(make_shared<FlowFieldAttractors>("repulsor",-1));
   flowfield.init(
       plab_config["flow_field"]["width"].asFloat(), 
       plab_config["flow_field"]["height"].asFloat(),

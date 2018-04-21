@@ -14,6 +14,6 @@
 <edge_dilate>0</edge_dilate>
 <plab_monitor>1</plab_monitor>
 <projector_syphon>1</projector_syphon>
-<attractors_force>3</attractors_force>
-	<attractors_radius>0.2</attractors_radius>
+<attractors_force>3.5</attractors_force>
+	<attractors_radius>0.15</attractors_radius>
 </params>
