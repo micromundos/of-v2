@@ -21,6 +21,7 @@ void ofApp::setup()
       config["calib"]["proj_pts"]);
 
   syphon_receiver.init(config["projector"]["syphon"].asString());
+  syphon_backend.init(config["backend"]["syphon"].asString());
 }
 
 void ofApp::draw()
@@ -30,8 +31,12 @@ void ofApp::draw()
 
   backend_client.update();
 
-  if (backend_client.render_calib(w, h))
+  if (backend_client.calib_enabled())
+  {
+    syphon_backend.render_texture(0, 0, w, h);
+    backend_client.render_calib(w, h);
     return;
+  }
 
   syphon_receiver.render_texture(0, 0, w, h);
 }

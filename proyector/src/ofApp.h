@@ -17,6 +17,7 @@ class ofApp : public ofBaseApp
 
   private:
     SyphonReceiver syphon_receiver;
+    SyphonReceiver syphon_backend;
     BackendClient backend_client;
 };
 
