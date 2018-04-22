@@ -5,6 +5,13 @@ apps=(
 'proyector'
 )
 
+isdev=false
+
+dev() {
+  isdev=true 
+  start
+}
+
 start() {
 
   if [[ -f "$PIDFILE" ]]; then
@@ -15,16 +22,26 @@ start() {
   PID="$$"
   echo "$PID" >> "$PIDFILE"
 
-  while true
-  do
-    echo "micromundos apps (pid = $PID)"
+  if [ "$isdev" = true ]; then
+    echo "micromundos dev apps (pid = $PID)"
     for i in "${apps[@]}"
     do
       :
       open -a $i
     done
-    sleep 10
-  done
+
+  else
+    while true
+    do
+      echo "micromundos apps (pid = $PID)"
+      for i in "${apps[@]}"
+      do
+        :
+        open -a $i
+      done
+      sleep 10
+    done
+  fi
 }
 
 stop() {
@@ -49,6 +66,9 @@ stop() {
 PIDFILE="/tmp/micromundos.pids"
 
 case "$1" in
+  dev)
+    dev
+    ;;
   start)
     start
     ;;
