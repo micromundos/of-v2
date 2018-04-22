@@ -1,7 +1,7 @@
 #!/bin/bash
-addons_loc=../../addons
+addons_loc=../../../addons
 cwd=$(pwd)
-echo "install add addons on "$addons_loc
+echo "install addons on "$addons_loc
 addons=(  
 'git@github.com:micromundos/ofxMicromundos.git'
 'git@github.com:micromundos/ofxPlab.git'
