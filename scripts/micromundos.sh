@@ -5,22 +5,18 @@ apps=(
 'proyector'
 )
 
+pidfile="/tmp/micromundos.pids"
 isdev=false
-
-dev() {
-  isdev=true 
-  start
-}
 
 start() {
 
-  if [[ -f "$PIDFILE" ]]; then
-    echo "micromundos ya esta corriendo: hay un pidfile $PIDFILE" >& 2
+  if [[ -f "$pidfile" ]]; then
+    echo "micromundos ya esta corriendo: hay un pidfile $pidfile" >& 2
     exit 1
   fi
 
   PID="$$"
-  echo "$PID" >> "$PIDFILE"
+  echo "$PID" >> "$pidfile"
 
   if [ "$isdev" = true ]; then
     echo "micromundos dev apps (pid = $PID)"
@@ -46,24 +42,51 @@ start() {
 
 stop() {
 
-  if [[ ! -f "$PIDFILE" ]]; then
-    echo "micromundos no esta corriendo: no hay pidfile $PIDFILE" >& 2
+  if [[ ! -f "$pidfile" ]]; then
+    echo "micromundos no esta corriendo: no hay pidfile $pidfile" >& 2
     exit 1
   fi
 
-  PIDS=`cat "$PIDFILE"`
-  echo "kill micromundos apps (pids = $PIDS)"
+  pids=`cat "$pidfile"`
+  echo "kill micromundos apps (pids = $pids)"
   for i in "${apps[@]}"
     do
       :
       echo "kill $i"
       pkill $i
     done
-  kill $PIDS
-  rm -f "$PIDFILE"
+  kill $pids
+  rm -f "$pidfile"
 }
 
-PIDFILE="/tmp/micromundos.pids"
+pack() {
+
+  if [[ $# > 0 ]]; then
+    path=$1
+  else
+    path=micromundos2
+  fi
+  echo "pack en $path"
+
+  mkdir -p ./$path/data
+  cp -r ./data ./$path/ 
+
+  for i in "${apps[@]}"
+  do
+    :
+    mkdir -p ./$path/$i/bin
+    cp -r ./$i/bin/$i.app ./$path/$i/bin/
+  done
+
+  find ./$path/data -type f -name .DS_Store -delete
+  find ./$path/data -type f -name *.swp -delete
+  find ./$path/data -type f -name *.casa -delete
+}
+
+dev() {
+  isdev=true 
+  start
+}
 
 case "$1" in
   dev)
@@ -74,6 +97,9 @@ case "$1" in
     ;;
   stop)
     stop
+    ;;
+  pack)
+    pack $2
     ;;
 esac
 
