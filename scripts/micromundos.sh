@@ -15,11 +15,11 @@ start() {
     exit 1
   fi
 
-  PID="$$"
-  echo "$PID" >> "$pidfile"
+  pid="$$"
+  echo "$pid" >> "$pidfile"
 
   if [ "$isdev" = true ]; then
-    echo "micromundos dev apps (pid = $PID)"
+    echo "micromundos dev apps (pid = $pid)"
     for i in "${apps[@]}"
     do
       :
@@ -29,7 +29,7 @@ start() {
   else
     while true
     do
-      echo "micromundos apps (pid = $PID)"
+      echo "micromundos apps (pid = $pid)"
       for i in "${apps[@]}"
       do
         :
