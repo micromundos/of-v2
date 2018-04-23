@@ -2,7 +2,7 @@
 
 apps=(  
 'backend'
-'proyector'
+'plab'
 )
 
 pidfile="/tmp/micromundos.pids"
@@ -25,8 +25,17 @@ start() {
       :
       open -a $i
     done
+    open -a proyector
 
   else
+
+    for i in "${apps[@]}"
+    do
+      :
+      open -a $i
+    done
+    sleep 5
+
     while true
     do
       echo "micromundos apps (pid = $pid)"
@@ -35,6 +44,7 @@ start() {
         :
         open -a $i
       done
+      open -a proyector
       sleep 10
     done
   fi
@@ -55,6 +65,9 @@ stop() {
       echo "kill $i"
       pkill $i
     done
+  echo "kill proyector"
+  pkill proyector
+  echo "kill pids $pids"
   kill $pids
   rm -f "$pidfile"
 }
@@ -77,6 +90,9 @@ pack() {
     mkdir -p ./$path/$i/bin
     cp -r ./$i/bin/$i.app ./$path/$i/bin/
   done
+
+  mkdir -p ./$path/scripts
+  cp ./scripts/micromundos.sh ./$path/scripts/micromundos.sh 
 
   find ./$path/data -type f -name .DS_Store -delete
   find ./$path/data -type f -name *.swp -delete
