@@ -17,8 +17,9 @@
 #include "plab/bloques/Emitter.h"
 
 #include "plab/flowfields/FlowField.h"
-#include "plab/flowfields/FlowFieldContainer.h"
-#include "plab/flowfields/FlowFieldAttractors.h"
+#include "plab/flowfields/Container.h"
+#include "plab/flowfields/Attractors.h"
+#include "plab/flowfields/Transporter.h"
 
 class ofApp : public ofBaseApp
 {

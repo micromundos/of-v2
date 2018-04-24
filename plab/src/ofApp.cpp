@@ -32,9 +32,11 @@ void ofApp::setup()
       config["projector"]["width"].asFloat(), 
       config["projector"]["height"].asFloat());
 
-  flowfield.add(make_shared<FlowFieldContainer>());
-  flowfield.add(make_shared<FlowFieldAttractors>("attractor",1));
-  flowfield.add(make_shared<FlowFieldAttractors>("repulsor",-1));
+  flowfield.add(make_shared<Container>());
+  flowfield.add(make_shared<Attractors>("attractor",1));
+  flowfield.add(make_shared<Attractors>("repulsor",-1));
+  //flowfield.add(make_shared<Transporter>());
+
   flowfield.init(
       plab_config["flow_field"]["width"].asFloat(), 
       plab_config["flow_field"]["height"].asFloat(),

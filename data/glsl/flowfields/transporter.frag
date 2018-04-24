@@ -10,19 +10,31 @@
  */
 
 #pragma include "../lib/math.glsl"
+#pragma include "../lib/geom.glsl"
 #pragma include "../lib/gpgpu.glsl"
 
 uniform vec2 src;
 uniform vec2 dst;
+uniform float radius;
 uniform float force;
+
+float nforce(vec2 point, vec2 loc)
+{
+  vec2 dir = point - loc;
+  float dist = length(dir);
+  return lerp2d(dist, 0., radius, 1., 0.);
+}
 
 void main() 
 {
   vec2 loc = location();
-  vec2 force = vec2(0.,0.);
-  //TODO
-  vec2 path = dst - src;
-  gl_FragColor = vec4( force, 0., 1. );
+
+  /*vec2 norm = normal_point(loc, src, dst);*/
+  /*float nf = nforce(norm, loc);*/
+
+  vec2 _force = normalize(dst-src) * nforce(src, loc) * force; 
+
+  gl_FragColor = vec4( _force, 0., 1. );
 }
 
 uniform sampler2DRect render_input;

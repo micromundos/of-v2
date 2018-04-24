@@ -31,3 +31,13 @@ float angle( vec3 v0, vec3 v1, bool _normalize )
   return acos( dot( n0, n1 ) );
 }
 
+/*http://natureofcode.com/book/chapter-6-autonomous-agents/*/
+vec2 normal_point(vec2 p, vec2 a, vec2 b) 
+{
+  vec2 ap = p-a;
+  vec2 ab = b-a;
+  ab = normalize(ab);
+  ab *= dot(ap, ab);
+  return a + ab;
+}
+
