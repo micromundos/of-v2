@@ -1,6 +1,14 @@
 #!/bin/bash
-addons_loc=../../../addons
+
 cwd=$(pwd)
+addons_loc=$cwd/../../addons
+echo $addons_loc
+
+if [[ ! -d "$addons_loc" ]]; then
+  echo "no existe la carpeta addons"
+  exit 1
+fi
+
 echo "install addons on "$addons_loc
 addons=(  
 'git@github.com:micromundos/ofxMicromundos.git'
@@ -19,5 +27,7 @@ do
   :
   git clone $i
 done
+
 cd $cwd ;
 echo "done"
+
