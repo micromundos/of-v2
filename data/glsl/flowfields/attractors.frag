@@ -28,7 +28,7 @@ void main()
     return;
   }
 
-  vec2 loc = gl_FragCoord.xy / size;
+  vec2 loc = location();
   vec2 force = vec2(0.,0.);
 
   for ( int i = 0; i < attractors_size; i++ )
@@ -39,7 +39,7 @@ void main()
     float r = attractors_radius[i];
     float min = sign(f) > 0. ? EPSILON : FLT_MIN;
     float max = sign(f) > 0. ? FLT_MAX : EPSILON;
-    force += (dir/d) * clamp( lerp2d( d, 0., r, f, 0. ), min, max );
+    force += (dir/d) * clamp(lerp2d(d, 0., r, f, 0.), min, max);
   }
   force /= attractors_size;
 
@@ -60,7 +60,7 @@ void __render__( void )
     _out = vec3(
       lerp2d( _in.x, -r,r, 0.,1.),
       lerp2d( _in.y, -r,r, 0.,1.),
-      lerp2d( _in.z, -r,r, 0.,1.)
+      0. //lerp2d( _in.z, -r,r, 0.,1.)
     );
 
     gl_FragColor = vec4( _out, 1.);

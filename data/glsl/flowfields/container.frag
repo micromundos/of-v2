@@ -62,7 +62,7 @@ void __render__( void )
     _out = vec3(
       lerp2d( _in.x, -r,r, 0.,1.),
       lerp2d( _in.y, -r,r, 0.,1.),
-      lerp2d( _in.z, -r,r, 0.,1.)
+      0. //lerp2d( _in.z, -r,r, 0.,1.)
     );
 
     gl_FragColor = vec4( _out, 1.);

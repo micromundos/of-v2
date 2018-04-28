@@ -14,9 +14,9 @@
     "height": 240
   },
   "bloques": {
-    "emitter": [ 1, 2, 4 ],
-    "transporter": [ 5, 6 ],
-    "attractor": [ 7 ],
-    "repulsor": [ 8 ]
+    "emitter": [ 1, 2, 3 ],
+    "portal": [ 4, 5 ],
+    "attractor": [ 6 ],
+    "repulsor": [ 7 ]
   }
 }

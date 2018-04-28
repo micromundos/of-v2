@@ -15,11 +15,12 @@
 
 #include "plab/bloques/Bloques.h"
 #include "plab/bloques/Emitter.h"
+//#include "plab/bloques/Portal.h"
 
 #include "plab/flowfields/FlowField.h"
 #include "plab/flowfields/Container.h"
 #include "plab/flowfields/Attractors.h"
-#include "plab/flowfields/Transporter.h"
+//#include "plab/flowfields/Transporter.h"
 
 class ofApp : public ofBaseApp
 {

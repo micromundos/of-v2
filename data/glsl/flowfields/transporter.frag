@@ -17,24 +17,30 @@ uniform vec2 src;
 uniform vec2 dst;
 uniform float radius;
 uniform float force;
+uniform int transporters_size;
 
 float nforce(vec2 point, vec2 loc)
 {
   vec2 dir = point - loc;
-  float dist = length(dir);
-  return lerp2d(dist, 0., radius, 1., 0.);
+  float d = length(dir);
+  return clamp(lerp2d(d, 0., radius, 1., 0.), EPSILON, FLT_MAX);
 }
 
 void main() 
 {
+  if ( transporters_size < 2 )
+  {
+    gl_FragColor = vec4(0.,0.,0.,1.);
+    return;
+  }
+
   vec2 loc = location();
 
-  /*vec2 norm = normal_point(loc, src, dst);*/
-  /*float nf = nforce(norm, loc);*/
+  vec2 norm = normal_point(loc, src, dst);
+  float fmult = nforce(norm, loc);
+  vec2 f = normalize(dst-src) * fmult * force; 
 
-  vec2 _force = normalize(dst-src) * nforce(src, loc) * force; 
-
-  gl_FragColor = vec4( _force, 0., 1. );
+  gl_FragColor = vec4(f, 0., 1.);
 }
 
 uniform sampler2DRect render_input;
@@ -50,7 +56,7 @@ void __render__( void )
     _out = vec3(
       lerp2d( _in.x, -r,r, 0.,1.),
       lerp2d( _in.y, -r,r, 0.,1.),
-      lerp2d( _in.z, -r,r, 0.,1.)
+      0. //lerp2d( _in.z, -r,r, 0.,1.)
     );
 
     gl_FragColor = vec4( _out, 1.);

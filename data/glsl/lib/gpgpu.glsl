@@ -15,6 +15,7 @@ vec2 texsize( sampler2DRect tex )
 //normalized [0,1]
 vec2 location()
 {
+  /*vec2 loc = gl_FragCoord.xy / size;*/
   return gl_TexCoord[0].xy / size;
 }
 
