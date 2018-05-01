@@ -4,6 +4,7 @@
 #include "ofxJSON.h"
 #include "ofxSyphon.h"
 
+//TODO backend app move GUI to ofxMicromundos
 #include "GUI.h"
 #include "ofxMicromundos/Backend.h"
 

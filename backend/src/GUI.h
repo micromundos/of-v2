@@ -11,6 +11,7 @@ class GUI
     ofParameter<bool> send_message;
     ofParameter<bool> send_binary;
     ofParameter<bool> send_syphon;
+    ofParameter<bool> send_blobs;
 
     void init_params()
     {
@@ -25,6 +26,9 @@ class GUI
 
       p.add( send_syphon
           .set("send_syphon", false) ); 
+
+      p.add( send_blobs
+          .set("send_blobs", true) );
     }; 
 
     void init(float w)

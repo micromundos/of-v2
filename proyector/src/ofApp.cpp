@@ -10,12 +10,14 @@ void ofApp::setup()
   ofxJSON config = ofxMicromundos::load_config("config.json");
   ofxMicromundos::projector(config);
 
-  int port_bin = 0;
+  int port_bin_disabled = 0;
+  int port_blobs_disabled = 0;
 
   backend_client.init(
       config["backend"]["ip"].asString(),
-      port_bin,
+      port_bin_disabled,
       config["backend"]["port_msg"].asInt(),
+      port_blobs_disabled,
       config["projector"]["width"].asFloat(), 
       config["projector"]["height"].asFloat(),
       config["calib"]["proj_pts"]);

@@ -22,6 +22,7 @@ void ofApp::setup()
       config["backend"]["ip"].asString(),
       config["backend"]["port_bin"].asInt(),
       config["backend"]["port_msg"].asInt(),
+      config["backend"]["port_blobs"].asInt(),
       config["projector"]["width"].asFloat(), 
       config["projector"]["height"].asFloat(),
       config["calib"]["proj_pts"]);
@@ -81,11 +82,11 @@ void ofApp::draw()
   float w = ofGetWidth();
   float h = ofGetHeight(); 
 
-  if (backend_client.render_calib(w, h))
+  if (backend_client.calib_enabled())
     return;
 
-  render_debug(w, h);
-
+  render_debug(w, h); 
+  render_blobs(w, h);
   flowfield.render(); 
   bloques.render();
   particles.render();
@@ -94,13 +95,22 @@ void ofApp::draw()
     projector_syphon.publishScreen();
 };
 
-void ofApp::render_debug(float w, float h)
+void ofApp::render_blobs(float w, float h)
 {
-  if (gui->backend_debug_pixels)
-    if (backend_client.syphon_enabled())
-      syphon_receiver.render_texture(0, 0, w, h);
-    else
-      backend_client.render_projected_pixels(w, h);  
+  if (backend_client.syphon_enabled())
+    syphon_receiver.render_texture(0, 0, w, h);
+  else
+    backend_client.render_projected_pixels(w, h);
+
+  ofPushStyle();
+  ofSetColor(ofColor::white);
+  ofSetLineWidth(4);
+  backend_client.render_blobs(0, 0, w, h);
+  ofPopStyle();
+};
+
+void ofApp::render_debug(float w, float h)
+{  
   if (gui->flowfield_debug)
     flowfield.render_debug(0, 0, w, h);
 };

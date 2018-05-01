@@ -20,6 +20,7 @@ addons=(
 '--branch micromundos2 git@github.com:chparsons/ofxLibwebsockets.git'
 '--branch OpenFrameworks-0.9 git@github.com:astellato/ofxSyphon.git'
 'git@github.com:jeffcrouse/ofxJSON.git'
+'git@github.com:obviousjim/ofxDelaunay.git'
 )
 cd $addons_loc ;
 for i in "${addons[@]}"

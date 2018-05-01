@@ -33,6 +33,7 @@ class ofApp : public ofBaseApp
     void update();
     void draw();
 
+    void render_blobs(float w, float h);
     void render_debug(float w, float h);
     void render_monitor(float w, float h);
 

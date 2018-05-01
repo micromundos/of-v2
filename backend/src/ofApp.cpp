@@ -28,7 +28,8 @@ void ofApp::setup()
       config["calib"]["proj_pts"],
       config["juegos"],
       config["backend"]["port_bin"].asInt(),
-      config["backend"]["port_msg"].asInt());
+      config["backend"]["port_msg"].asInt(),
+      config["backend"]["port_blobs"].asInt());
 
   syphon.setName(config["backend"]["syphon"].asString());
 };
@@ -38,7 +39,7 @@ void ofApp::update()
   if (!backend.update())
     return;
 
-  backend.send(gui.send_message, gui.send_binary, gui.send_syphon);
+  backend.send(gui.send_message, gui.send_binary, gui.send_syphon, gui.send_blobs);
 
   if (gui.send_syphon)
     syphon.publishTexture(&backend.projected_texture());
@@ -60,7 +61,8 @@ void ofApp::draw()
   backend.print_connection(0, _h+lh);
 
   backend.print_metadata(0, _h*2);
-  backend.print_bloques(0, _h*2.3);
+  backend.print_blobs(0, _h*2.3);
+  backend.print_bloques(0, _h*2.4);
 
   if (gui.backend_monitor)
     backend.render_monitor(_w, 0, _w, h);
