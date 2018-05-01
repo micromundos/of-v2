@@ -97,6 +97,7 @@ void ofApp::draw()
 
 void ofApp::render_blobs(float w, float h)
 {
+  //TODO plab blur texture
   if (backend_client.syphon_enabled())
     syphon_receiver.render_texture(0, 0, w, h);
   else
