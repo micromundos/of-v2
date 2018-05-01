@@ -14,24 +14,30 @@ void ofApp::setup()
   ofSetFrameRate(60);
   ofBackground(0);
 
+  float proj_w = config["projector"]["width"].asFloat();
+  float proj_h = config["projector"]["height"].asFloat();
+
+  gaussian
+    .init(proj_w, proj_h)
+    .on("update", this, &ofApp::update_gaussian);
+
   flowfield.inject(gui, &bloques);
   particles.inject(&fisica);
   bloques.inject(&fisica, &particles, plab_config);
+
+  int port_blobs = 0; //config["backend"]["port_blobs"].asInt();
 
   backend_client.init(
       config["backend"]["ip"].asString(),
       config["backend"]["port_bin"].asInt(),
       config["backend"]["port_msg"].asInt(),
-      config["backend"]["port_blobs"].asInt(),
-      config["projector"]["width"].asFloat(), 
-      config["projector"]["height"].asFloat(),
+      port_blobs,
+      proj_w, 
+      proj_h,
       config["calib"]["proj_pts"]);
 
   fisica.init();
-
-  particles.init(
-      config["projector"]["width"].asFloat(), 
-      config["projector"]["height"].asFloat());
+  particles.init(proj_w, proj_h);
 
   flowfield.add(make_shared<Container>());
   flowfield.add(make_shared<Attractors>("attractor",1));
@@ -41,14 +47,12 @@ void ofApp::setup()
   flowfield.init(
       plab_config["flow_field"]["width"].asFloat(), 
       plab_config["flow_field"]["height"].asFloat(),
-      config["projector"]["width"].asFloat(), 
-      config["projector"]["height"].asFloat()); 
+      proj_w, 
+      proj_h); 
 
   bloques.add(make_shared<Emitter>());
   //bloques.add(make_shared<Portal>());
-  bloques.init(
-      config["projector"]["width"].asFloat(), 
-      config["projector"]["height"].asFloat());
+  bloques.init(proj_w, proj_h);
 
   syphon_receiver.init(config["backend"]["syphon"].asString());
   projector_syphon.setName(config["projector"]["syphon"].asString());
@@ -95,13 +99,38 @@ void ofApp::draw()
     projector_syphon.publishScreen();
 };
 
+void ofApp::exit()
+{
+  gaussian
+    .off("update", this, &ofApp::update_gaussian)
+    .dispose();
+};
+
+void ofApp::update_gaussian(ofShader& shader)
+{
+  shader.setUniform1f("sigma", gui->gaussian_sigma);
+  shader.setUniform1i("kernel", gui->gaussian_kernel);
+  shader.setUniform1f("alpha", 1.0);
+};
+
 void ofApp::render_blobs(float w, float h)
 {
-  //TODO plab blur texture
+
+  ofTexture* tex;
   if (backend_client.syphon_enabled())
-    syphon_receiver.render_texture(0, 0, w, h);
+    tex = &(syphon_receiver.texture());
+    //syphon_receiver.render_texture(0, 0, w, h);
   else
-    backend_client.render_projected_pixels(w, h);
+    tex = &(backend_client.projected_texture());
+    //backend_client.render_projected_pixels(w, h);
+  if (tex->isAllocated())
+  {
+    gaussian
+      .set("data", *tex)
+      .update(2) //horiz + vert
+      .get()
+      .draw(0, 0, w, h);
+  }
 
   ofPushStyle();
   ofSetColor(ofColor::white);

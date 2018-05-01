@@ -2,6 +2,8 @@
 
 #include "ofMain.h"
 
+#include "ofxGPGPU/shaders/gaussian.h"
+
 #include "ofxSyphon.h"
 #include "ofxMicromundos/SyphonReceiver.h"
 
@@ -32,10 +34,13 @@ class ofApp : public ofBaseApp
     void setup();
     void update();
     void draw();
+    void exit();
 
     void render_blobs(float w, float h);
     void render_debug(float w, float h);
     void render_monitor(float w, float h);
+
+    void update_gaussian(ofShader& shader);
 
   private:
 
@@ -47,6 +52,8 @@ class ofApp : public ofBaseApp
     Particles particles;
     FlowField flowfield;
     Bloques bloques;
+
+    gpgpu::Gaussian gaussian; 
 
     shared_ptr<GUI> gui; 
     ofxJSON config;

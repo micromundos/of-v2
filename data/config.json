@@ -18,7 +18,7 @@
   "backend": {
     "port_bin": 9999,
     "port_msg": 9998,
-    "port_blobs": 0,
+    "port_blobs": 9997,
     "ip": "ws://127.0.0.1",
     "syphon": "backend_syphon"
   },
