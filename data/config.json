@@ -1,9 +1,9 @@
 {
   "projector": {
-    "width": 1280,
-    "height": 720,
+    "width": 1024,
+    "height": 768,
     "fullscreen": true,
-    "position": "right",
+    "position": "center",
     "x": 0,  
     "y": 0,
     "syphon": "projector_syphon"

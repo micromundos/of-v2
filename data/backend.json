@@ -8,11 +8,11 @@
   "cam": {
     "width": 1920,
     "height": 1080,
-    "device_id": 1
+    "device_id": 0
   },
   "calib": {
     "H_cam_proj": "calib/H_cam_proj.yml",
-    "cam_calib": "calib/cam1.yml"
+    "cam_calib": "calib/cam0.yml"
   },
   "network": {
     "resize_pixels": 0.3
