@@ -57,19 +57,17 @@ void ofApp::draw()
 
   ofDrawBitmapStringHighlight(ofToString(ofGetFrameRate(),2), 10, 14, ofColor::yellow, ofColor::black);
 
-  float _w = w/2;  
   float _h = h/3;  
   float lh = 24;
 
   gui.render(0, lh); 
 
   backend.print_connection(0, _h+lh);
-
   backend.print_metadata(0, _h*2);
   backend.print_blobs(0, _h*2.3);
   backend.print_bloques(0, _h*2.4);
 
   if (gui.backend_monitor)
-    backend.render_monitor(_w, 0, _w, h);
+    backend.render_monitor(w/2, 0, w/3, h/2);
 };
 
