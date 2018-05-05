@@ -6,3 +6,4 @@ ofxLibwebsockets
 ofxMicromundos
 ofxOpenCv
 ofxSyphon
+ofxTimeMeasurements

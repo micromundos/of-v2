@@ -21,6 +21,7 @@ addons=(
 '--branch OpenFrameworks-0.9 git@github.com:astellato/ofxSyphon.git'
 'git@github.com:jeffcrouse/ofxJSON.git'
 'git@github.com:obviousjim/ofxDelaunay.git'
+'git@github.com:armadillu/ofxTimeMeasurements.git'
 )
 cd $addons_loc ;
 for i in "${addons[@]}"

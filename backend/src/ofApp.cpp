@@ -1,5 +1,7 @@
 #include "ofApp.h"
 
+//#define TIME_MEASUREMENTS_DISABLED
+
 void ofApp::inject(ofxJSON config, ofxJSON backend_config)
 {
   this->config = config;
@@ -8,6 +10,9 @@ void ofApp::inject(ofxJSON config, ofxJSON backend_config)
 
 void ofApp::setup()
 {
+  TIME_SAMPLE_SET_FRAMERATE(30.0f);
+  TIME_SAMPLE_SET_AVERAGE_RATE(0.05);
+
   ofSetLogLevel(OF_LOG_NOTICE);
   ofSetVerticalSync(true);
   ofSetFrameRate(30);

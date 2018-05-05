@@ -3,6 +3,7 @@
 #include "ofMain.h"
 #include "ofxJSON.h"
 #include "ofxSyphon.h"
+#include "ofxTimeMeasurements.h"
 
 //TODO backend app move GUI to ofxMicromundos
 #include "GUI.h"
