@@ -9,3 +9,4 @@ ofxMicromundos
 ofxOpenCv
 ofxPlab
 ofxSyphon
+ofxTimeMeasurements

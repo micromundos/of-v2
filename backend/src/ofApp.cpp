@@ -36,7 +36,9 @@ void ofApp::setup()
       config["backend"]["port_msg"].asInt(),
       config["backend"]["port_blobs"].asInt());
 
-  syphon.setName(config["backend"]["syphon"].asString());
+  syphon_sender
+    .init(config["backend"]["syphon"].asString())
+    .start();
 };
 
 void ofApp::update()
@@ -47,7 +49,7 @@ void ofApp::update()
   backend.send(gui.send_message, gui.send_binary, gui.send_syphon, gui.send_blobs);
 
   if (gui.send_syphon)
-    syphon.publishTexture(&backend.projected_texture());
+    syphon_sender.publishTexture(&backend.projected_texture());
 };
 
 void ofApp::draw()

@@ -25,13 +25,11 @@ void ofApp::setup()
   particles.inject(&fisica);
   bloques.inject(&fisica, &particles, plab_config);
 
-  int port_blobs = 0; //config["backend"]["port_blobs"].asInt();
-
   backend_client.init(
       config["backend"]["ip"].asString(),
       config["backend"]["port_bin"].asInt(),
       config["backend"]["port_msg"].asInt(),
-      port_blobs,
+      0, //config["backend"]["port_blobs"].asInt()
       proj_w, 
       proj_h,
       config["calib"]["proj_pts"]);
@@ -55,7 +53,7 @@ void ofApp::setup()
   bloques.init(proj_w, proj_h);
 
   syphon_receiver.init(config["backend"]["syphon"].asString());
-  projector_syphon.setName(config["projector"]["syphon"].asString());
+  syphon_projector.init(config["projector"]["syphon"].asString());
 };
 
 void ofApp::update()
@@ -81,7 +79,14 @@ void ofApp::update()
 void ofApp::draw()
 {  
   if (!backend_client.juego_active("plab"))
+  {
+    syphon_projector.stop();
     return;
+  }
+  else if (!syphon_projector.running())
+  {
+    syphon_projector.start();
+  }
 
   float w = ofGetWidth();
   float h = ofGetHeight(); 
@@ -95,8 +100,8 @@ void ofApp::draw()
   bloques.render();
   particles.render();
 
-  if (gui->projector_syphon)
-    projector_syphon.publishScreen();
+  if (gui->syphon_projector)
+    syphon_projector.publishScreen();
 };
 
 void ofApp::exit()
@@ -119,10 +124,8 @@ void ofApp::render_blobs(float w, float h)
   ofTexture* tex;
   if (backend_client.syphon_enabled())
     tex = &(syphon_receiver.texture());
-    //syphon_receiver.render_texture(0, 0, w, h);
   else
     tex = &(backend_client.projected_texture());
-    //backend_client.render_projected_pixels(w, h);
   if (tex->isAllocated())
   {
     gaussian
@@ -159,7 +162,6 @@ void ofApp::render_monitor(float w, float h)
   gui->render(0, lh); 
 
   backend_client.print_connection(0, _h);
-
   backend_client.print_metadata(0, _h*1.2);
   backend_client.print_bloques(0, _h*1.6);
 

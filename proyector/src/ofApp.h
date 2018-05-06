@@ -6,7 +6,7 @@
 #include "ofxJSON.h"
 
 #include "ofxMicromundos/utils.h"
-#include "ofxMicromundos/SyphonReceiver.h"
+#include "ofxMicromundos/net/syphon/SyphonReceiver.h"
 #include "ofxMicromundos/BackendClient.h"
 
 class ofApp : public ofBaseApp
