@@ -30,7 +30,6 @@ void ofApp::setup()
       backend_config["calib"]["cam_calib"].asString(),
       backend_config["network"]["resize_pixels"].asFloat(),
       config["calib"]["tag_id"].asInt(),
-      config["calib"]["proj_pts"],
       config["juegos"],
       config["backend"]["port_bin"].asInt(),
       config["backend"]["port_msg"].asInt(),

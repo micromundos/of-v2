@@ -31,8 +31,7 @@ void ofApp::setup()
       config["backend"]["port_msg"].asInt(),
       0, //config["backend"]["port_blobs"].asInt()
       proj_w, 
-      proj_h,
-      config["calib"]["proj_pts"]);
+      proj_h);
 
   fisica.init();
   particles.init(proj_w, proj_h);

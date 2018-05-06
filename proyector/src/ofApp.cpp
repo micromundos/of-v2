@@ -19,8 +19,7 @@ void ofApp::setup()
       config["backend"]["port_msg"].asInt(),
       port_blobs_disabled,
       config["projector"]["width"].asFloat(), 
-      config["projector"]["height"].asFloat(),
-      config["calib"]["proj_pts"]);
+      config["projector"]["height"].asFloat());
 
   syphon_receiver.init(config["projector"]["syphon"].asString());
   syphon_backend.init(config["backend"]["syphon"].asString());
