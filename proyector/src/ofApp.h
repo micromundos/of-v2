@@ -7,7 +7,7 @@
 
 #include "ofxMicromundos/utils.h"
 #include "ofxMicromundos/net/syphon/SyphonReceiver.h"
-#include "ofxMicromundos/BackendClient.h"
+#include "ofxMicromundos/net/BackendClient.h"
 
 class ofApp : public ofBaseApp
 {

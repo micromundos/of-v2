@@ -9,7 +9,7 @@
 #include "ofxMicromundos/net/syphon/SyphonSender.h"
 
 #include "ofxMicromundos/utils.h"
-#include "ofxMicromundos/BackendClient.h"
+#include "ofxMicromundos/net/BackendClient.h"
 #include "ofxMicromundos/Bloque.h"
 
 #include "plab/GUI.h"
