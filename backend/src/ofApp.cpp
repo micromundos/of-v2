@@ -48,7 +48,7 @@ void ofApp::update()
   backend.send(gui.send_message, gui.send_binary, gui.send_syphon, gui.send_blobs);
 
   if (gui.send_syphon)
-    syphon_sender.publishTexture(&backend.projected_texture());
+    syphon_sender.publishTexture(&backend.texture());
 };
 
 void ofApp::draw()
