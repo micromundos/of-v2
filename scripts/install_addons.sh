@@ -1,5 +1,7 @@
 #!/bin/bash
 
+#TODO commit 006653f -> 'git@github.com:armadillu/ofxTimeMeasurements.git'
+
 cwd=$(pwd)
 addons_loc=$cwd/../../addons
 echo $addons_loc
