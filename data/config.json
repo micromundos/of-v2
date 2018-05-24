@@ -3,7 +3,7 @@
     "width": 1024,
     "height": 768,
     "fullscreen": true,
-    "position": "center",
+    "position": "right",
     "x": 0,  
     "y": 0,
     "syphon": "projector_syphon"
