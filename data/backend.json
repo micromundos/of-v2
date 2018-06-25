@@ -12,7 +12,7 @@
   },
   "calib": {
     "H_cam_proj": "calib/H_cam_proj.yml",
-    "cam_calib": "calib/cam0.yml"
+    "cam_calib": "calib/cam1.yml"
   },
   "network": {
     "resize_pixels": 0.3

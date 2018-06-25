@@ -3,6 +3,7 @@
 apps=(  
 'backend'
 'plab'
+'autitos'
 )
 
 pidfile="/tmp/micromundos.pids"
