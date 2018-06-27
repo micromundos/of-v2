@@ -14,6 +14,9 @@
     "H_cam_proj": "calib/H_cam_proj.yml",
     "cam_calib": "calib/cam1.yml"
   },
+  "chilitags": {
+    "fps": 10.0
+  },
   "network": {
     "resize_pixels": 0.3
   }

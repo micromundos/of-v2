@@ -28,6 +28,7 @@ void ofApp::setup()
       backend_config["cam"]["device_id"].asInt(),
       backend_config["calib"]["H_cam_proj"].asString(),
       backend_config["calib"]["cam_calib"].asString(),
+      backend_config["chilitags"]["fps"].asFloat(),
       backend_config["network"]["resize_pixels"].asFloat(),
       config["calib"]["tag_id"].asInt(),
       config["juegos"],

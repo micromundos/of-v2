@@ -3,6 +3,7 @@
 apps=(  
 'backend'
 'plab'
+'proyector'
 )
 
 pidfile="/tmp/micromundos.pids"
