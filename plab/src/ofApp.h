@@ -38,6 +38,7 @@ class ofApp : public ofBaseApp
     void exit();
 
     void render_blobs(float w, float h);
+    void render_backend_tex(float w, float h);
     void render_debug(float w, float h);
     void render_monitor(float w, float h);
 

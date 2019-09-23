@@ -29,7 +29,7 @@ void ofApp::setup()
       config["backend"]["ip"].asString(),
       config["backend"]["port_bin"].asInt(),
       config["backend"]["port_msg"].asInt(),
-      0, //config["backend"]["port_blobs"].asInt()
+      config["backend"]["port_blobs"].asInt(),
       proj_w, 
       proj_h);
 
@@ -94,6 +94,7 @@ void ofApp::draw()
     return;
 
   render_debug(w, h); 
+  //render_backend_tex(w, h);
   render_blobs(w, h);
   flowfield.render(); 
   bloques.render();
@@ -117,14 +118,14 @@ void ofApp::update_gaussian(ofShader& shader)
   shader.setUniform1f("alpha", 1.0);
 };
 
-void ofApp::render_blobs(float w, float h)
+void ofApp::render_backend_tex(float w, float h)
 {
-
   ofTexture* tex;
   if (backend_client.syphon_enabled())
     tex = &(syphon_receiver.texture());
   else
     tex = &(backend_client.projected_texture());
+
   if (tex->isAllocated())
   {
     gaussian
@@ -133,7 +134,10 @@ void ofApp::render_blobs(float w, float h)
       .get()
       .draw(0, 0, w, h);
   }
+};
 
+void ofApp::render_blobs(float w, float h)
+{
   ofPushStyle();
   ofSetColor(ofColor::white);
   ofSetLineWidth(4);
