@@ -160,13 +160,14 @@ void ofApp::render_monitor(float w, float h)
 
   float _w = w/2;
   float _h = h/2; 
-  float lh = 24;
+  float LH = backend_client.line_height();
 
-  gui->render(0, lh); 
+  gui->render(0, LH); 
 
-  backend_client.print_connection(0, _h);
-  backend_client.print_metadata(0, _h*1.2);
-  backend_client.print_bloques(0, _h*1.6);
+  float y = _h + LH;
+  backend_client.print_connections(0, y);
+  backend_client.print_metadata(0, y);
+  backend_client.print_bloques(0, y);
 
   if (gui->plab_monitor)
   {

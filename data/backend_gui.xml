@@ -5,6 +5,6 @@
 <print_bloques>1</print_bloques>
 	<send_message>1</send_message>
 	<send_binary>1</send_binary>
-	<send_syphon>1</send_syphon>
-<send_blobs>0</send_blobs>
+	<send_syphon>0</send_syphon>
+<send_blobs>1</send_blobs>
 </params>

@@ -28,14 +28,15 @@ class BackendMonitor : public ofBaseApp
       ofDrawBitmapStringHighlight(ofToString(ofGetFrameRate(),2), 10, 14, ofColor::yellow, ofColor::black);
 
       float _h = h/3;  
-      float lh = 24;
+      float LH = backend->line_height();
 
-      backend_gui->render(0, lh); 
+      backend_gui->render(0, LH); 
 
-      backend->print_connection(0, _h+lh);
-      backend->print_metadata(0, _h*2);
-      backend->print_blobs(0, _h*2.3);
-      backend->print_bloques(0, _h*2.4);
+      float y = _h + LH;
+      backend->print_connections(0, y);
+      backend->print_metadata(0, y);
+      backend->print_blobs(0, y);
+      backend->print_bloques(0, y);
 
       if (backend_gui->backend_monitor)
         backend->render_monitor(w/2, 0, w/3, h/2);

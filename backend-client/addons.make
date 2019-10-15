@@ -1,5 +1,0 @@
-ofxJSON
-ofxLibwebsockets
-ofxMicromundos
-ofxNetwork
-ofxOpenCv
