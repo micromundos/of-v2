@@ -6,8 +6,8 @@
     "y": 0
   },
   "cam": {
-    "width": 1920,
-    "height": 1080,
+    "width": 1600,
+    "height": 900,
     "device_id": 1
   },
   "calib": {

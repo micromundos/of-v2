@@ -5,5 +5,4 @@ ofxJSON
 ofxLibwebsockets
 ofxMicromundos
 ofxOpenCv
-ofxSyphon
 ofxTimeMeasurements
