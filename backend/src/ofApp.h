@@ -4,9 +4,6 @@
 #include "ofxJSON.h"
 #include "ofxTimeMeasurements.h"
 
-#include "ofxSyphon.h"
-#include "ofxMicromundos/net/syphon/SyphonSender.h"
-
 //TODO backend app move GUI to ofxMicromundos
 #include "GUI.h"
 #include "ofxMicromundos/Backend.h"
@@ -25,8 +22,6 @@ class ofApp : public ofBaseApp
   private:
 
     Backend backend;
-    SyphonSender syphon_sender;
-
     GUI gui; 
     ofxJSON config;
     ofxJSON backend_config;
