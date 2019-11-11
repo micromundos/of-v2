@@ -19,6 +19,8 @@ void ofApp::setup()
       config["projector"]["height"].asFloat());
 }
 
+//proyector: only for calibration
+
 void ofApp::draw()
 {
   float w = ofGetWidth();
@@ -27,8 +29,9 @@ void ofApp::draw()
   backend_client.update();
 
   if (backend_client.calib_enabled())
+  {
+    backend_client.render_texture(0, 0, w, h);
     backend_client.render_calib();
-
-  backend_client.render_texture(0, 0, w, h);
+  }
 }
 
