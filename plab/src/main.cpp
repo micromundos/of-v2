@@ -16,11 +16,11 @@ int main()
 
   ofGLFWWindowSettings settings;
 
-  //projector_back
+  //app_render
   settings.width = config["projector"]["width"].asInt();
   settings.height = config["projector"]["height"].asInt();
   settings.windowMode = OF_WINDOW; 
-  settings.setPosition(ofVec2f(plab_config["projector_back"]["x"].asFloat(), plab_config["projector_back"]["y"].asFloat()));
+  settings.setPosition(ofVec2f(plab_config["app_render"]["x"].asFloat(), plab_config["app_render"]["y"].asFloat()));
   settings.resizable = false;
   settings.decorated = true;
   shared_ptr<ofAppBaseWindow> app_win = ofCreateWindow(settings);

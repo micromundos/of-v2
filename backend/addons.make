@@ -1,5 +1,6 @@
 ofxChilitags
 ofxCv
+ofxGPGPU
 ofxGui
 ofxJSON
 ofxLibwebsockets

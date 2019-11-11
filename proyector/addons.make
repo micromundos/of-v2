@@ -1,4 +1,3 @@
 ofxJSON
 ofxLibwebsockets
 ofxMicromundos
-ofxSyphon

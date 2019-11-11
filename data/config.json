@@ -9,11 +9,7 @@
     "syphon": "projector_syphon"
   },
   "calib": {
-    "tag_id": 0,
-    "proj_pts": [ 
-      [ 0.33, 0.33 ], [ 0.67, 0.33 ], 
-      [ 0.33, 0.67 ], [ 0.67, 0.67 ] 
-    ]
+    "tag_id": 0
   },
   "backend": {
     "port_bin": 9999,
