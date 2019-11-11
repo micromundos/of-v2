@@ -6,13 +6,13 @@
     "y": 0
   },
   "cam": {
-    "width": 1920,
-    "height": 1080,
+    "width": 1600,
+    "height": 900,
     "device_id": 1
   },
   "calib": {
     "H_cam_proj": "calib/H_cam_proj.yml",
-    "cam_calib": "calib/cam1.yml"
+    "cam_calib": "calib/cam1_xxx.yml"
   },
   "chilitags": {
     "fps": 10.0
