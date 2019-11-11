@@ -35,7 +35,7 @@ void ofApp::draw()
   if (backend_client.calib_enabled())
   {
     syphon_backend.render_texture(0, 0, w, h);
-    backend_client.render_calib(w, h);
+    backend_client.render_calib();
     return;
   }
 

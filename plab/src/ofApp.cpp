@@ -64,12 +64,12 @@ void ofApp::update()
   if (!backend_client.juego_active("plab"))
     return;
 
-  bloques.update(backend_client.projected_bloques());
+  bloques.update(backend_client.bloques());
 
   if (backend_client.syphon_enabled())
     flowfield.update(syphon_receiver.texture());
   else
-    flowfield.update(backend_client.projected_pixels());
+    flowfield.update(backend_client.pixels());
 
   particles.update(flowfield.get(), flowfield.width(), flowfield.height(), flowfield.channels());
   fisica.update();
@@ -124,7 +124,7 @@ void ofApp::render_backend_tex(float w, float h)
   if (backend_client.syphon_enabled())
     tex = &(syphon_receiver.texture());
   else
-    tex = &(backend_client.projected_texture());
+    tex = &(backend_client.texture());
 
   if (tex->isAllocated())
   {
