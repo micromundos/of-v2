@@ -11,12 +11,12 @@
 
 #pragma include "../lib/gpgpu.glsl"
 
-uniform sampler2DRect input;
+uniform sampler2DRect tex;
 uniform mat3 H_inverse;
 
 void main( void ) 
 {
-  vec3 coord = vec3(location(input), 1.0);
+  vec3 coord = vec3(location(tex), 1.0);
 
   // Determine what 'z' is
   vec3 m = H_inverse[2] * coord;
@@ -33,7 +33,7 @@ void main( void )
       && transformed.y >= 0.0 
       && transformed.y < size.y) 
   {
-    gl_FragColor = texel(input, transformed);
+    gl_FragColor = texel(tex, transformed);
   } 
   else 
   {

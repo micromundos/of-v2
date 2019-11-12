@@ -65,6 +65,6 @@ void ofApp::draw()
   backend.print_bloques(0, y);
 
   if (gui.backend_monitor)
-    backend.render_monitor(w/2, 0, w/3, h/2);
+    backend.render_monitor(w/2, 0, w/3, h*0.6);
 };
 
