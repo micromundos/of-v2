@@ -2,8 +2,8 @@
   "projector": {
     "width": 1024,
     "height": 768,
-    "fullscreen": true,
-    "position": "right",
+    "fullscreen": false,
+    "position": "center",
     "x": 0,  
     "y": 0,
     "syphon": "projector_syphon"
