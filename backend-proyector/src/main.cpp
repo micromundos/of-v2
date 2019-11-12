@@ -2,10 +2,10 @@
 #include "ofAppGLFWWindow.h"
 #include "ofApp.h"
 #include "ofxMicromundos/Backend.h"
+#include "ofxMicromundos/GUI.h"
 #include "ofxMicromundos/utils.h"
 #include "ofxJSON.h"
 #include "BackendMonitor.h"
-#include "BackendGui.h"
 
 int main()
 {
@@ -33,7 +33,7 @@ int main()
   shared_ptr<ofApp> app(new ofApp);
   shared_ptr<BackendMonitor> backend_monitor_app(new BackendMonitor);
   shared_ptr<Backend> backend(new Backend);
-  shared_ptr<BackendGui> backend_gui(new BackendGui);
+  shared_ptr<GUI> backend_gui(new GUI);
 
   app->inject(config, backend_config, backend, backend_gui);
   backend_monitor_app->inject(backend, backend_gui);

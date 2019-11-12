@@ -1,13 +1,13 @@
 #pragma once
 
 #include "ofMain.h"
-#include "BackendGui.h"
+#include "ofxMicromundos/GUI.h"
 
 class BackendMonitor : public ofBaseApp 
 {
   public: 
 
-    void inject(shared_ptr<Backend> backend, shared_ptr<BackendGui> backend_gui)
+    void inject(shared_ptr<Backend> backend, shared_ptr<GUI> backend_gui)
     {
       this->backend = backend;
       this->backend_gui = backend_gui;
@@ -45,6 +45,6 @@ class BackendMonitor : public ofBaseApp
   private:
 
     shared_ptr<Backend> backend;
-    shared_ptr<BackendGui> backend_gui;
+    shared_ptr<GUI> backend_gui;
 };
 

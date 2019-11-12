@@ -2,7 +2,7 @@
 
 //#define TIME_MEASUREMENTS_DISABLED
 
-void ofApp::inject(ofxJSON config, ofxJSON backend_config, shared_ptr<Backend> backend, shared_ptr<BackendGui> backend_gui)
+void ofApp::inject(ofxJSON config, ofxJSON backend_config, shared_ptr<Backend> backend, shared_ptr<GUI> backend_gui)
 {
   this->config = config;
   this->backend_config = backend_config;

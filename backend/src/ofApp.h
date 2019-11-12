@@ -4,9 +4,13 @@
 #include "ofxJSON.h"
 #include "ofxTimeMeasurements.h"
 
-//TODO backend app move GUI to ofxMicromundos
-#include "GUI.h"
+#include "ofxMicromundos/GUI.h"
 #include "ofxMicromundos/Backend.h"
+
+#ifdef TARGET_OSX
+  #include "ofxSyphon.h"
+  #include "ofxMicromundos/net/syphon/SyphonSender.h"
+#endif
 
 class ofApp : public ofBaseApp
 {
@@ -25,5 +29,9 @@ class ofApp : public ofBaseApp
     GUI gui; 
     ofxJSON config;
     ofxJSON backend_config;
+
+#ifdef TARGET_OSX
+    SyphonSender syphon_sender;
+#endif
 };
 

@@ -12,6 +12,7 @@ void ofApp::setup()
 {
   TIME_SAMPLE_SET_FRAMERATE(30.0f);
   TIME_SAMPLE_SET_AVERAGE_RATE(0.05);
+  ofxTimeMeasurements::instance()->setDrawLocation(TIME_MEASUREMENTS_BOTTOM_LEFT);
 
   ofSetLogLevel(OF_LOG_NOTICE);
   ofSetVerticalSync(true);
@@ -35,6 +36,12 @@ void ofApp::setup()
       config["backend"]["port_bin"].asInt(),
       config["backend"]["port_msg"].asInt(),
       config["backend"]["port_blobs"].asInt());
+
+#ifdef TARGET_OSX
+  syphon_sender
+    .init(config["backend"]["syphon"].asString())
+    .start();
+#endif
 };
 
 void ofApp::update()
@@ -42,8 +49,12 @@ void ofApp::update()
   if (!backend.update())
     return;
 
-  bool send_syphon = false;
-  backend.send(gui.send_message, gui.send_binary, send_syphon, gui.send_blobs);
+  backend.send(gui.send_message, gui.send_binary, gui.send_syphon, gui.send_blobs);
+
+#ifdef TARGET_OSX
+  if (gui.send_syphon)
+    syphon_sender.publishTexture(&backend.texture());
+#endif
 };
 
 void ofApp::draw()
@@ -53,11 +64,11 @@ void ofApp::draw()
 
   ofDrawBitmapStringHighlight(ofToString(ofGetFrameRate(),2), 10, 14, ofColor::yellow, ofColor::black);
 
-  float _h = h/3;  
   float LH = backend.line_height();
 
   gui.render(0, LH); 
 
+  float _h = h/6;  
   float y = _h + LH;
   backend.print_connections(0, y);
   backend.print_metadata(0, y);
@@ -65,6 +76,6 @@ void ofApp::draw()
   backend.print_bloques(0, y);
 
   if (gui.backend_monitor)
-    backend.render_monitor(w/2, 0, w/3, h*0.6);
+    backend.render_monitor(w/1.6, 0, w/3, h*0.6);
 };
 
