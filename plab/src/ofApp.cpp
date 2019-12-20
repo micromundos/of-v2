@@ -51,7 +51,7 @@ void ofApp::setup()
   //bloques.add(make_shared<Portal>());
   bloques.init(proj_w, proj_h);
 
-  syphon_receiver.init(config["backend"]["syphon"].asString());
+  syphon_backend.init(config["backend"]["syphon"].asString());
   syphon_projector.init(config["projector"]["syphon"].asString());
 };
 
@@ -67,7 +67,7 @@ void ofApp::update()
   bloques.update(backend_client.bloques());
 
   if (backend_client.syphon_enabled())
-    flowfield.update(syphon_receiver.texture());
+    flowfield.update(syphon_backend.texture());
   else
     flowfield.update(backend_client.pixels());
 
@@ -82,16 +82,16 @@ void ofApp::draw()
     syphon_projector.stop();
     return;
   }
-  else if (!syphon_projector.running())
+  else if (!syphon_projector.running() && gui->syphon_projector)
   {
     syphon_projector.start();
-  }
-
-  float w = ofGetWidth();
-  float h = ofGetHeight(); 
+  } 
 
   if (backend_client.calib_enabled())
     return;
+
+  float w = ofGetWidth();
+  float h = ofGetHeight();
 
   render_debug(w, h); 
   //render_backend_tex(w, h);
@@ -122,7 +122,7 @@ void ofApp::render_backend_tex(float w, float h)
 {
   ofTexture* tex;
   if (backend_client.syphon_enabled())
-    tex = &(syphon_receiver.texture());
+    tex = &(syphon_backend.texture());
   else
     tex = &(backend_client.texture());
 
@@ -172,7 +172,7 @@ void ofApp::render_monitor(float w, float h)
   if (gui->plab_monitor)
   {
     float mh = h/4;
-    syphon_receiver.render_texture(_w, 0, _w, mh);
+    syphon_backend.render_texture(_w, 0, _w, mh);
     flowfield.render_monitor(_w, mh, _w, mh);
   }
 };

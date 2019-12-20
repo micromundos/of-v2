@@ -20,7 +20,7 @@ void ofApp::setup()
       config["projector"]["width"].asFloat(), 
       config["projector"]["height"].asFloat());
 
-  syphon_receiver.init(config["projector"]["syphon"].asString());
+  syphon_projector.init(config["projector"]["syphon"].asString());
   syphon_backend.init(config["backend"]["syphon"].asString());
 }
 
@@ -42,6 +42,6 @@ void ofApp::draw()
     return;
   }
 
-  syphon_receiver.render_texture(0, 0, w, h);
+  syphon_projector.render_texture(0, 0, w, h);
 }
 

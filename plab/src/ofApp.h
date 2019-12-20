@@ -48,7 +48,7 @@ class ofApp : public ofBaseApp
 
     //TODO plab/ofApp MicromundosGame
     BackendClient backend_client;
-    SyphonReceiver syphon_receiver;
+    SyphonReceiver syphon_backend;
     SyphonSender syphon_projector;
 
     Fisica fisica;

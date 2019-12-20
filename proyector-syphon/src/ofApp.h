@@ -16,7 +16,7 @@ class ofApp : public ofBaseApp
     void draw();
 
   private:
-    SyphonReceiver syphon_receiver;
+    SyphonReceiver syphon_projector;
     SyphonReceiver syphon_backend;
     BackendClient backend_client;
 };
