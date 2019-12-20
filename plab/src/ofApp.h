@@ -4,9 +4,11 @@
 
 #include "ofxGPGPU/shaders/gaussian.h"
 
-#include "ofxSyphon.h"
-#include "ofxMicromundos/net/syphon/SyphonReceiver.h"
-#include "ofxMicromundos/net/syphon/SyphonSender.h"
+#ifdef micromundos_USE_SYPHON
+  #include "ofxSyphon.h"
+  #include "ofxMicromundos/net/syphon/SyphonReceiver.h"
+  #include "ofxMicromundos/net/syphon/SyphonSender.h"
+#endif
 
 #include "ofxMicromundos/utils.h"
 #include "ofxMicromundos/net/BackendClient.h"
@@ -48,8 +50,11 @@ class ofApp : public ofBaseApp
 
     //TODO plab/ofApp MicromundosGame
     BackendClient backend_client;
+
+#ifdef micromundos_USE_SYPHON
     SyphonReceiver syphon_backend;
     SyphonSender syphon_projector;
+#endif
 
     Fisica fisica;
     Particles particles;

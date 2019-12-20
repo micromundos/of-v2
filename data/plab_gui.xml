@@ -19,4 +19,6 @@
 <gaussian_kernel>3</gaussian_kernel>
 	<gaussian_sigma>2.4</gaussian_sigma>
 <syphon_projector>1</syphon_projector>
+<render_blobs>0</render_blobs>
+	<render_backend_tex>1</render_backend_tex>
 </params>

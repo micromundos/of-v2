@@ -7,6 +7,10 @@
 #include "ofxMicromundos/utils.h"
 #include "ofxJSON.h"
 
+//#ifdef TARGET_OSX
+  //#define micromundos_USE_SYPHON
+//#endif
+
 int main()
 {
   ofxMicromundos::setDataPathRoot();
@@ -16,11 +20,11 @@ int main()
 
   ofGLFWWindowSettings settings;
 
-  //projector_back
+  //projector
   settings.width = config["projector"]["width"].asInt();
   settings.height = config["projector"]["height"].asInt();
   settings.windowMode = OF_WINDOW; 
-  settings.setPosition(ofVec2f(plab_config["projector_back"]["x"].asFloat(), plab_config["projector_back"]["y"].asFloat()));
+  settings.setPosition(ofVec2f(plab_config["projector"]["x"].asFloat(), plab_config["projector"]["y"].asFloat()));
   settings.resizable = false;
   settings.decorated = true;
   shared_ptr<ofAppBaseWindow> app_win = ofCreateWindow(settings);

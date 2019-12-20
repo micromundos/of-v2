@@ -7,7 +7,7 @@
 #include "ofxMicromundos/GUI.h"
 #include "ofxMicromundos/Backend.h"
 
-#ifdef TARGET_OSX
+#ifdef micromundos_USE_SYPHON
   #include "ofxSyphon.h"
   #include "ofxMicromundos/net/syphon/SyphonSender.h"
 #endif
@@ -30,7 +30,7 @@ class ofApp : public ofBaseApp
     ofxJSON config;
     ofxJSON backend_config;
 
-#ifdef TARGET_OSX
+#ifdef micromundos_USE_SYPHON
     SyphonSender syphon_sender;
 #endif
 };

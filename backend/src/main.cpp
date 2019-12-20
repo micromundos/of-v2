@@ -5,6 +5,10 @@
 #include "ofxMicromundos/utils.h"
 #include "ofxJSON.h"
 
+//#ifdef TARGET_OSX
+  //#define micromundos_USE_SYPHON
+//#endif
+
 int main()
 {
   ofxMicromundos::setDataPathRoot();

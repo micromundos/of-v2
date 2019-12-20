@@ -37,7 +37,7 @@ void ofApp::setup()
       config["backend"]["port_msg"].asInt(),
       config["backend"]["port_blobs"].asInt());
 
-#ifdef TARGET_OSX
+#ifdef micromundos_USE_SYPHON
   syphon_sender
     .init(config["backend"]["syphon"].asString())
     .start();
@@ -51,7 +51,7 @@ void ofApp::update()
 
   backend.send(gui.send_message, gui.send_binary, gui.send_syphon, gui.send_blobs);
 
-#ifdef TARGET_OSX
+#ifdef micromundos_USE_SYPHON
   if (gui.send_syphon)
     syphon_sender.publishTexture(&backend.texture());
 #endif

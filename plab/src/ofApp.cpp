@@ -14,6 +14,10 @@ void ofApp::setup()
   ofSetFrameRate(60);
   ofBackground(0);
 
+#ifndef micromundos_USE_SYPHON
+  ofxMicromundos::projector(config);
+#endif
+
   float proj_w = config["projector"]["width"].asFloat();
   float proj_h = config["projector"]["height"].asFloat();
 
@@ -51,8 +55,10 @@ void ofApp::setup()
   //bloques.add(make_shared<Portal>());
   bloques.init(proj_w, proj_h);
 
+#ifdef micromundos_USE_SYPHON
   syphon_backend.init(config["backend"]["syphon"].asString());
   syphon_projector.init(config["projector"]["syphon"].asString());
+#endif
 };
 
 void ofApp::update()
@@ -66,9 +72,11 @@ void ofApp::update()
 
   bloques.update(backend_client.bloques());
 
+#ifdef micromundos_USE_SYPHON
   if (backend_client.syphon_enabled())
     flowfield.update(syphon_backend.texture());
   else
+#endif
     flowfield.update(backend_client.pixels());
 
   particles.update(flowfield.get(), flowfield.width(), flowfield.height(), flowfield.channels());
@@ -77,6 +85,7 @@ void ofApp::update()
 
 void ofApp::draw()
 {  
+#ifdef micromundos_USE_SYPHON
   if (!backend_client.juego_active("plab"))
   {
     syphon_projector.stop();
@@ -86,22 +95,34 @@ void ofApp::draw()
   {
     syphon_projector.start();
   } 
-
-  if (backend_client.calib_enabled())
-    return;
+#endif
 
   float w = ofGetWidth();
   float h = ofGetHeight();
 
+  if (backend_client.calib_enabled())
+  {
+    backend_client.render_texture(0, 0, w, h);
+    backend_client.render_calib();
+    return;
+  } 
+
   render_debug(w, h); 
-  //render_backend_tex(w, h);
-  render_blobs(w, h);
+
+  if (gui->render_backend_tex)
+    render_backend_tex(w, h);
+
+  if (gui->render_blobs)
+    render_blobs(w, h);
+
   flowfield.render(); 
   bloques.render();
   particles.render();
 
+#ifdef micromundos_USE_SYPHON
   if (gui->syphon_projector)
     syphon_projector.publishScreen();
+#endif
 };
 
 void ofApp::exit()
@@ -121,9 +142,11 @@ void ofApp::update_gaussian(ofShader& shader)
 void ofApp::render_backend_tex(float w, float h)
 {
   ofTexture* tex;
+#ifdef micromundos_USE_SYPHON
   if (backend_client.syphon_enabled())
     tex = &(syphon_backend.texture());
   else
+#endif
     tex = &(backend_client.texture());
 
   if (tex->isAllocated())
@@ -172,7 +195,14 @@ void ofApp::render_monitor(float w, float h)
   if (gui->plab_monitor)
   {
     float mh = h/4;
-    syphon_backend.render_texture(_w, 0, _w, mh);
+
+#ifdef micromundos_USE_SYPHON
+    if (backend_client.syphon_enabled())
+      syphon_backend.render_texture(_w, 0, _w, mh);
+    else
+#endif
+      backend_client.render_texture(_w, 0, _w, mh);
+
     flowfield.render_monitor(_w, mh, _w, mh);
   }
 };
