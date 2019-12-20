@@ -41,8 +41,8 @@ void ofApp::setup()
   particles.init(proj_w, proj_h);
 
   flowfield.add(make_shared<Container>());
-  flowfield.add(make_shared<Attractors>("attractor",1));
-  flowfield.add(make_shared<Attractors>("repulsor",-1));
+  flowfield.add(make_shared<Attractors>("attractor", 1));
+  flowfield.add(make_shared<Attractors>("repulsor", -1));
   //flowfield.add(make_shared<Transporter>());
 
   flowfield.init(
