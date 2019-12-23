@@ -1,7 +1,7 @@
 {
   "monitor": {
     "width": 600,
-    "height": 800,
+    "height": 700,
     "x": 0,
     "y": 0
   },
@@ -18,6 +18,6 @@
     "fps": 10.0
   },
   "network": {
-    "resize_pixels": 0.3
+    "resize_pixels": 0.2
   }
 }
