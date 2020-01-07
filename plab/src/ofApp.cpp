@@ -14,9 +14,8 @@ void ofApp::setup()
   ofSetFrameRate(30);
   ofBackground(0);
 
-//#ifndef micromundos_USE_SYPHON
+  //TODO handle projector/minimize on ofxMicromundos::Juego
   ofxMicromundos::projector(config);
-//#endif
 
   float proj_w = config["projector"]["width"].asFloat();
   float proj_h = config["projector"]["height"].asFloat();
@@ -49,6 +48,13 @@ void ofApp::update()
 
   backend_client.update();
 
+#ifdef micromundos_USE_SYPHON
+  if (!backend_client.juego_active("plab"))
+    syphon_projector.stop();
+  else if (!syphon_projector.running() && gui->syphon_projector)
+    syphon_projector.start();
+#endif 
+
   if (!backend_client.juego_active("plab"))
     return;
 
@@ -66,17 +72,8 @@ void ofApp::update()
 
 void ofApp::draw()
 {  
-#ifdef micromundos_USE_SYPHON
   if (!backend_client.juego_active("plab"))
-  {
-    syphon_projector.stop();
     return;
-  }
-  else if (!syphon_projector.running() && gui->syphon_projector)
-  {
-    syphon_projector.start();
-  } 
-#endif
 
   float w = ofGetWidth();
   float h = ofGetHeight();

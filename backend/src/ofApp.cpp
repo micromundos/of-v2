@@ -39,14 +39,19 @@ void ofApp::setup()
       config["backend"]["port_blobs"].asInt());
 
 #ifdef micromundos_USE_SYPHON
-  syphon_sender
-    .init(config["backend"]["syphon"].asString())
-    .start();
+  syphon_sender.init(config["backend"]["syphon"].asString());
 #endif
 };
 
 void ofApp::update()
 {
+#ifdef micromundos_USE_SYPHON
+  if (!gui.send_syphon)
+    syphon_sender.stop();
+  else if (!syphon_sender.running())
+    syphon_sender.start();
+#endif
+
   if (!backend.update())
     return;
 
