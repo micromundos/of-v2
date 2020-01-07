@@ -16,5 +16,6 @@ class ofApp : public ofBaseApp
 
   private:
     BackendClient backend_client;
+    void render_blobs(float w, float h);
 };
 

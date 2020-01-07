@@ -25,14 +25,25 @@ void ofApp::update()
 };
 
 void ofApp::draw()
-{ 
-  if (!backend_client.calib_enabled())
-    return;
+{
+  //use as test app (not only for calibration)
+  //if (!backend_client.calib_enabled())
+    //return;
 
   float w = ofGetWidth();
   float h = ofGetHeight();
 
   backend_client.render_texture(0, 0, w, h);
   backend_client.render_calib();
+  render_blobs(w, h);
 }
+
+void ofApp::render_blobs(float w, float h)
+{
+  ofPushStyle();
+  ofSetColor(ofColor::magenta);
+  ofSetLineWidth(4);
+  backend_client.render_blobs(0, 0, w, h);
+  ofPopStyle();
+};
 

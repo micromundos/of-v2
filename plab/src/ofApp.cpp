@@ -11,12 +11,12 @@ void ofApp::setup()
 {
   ofSetLogLevel(OF_LOG_NOTICE);
   ofSetVerticalSync(true);
-  ofSetFrameRate(60);
+  ofSetFrameRate(30);
   ofBackground(0);
 
-#ifndef micromundos_USE_SYPHON
+//#ifndef micromundos_USE_SYPHON
   ofxMicromundos::projector(config);
-#endif
+//#endif
 
   float proj_w = config["projector"]["width"].asFloat();
   float proj_h = config["projector"]["height"].asFloat();
@@ -25,9 +25,7 @@ void ofApp::setup()
     .init(proj_w, proj_h)
     .on("update", this, &ofApp::update_gaussian);
 
-  flowfield.inject(gui, &bloques);
-  particles.inject(&fisica);
-  bloques.inject(&fisica, &particles, plab_config);
+  plab.inject(gui, plab_config);
 
   backend_client.init(
       config["backend"]["ip"].asString(),
@@ -37,23 +35,7 @@ void ofApp::setup()
       proj_w, 
       proj_h);
 
-  fisica.init();
-  particles.init(proj_w, proj_h);
-
-  flowfield.add(make_shared<Container>());
-  flowfield.add(make_shared<Attractors>("attractor", 1));
-  flowfield.add(make_shared<Attractors>("repulsor", -1));
-  //flowfield.add(make_shared<Transporter>());
-
-  flowfield.init(
-      plab_config["flow_field"]["width"].asFloat(), 
-      plab_config["flow_field"]["height"].asFloat(),
-      proj_w, 
-      proj_h); 
-
-  bloques.add(make_shared<Emitter>());
-  //bloques.add(make_shared<Portal>());
-  bloques.init(proj_w, proj_h);
+  plab.init(proj_w, proj_h);
 
 #ifdef micromundos_USE_SYPHON
   syphon_backend.init(config["backend"]["syphon"].asString());
@@ -70,17 +52,16 @@ void ofApp::update()
   if (!backend_client.juego_active("plab"))
     return;
 
-  bloques.update(backend_client.bloques());
-
 #ifdef micromundos_USE_SYPHON
   if (backend_client.syphon_enabled())
-    flowfield.update(syphon_backend.texture());
+    plab.update(
+      syphon_backend.texture(), 
+      backend_client.bloques());
   else
 #endif
-    flowfield.update(backend_client.pixels());
-
-  particles.update(flowfield.get(), flowfield.width(), flowfield.height(), flowfield.channels());
-  fisica.update();
+    plab.update(
+      backend_client.pixels(), 
+      backend_client.bloques());
 };
 
 void ofApp::draw()
@@ -107,17 +88,16 @@ void ofApp::draw()
     return;
   } 
 
-  render_debug(w, h); 
+  if (gui->flowfield_debug)
+    plab.render_debug(0, 0, w, h);
 
   if (gui->render_backend_tex)
-    render_backend_tex(w, h);
+    render_backend_tex(w, h, gui->blur_backend_tex);
 
   if (gui->render_blobs)
     render_blobs(w, h);
 
-  flowfield.render(); 
-  bloques.render();
-  particles.render();
+  plab.render();
 
 #ifdef micromundos_USE_SYPHON
   if (gui->syphon_projector)
@@ -139,8 +119,19 @@ void ofApp::update_gaussian(ofShader& shader)
   shader.setUniform1f("alpha", 1.0);
 };
 
-void ofApp::render_backend_tex(float w, float h)
+void ofApp::render_backend_tex(float w, float h, bool blur)
 {
+  if (!blur)
+  {
+#ifdef micromundos_USE_SYPHON
+    if (backend_client.syphon_enabled())
+      syphon_backend.render_texture(0, 0, w, h);
+    else
+#endif
+      backend_client.render_texture(0, 0, w, h);
+    return;
+  }
+
   ofTexture* tex;
 #ifdef micromundos_USE_SYPHON
   if (backend_client.syphon_enabled())
@@ -166,12 +157,6 @@ void ofApp::render_blobs(float w, float h)
   ofSetLineWidth(4);
   backend_client.render_blobs(0, 0, w, h);
   ofPopStyle();
-};
-
-void ofApp::render_debug(float w, float h)
-{  
-  if (gui->flowfield_debug)
-    flowfield.render_debug(0, 0, w, h);
 };
 
 void ofApp::render_monitor(float w, float h)
@@ -203,7 +188,7 @@ void ofApp::render_monitor(float w, float h)
 #endif
       backend_client.render_texture(_w, 0, _w, mh);
 
-    flowfield.render_monitor(_w, mh, _w, mh);
+    plab.render_monitor(_w, mh, _w, mh);
   }
 };
 

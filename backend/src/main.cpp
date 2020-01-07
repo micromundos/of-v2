@@ -1,13 +1,9 @@
 #include "ofMain.h"
 #include "ofAppGLFWWindow.h"
 #include "ofApp.h"
-#include "ofxMicromundos/Backend.h"
 #include "ofxMicromundos/utils.h"
+#include "ofxMicromundos/Backend.h"
 #include "ofxJSON.h"
-
-//#ifdef TARGET_OSX
-  //#define micromundos_USE_SYPHON
-//#endif
 
 int main()
 {

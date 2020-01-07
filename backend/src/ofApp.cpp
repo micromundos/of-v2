@@ -30,7 +30,8 @@ void ofApp::setup()
       backend_config["calib"]["H_cam_proj"].asString(),
       backend_config["calib"]["cam_calib"].asString(),
       backend_config["chilitags"]["fps"].asFloat(),
-      backend_config["network"]["resize_pixels"].asFloat(),
+      backend_config["resize"]["segmentation"].asFloat(),
+      backend_config["resize"]["send"].asFloat(),
       config["calib"]["tag_id"].asInt(),
       config["juegos"],
       config["backend"]["port_bin"].asInt(),
@@ -49,7 +50,11 @@ void ofApp::update()
   if (!backend.update())
     return;
 
-  backend.send(gui.send_message, gui.send_binary, gui.send_syphon, gui.send_blobs);
+  backend.send(
+    gui.send_message, 
+    gui.send_binary, 
+    gui.send_syphon, 
+    gui.send_blobs);
 
 #ifdef micromundos_USE_SYPHON
   if (gui.send_syphon)
@@ -68,7 +73,7 @@ void ofApp::draw()
 
   gui.render(0, LH); 
 
-  float _h = h/6;  
+  float _h = h * 0.2;
   float y = _h + LH;
   backend.print_connections(0, y);
   backend.print_metadata(0, y);
