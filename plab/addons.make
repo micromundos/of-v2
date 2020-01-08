@@ -10,3 +10,4 @@ ofxOpenCv
 ofxPlab
 ofxSyphon
 ofxTimeMeasurements
+ofxTriangleMesh

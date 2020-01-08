@@ -19,7 +19,7 @@
 <gaussian_kernel>3</gaussian_kernel>
 	<gaussian_sigma>2.4</gaussian_sigma>
 <syphon_projector>0</syphon_projector>
-<render_blobs>0</render_blobs>
-	<render_backend_tex>1</render_backend_tex>
-<blur_backend_tex>1</blur_backend_tex>
+<render_blobs>1</render_blobs>
+	<render_backend_tex>0</render_backend_tex>
+<blur_backend_tex>0</blur_backend_tex>
 </params>
