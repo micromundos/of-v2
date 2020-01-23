@@ -22,6 +22,7 @@ class ofApp : public ofBaseApp
     void setup();
     void update();
     void draw();
+    void keyReleased(int key);
 
   private:
 
@@ -29,6 +30,11 @@ class ofApp : public ofBaseApp
     GUI gui; 
     ofxJSON config;
     ofxJSON backend_config;
+
+    bool render_cam;
+    void toggle_cam();
+    void cam_window();
+    void backend_window();
 
 #ifdef micromundos_USE_SYPHON
     SyphonSender syphon_sender;

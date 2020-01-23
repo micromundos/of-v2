@@ -19,6 +19,8 @@ void ofApp::setup()
   ofSetFrameRate(30);
   ofBackground(40);
 
+  backend_window();
+
   gui.init((float)ofGetWidth()/2); 
 
   backend.init(
@@ -41,6 +43,8 @@ void ofApp::setup()
 #ifdef micromundos_USE_SYPHON
   syphon_sender.init(config["backend"]["syphon"].asString());
 #endif
+
+  render_cam = false;
 };
 
 void ofApp::update()
@@ -85,7 +89,37 @@ void ofApp::draw()
   backend.print_blobs(0, y);
   backend.print_bloques(0, y);
 
-  if (gui.backend_monitor)
+  if (render_cam)
+    backend.render_cam(0, 0, w, h);
+  else if (gui.backend_monitor)
     backend.render_monitor(w/1.6, 0, w/3, h*0.6);
 };
 
+void ofApp::backend_window()
+{
+  ofSetWindowShape(backend_config["monitor"]["width"].asInt(), backend_config["monitor"]["height"].asInt());
+  ofSetWindowPosition(backend_config["monitor"]["x"].asFloat(), backend_config["monitor"]["y"].asFloat());
+  ofSetFullscreen(false);
+};
+
+void ofApp::cam_window()
+{
+  ofSetWindowShape(ofGetWidth(), ofGetHeight());
+  ofSetWindowPosition(0, 0);
+  ofSetFullscreen(true);
+};
+
+void ofApp::toggle_cam()
+{
+  render_cam = !render_cam;
+  if (render_cam)
+    cam_window();
+  else
+    backend_window();
+};
+
+void ofApp::keyReleased(int key)
+{
+  ofLog() << ofToString(key);
+  if (key == 'd') toggle_cam();
+};
